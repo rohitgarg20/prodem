@@ -1,0 +1,56 @@
+import React from 'react'
+
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+
+import { verticalScale } from '../../../utils/scaling'
+import { colors, textColor } from '../../Colors'
+import { IHeaderComponent } from '../../Interfaces'
+import { BackButtonComponent, CustomText } from '../generic'
+
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    height: verticalScale(90),
+    alignItems: 'center',
+    backgroundColor: colors.lightOrange,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15
+  },
+  textContainer: {
+
+  },
+  refreshBtnContainer: {
+
+  },
+  backContainerStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
+  endContainer: {
+    width: 30
+  }
+})
+
+
+export const HeaderComponent = (props: IHeaderComponent) => {
+  const  { 
+    title, showRefreshButton = false, onPressRefreshButton, customHeaderStyle = {}, onPress, showBackBtn = false
+  } = props
+  return (
+    <SafeAreaView style={[styles.headerContainer, customHeaderStyle]}>
+      {showBackBtn ? <BackButtonComponent
+        onPressBackBtn={onPress}
+        backContainerStyle={styles.backContainerStyle}
+      /> : (
+        <View />
+      )}
+      {title ? <CustomText text={title}
+        fontSize={24}
+        color={textColor.white}
+      /> : null}
+      <View style={styles.endContainer}/>
+    </SafeAreaView>
+  )
+}
