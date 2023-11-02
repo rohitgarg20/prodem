@@ -15,7 +15,8 @@ export const ScreenNames = {
   PRODUCT_LIST_SCREEN: 'product_list_screen',
   PRODUCT_DETAIL_SCREEN: 'product_detail_screen',
   PROFILE_DETAILS: 'profile_detail_screen',
-  RATINGS_SCREEN: 'ratings_screen'
+  RATINGS_SCREEN: 'ratings_screen',
+  SUBSCRIPTION_SCREEN: 'subscription_screen'
 }
 
 export const StackNames = {

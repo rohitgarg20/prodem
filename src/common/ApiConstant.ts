@@ -23,7 +23,8 @@ export const API_END_POINT = {
   CREATE_PRODUCT: 'api/sell/create',
   ASK_PART_REQUEST: 'api/mypartrequest/create',
   GET_ASK_PART_DROPDOWN_LIST: 'api/mypartrequest/create-dropdown-list',
-  GET_RATINGS_DATA: 'api/qualifying'
+  GET_RATINGS_DATA: 'api/qualifying',
+  GET_SUBSCRIPTION_PLANS: 'api/subscrition/list'
 }
 
 export const API_STATUS_CODE = {

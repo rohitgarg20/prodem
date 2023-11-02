@@ -95,3 +95,10 @@ export const RATINGS_SCREEN = {
   ORDER_NO: 'Order No:'
 }
 
+export const SUBSCRIPTION_SCREEN = {
+  HEADER_TITLE: 'Subscription Plans',
+  PRICE: 'Price:',
+  QUANTITY: 'Quantity:',
+  VALIDITY: 'Validity:'
+}
+

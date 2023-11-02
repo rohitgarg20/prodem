@@ -282,3 +282,17 @@ export interface IRatingCard {
   ratingType: string
   orderId: string
 }
+
+export interface ISubscriptionCard {
+  subscriptionId: number
+  name: string
+  price: string
+  quantity: string
+  validity: string
+  multiSubscription: {
+    label?: string
+    value?: string
+    id?: number
+  }[]
+  btnBackgroundColor: string
+}

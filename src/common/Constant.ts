@@ -1,8 +1,8 @@
 import { Dimensions, KeyboardType, Platform } from 'react-native'
 
 import { icons } from './Icons'
-import { ScreenNames } from './Screens'
 import { RatingTypes } from './Interfaces'
+import { ScreenNames } from './Screens'
 
 export const INPUT_FIELD_PLAEHOLDERS = {
   Email: 'Enter your Email'
@@ -24,7 +24,8 @@ export const ReducerName = {
   PRODUCT_DETAIL: 'productDetail',
   CART_DETAIL: 'cartDetail',
   ASK_PART: 'askPart',
-  RATING: 'rating'
+  RATING: 'rating',
+  SUBSCRIPTION: 'subscription'
 }
 
 
@@ -278,7 +279,7 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Subscription',
     icon: icons.SUBSCRIPTION,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.SUBSCRIPTION_SCREEN,
     key: 'subscription'
   },
   {

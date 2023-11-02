@@ -6,19 +6,21 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { scale } from '../../../../utils/scaling'
 import { colors } from '../../../Colors'
 import { ButtonType } from '../../../Enumerators'
-import { ITopTabBarItem, RatingTypes } from '../../../Interfaces'
+import { ITopTabBarItem } from '../../../Interfaces'
 import { ButtonComponent } from '../../generic'
 
 interface IProps {
   tabBarList: ITopTabBarItem[]
-  selectedTabKey: RatingTypes
-  onPressTab: (tabKey: RatingTypes) => void
+  selectedTabKey: any
+  onPressTab: (tabKey: any) => void
+  buttonWidth?: number
 }
 
 interface ITabBarItemProps {
   tabBarItem: ITopTabBarItem
   isTabSelected: Boolean
-  onPressTab: (tabKey: RatingTypes) => void
+  onPressTab: (tabKey: any) => void
+  buttonWidth?: number
 }
 
 const styles = StyleSheet.create({
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
 
 
 export const TopTabBarItemComponent = memo((props: ITabBarItemProps) => {
-  const { tabBarItem, isTabSelected, onPressTab } = props
+  const { tabBarItem, isTabSelected, onPressTab, buttonWidth = 0 } = props
   const  { label, key } = tabBarItem
 
   const onPressTabItem = useCallback(() => {
@@ -50,15 +52,23 @@ export const TopTabBarItemComponent = memo((props: ITabBarItemProps) => {
   }, [onPressTab, key])
 
   const getBtnContainerStyle = useCallback(() => {
+    let btnStyle = {}
     if(isTabSelected) {
-      return styles.btnContainer
+      btnStyle = styles.btnContainer
     } else {
-      return {
+      btnStyle = {
         ...styles.btnContainer,
         ...styles.unSelectedTabBtnContainer
       }
     }
-  }, [isTabSelected])
+    if(buttonWidth > 0) {
+      btnStyle = {
+        ...btnStyle,
+        width: buttonWidth
+      }
+    }
+    return btnStyle
+  }, [isTabSelected, buttonWidth])
 
   return (
     <ButtonComponent
@@ -72,7 +82,7 @@ export const TopTabBarItemComponent = memo((props: ITabBarItemProps) => {
 })
 
 export const ScrollableTopBarComponent = (props: IProps) => {
-  const { tabBarList,  selectedTabKey, onPressTab } = props
+  const { tabBarList,  selectedTabKey, onPressTab, buttonWidth } = props
 
   const renderTabBarItem = (item) => {
     const { key } = item
@@ -82,6 +92,7 @@ export const ScrollableTopBarComponent = (props: IProps) => {
         isTabSelected={selectedTabKey === key}
         onPressTab={onPressTab}
         key={key}
+        buttonWidth={buttonWidth}
       />
     )
   }

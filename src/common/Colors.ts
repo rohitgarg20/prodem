@@ -8,7 +8,7 @@ export const textColor = {
   midnightMoss: '#030303',
   cinder: '#171A1F',
   stormGrey: '#767676',
-  mediumGrey: '#797e81'
+  mediumGrey: '#797e81',
 }
 
 export const colors = {
@@ -28,6 +28,8 @@ export const colors = {
   lightestGrey: '#d4d4d4',
   lightWhite: '#fdfdfd',
   lightBlue: '#ecf1f4',
-  lightYellow: '#fdd734'
+  lightYellow: '#fdd734',
+  paleSkyBlue: '#B9F4FC',
+  lightPink: '#FB9883'
 }
 

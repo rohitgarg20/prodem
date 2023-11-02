@@ -99,7 +99,7 @@ export const RatingsScreen = () => {
         showBackBtn
         title={HEADER_TITLE}
       />
-              {renderRatingsTypeListComponent()}
+      {renderRatingsTypeListComponent()}
       <View style={styles.mainContainer}>
         {renderRatingListComponent()}
       </View>

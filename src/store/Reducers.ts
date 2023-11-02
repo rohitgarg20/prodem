@@ -11,6 +11,7 @@ import loginReducer from '../redux/login/LoginSlice'
 import otpVerificationReducer from '../redux/OtpVerification/OtpVerificationSlice'
 import ratingsReducer from '../redux/ratings/RatingsSlice'
 import signupReducer from '../redux/Signup/SignupSlice'
+import subscriptionReducer from '../redux/subscription/SubscriptionSlice'
 
 
 export const reducers = combineReducers({
@@ -24,7 +25,8 @@ export const reducers = combineReducers({
   productDetailReducer,
   cartReducer,
   askPartSliceReducer,
-  ratingsReducer
+  ratingsReducer,
+  subscriptionReducer
 })
 
 

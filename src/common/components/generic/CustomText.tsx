@@ -19,7 +19,7 @@ export const CustomText = memo((props: ICustomText) => {
   const TextComponent: typeof React.Component = isAnimated ? Animated.Text : Text
 
   const getFontFamily = () => {
-    if(fontWeight < '800') {
+    if(!fontWeight) {
       return fonts.ROBOTO_REGULAR
     }
   }
