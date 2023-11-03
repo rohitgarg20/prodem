@@ -15,7 +15,13 @@ export const ScreenNames = {
   PRODUCT_LIST_SCREEN: 'product_list_screen',
   PRODUCT_DETAIL_SCREEN: 'product_detail_screen',
   PROFILE_DETAILS: 'profile_detail_screen',
-  RATINGS_SCREEN: 'ratings_screen'
+  RATINGS_SCREEN: 'ratings_screen',
+  PROFILE_SCREEN: 'profile_screen',
+  EDIT_PROFILE_SCREEN: 'edit_profile_screen',
+  EDIT_NAME_PROFILE_SCREEN: 'edit_name_profile_screen',
+  MY_BID_REQUEST_SCREEN: 'my_bid_request_screen',
+  WINNING_BID_SCREEN: 'winning_bid_screen'
+
 }
 
 export const StackNames = {

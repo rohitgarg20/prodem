@@ -95,3 +95,58 @@ export const RATINGS_SCREEN = {
   ORDER_NO: 'Order No:'
 }
 
+export const PROFILE_SCREEN = {
+  HEADER_TITLE: 'Profile Details',
+  NAME_LABEL: 'Name',
+  ADDRESS_LABEL: 'Address',
+  BANK_LABEL: 'Bank',
+  COMPANY_LABEL:'Company',
+  LAST_LOGIN_LABEL:'Last Login',
+  TAX_CODE_LABEL:'Tax Code',
+  EDIT_INFO: 'Edit Info'
+  
+}
+
+export const EDIT_PROFILE_SCREEN = {
+  HEADER_TITLE: 'Edit Profile',
+}
+
+export const EDIT_NAME_PROFILE_SCREEN = {
+  HEADER_TITLE: 'Edit Profile',
+  EDIT_PERSONAL_INFO_HEADER: 'Edit Personal Info',
+  NAME_LABEL: 'Name',
+  SAVE_BUTTON: 'SAVE',
+  CHANGE_PASSWORD_HEADER: 'Change Password',
+  CHANGE_PASSWORD_SUBHEADER: 'To reset your password, enter your current password and the new password below',
+  CURRENT_PASSWORD_LABEL: 'Current Password',
+  NEW_PASSWORD_LABEL: 'New Password',
+  RESET_BUTTON: 'RESET'
+}
+
+export const BID_REQUEST_SCREEN = {
+  HEADER_TITLE: 'My Bid Request',
+}
+
+export const WINNING_BID_SCREEN = {
+  HEADER_TITLE: 'Winning Bid',
+}
+
+export const BID_COMPONENT_LABEL = {
+  BID_ID_LABEL : 'Bid ID',
+  USER_ID_LABEL: 'User ID',
+  BID_TITLE: 'Bid Title',
+  BID_REMARK: 'Bid Remark',
+  BID_PRICE: 'Bid Price',
+  BID_CREATED_AT: 'Bid Created At',
+  PART_REQUEST_TITLE: 'Part Request Title',
+  PART_REQUEST_VEHICLE: 'Part Request Vehicle',
+  PART_REQUEST_YEAR: 'Part Request Year',
+  PART_REQUEST_VERIANT: 'Part Request Veriant',
+  PART_REQUEST_ENGINE: 'Part Request Engine',
+  PART_REQUEST_DELIVERY_LOCATION: 'Part Request Delivery Location',
+  PART_REQUEST_CREATED_AT: 'Part Request Created At',
+  COMPANY_NAME: 'Company Name',
+  COMPANY_TRADE: 'Company Trade'
+}
+
+

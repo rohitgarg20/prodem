@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { map } from 'lodash'
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
@@ -17,6 +17,10 @@ import { icons } from '../../common/Icons'
 import { IImageItem, IProfileOptionItem } from '../../common/Interfaces'
 import { navigateSimple } from '../../utils/navigation-utils'
 import { scale, verticalScale } from '../../utils/scaling'
+import { ScreenNames } from '../../common/Screens'
+import { fetchUserProfileData } from '../../redux/profile/ProfileApi'
+import { useAppSelector } from '../../store/DataStore'
+import { getUserDetailsSelector } from '../../redux/profile/ProfileSelector'
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -106,6 +110,11 @@ export const AccountScreen = ({ navigation }) => {
 
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
+  const userData = useAppSelector(getUserDetailsSelector)
+
+  useEffect(() => {
+    fetchUserProfileData()
+  }, [])
 
   const onPressItem = useCallback((optionData) => {
     log('onPressItem', optionData)
@@ -169,7 +178,7 @@ export const AccountScreen = ({ navigation }) => {
   const renderUserName =  () => {
     return (
       <CustomText
-        text='rahul'
+        text={userData?.p_user_name}
         fontSize={14}
         color={textColor.midnightMoss}
       />
@@ -179,7 +188,7 @@ export const AccountScreen = ({ navigation }) => {
   const renderUserEmail =  () => {
     return (
       <CustomText
-        text='avinashsaini37@gmail.com'
+        text={userData?.p_user_email}
         fontSize={14}
         color={textColor.midnightMoss}
         textStyle={styles.userEmail}
@@ -191,7 +200,7 @@ export const AccountScreen = ({ navigation }) => {
     return (
       <View style={styles.userMobileContainer}>
         <CustomText
-          text='1987654367'
+         text={userData?.p_user_mobile}
           fontSize={14}
           color={textColor.midnightMoss}
           textStyle={styles.userMobile}
@@ -211,7 +220,10 @@ export const AccountScreen = ({ navigation }) => {
   }
 
   const navigateToEditProfileScreen = () => {
-
+    navigateSimple({
+      screenToNavigate: ScreenNames.EDIT_PROFILE_SCREEN,
+      navigator: navigation
+    })
   }
 
   const renderEditIcon = () => {

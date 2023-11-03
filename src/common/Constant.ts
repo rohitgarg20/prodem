@@ -24,7 +24,10 @@ export const ReducerName = {
   PRODUCT_DETAIL: 'productDetail',
   CART_DETAIL: 'cartDetail',
   ASK_PART: 'askPart',
-  RATING: 'rating'
+  RATING: 'rating',
+  PROFILE: 'profile',
+  WINNING_BID: 'winningBid',
+  BID_REQUEST: 'bidRequest'
 }
 
 
@@ -224,7 +227,7 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Profile Details',
     icon: icons.PROFILE_ICON,
-    screenToNavigate: ScreenNames.PROFILE_DETAILS,
+    screenToNavigate: ScreenNames.PROFILE_SCREEN,
     key: 'profile_details'
   },
   {
@@ -266,13 +269,13 @@ export const PROFILE_OPTIONS = [
   {
     label: 'My Bid Request',
     icon: icons.MY_BID_REQUEST,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.MY_BID_REQUEST_SCREEN,
     key: 'my_bid_request'
   },
   {
     label: 'Winning Bids',
     icon: icons.WINNING_BIDS,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.WINNING_BID_SCREEN,
     key: 'winning_bids'
   },
   {
@@ -437,3 +440,37 @@ export const RATING_API_RESPONSE_MAPPER: Map<RatingTypes, string> = new Map([
   [RatingTypes.GIVEN, 'rating_given'],
   [RatingTypes.RECIEVED, 'ratingReceived']
 ])
+
+export const WINNING_BIDS_TOP_BAR_KEYS = [{
+  key: 'new',
+  value: 'New'
+}, 
+{
+  key: 'confirm',
+  value: 'Confirm'
+},
+{
+  key: 'deliverd',
+  value: 'Delivered'
+},
+{
+  key: 'completed',
+  value: 'Completed'
+},
+{
+  key: 'cancel',
+  value: 'Cancelled'
+}]
+
+export const MY_BIDS_REQUEST_TOP_BAR_KEYS = [{
+  key: 'active',
+  value: 'Active'
+}, 
+{
+  key: 'inactive',
+  value: 'InActive'
+},
+{
+  key: 'lost',
+  value: 'Lost'
+}]

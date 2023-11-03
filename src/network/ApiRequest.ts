@@ -20,7 +20,7 @@ export const makeApiRequest = async (store: MiddlewareAPI, dispatch: any, action
   }
 
   if(onStart) {
-    dispatch({ type: onStart })
+    dispatch({ type: onStart, payload : { requestData: payload || {} } })
   }
 
   try {

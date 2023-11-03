@@ -24,7 +24,7 @@ export const CustomText = memo((props: ICustomText) => {
     }
   }
 
-  log('CustomTextCustomText', props)
+  // log('CustomTextCustomText', props)
 
   const getTextStyle = () => {
     return {
