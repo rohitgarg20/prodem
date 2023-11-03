@@ -36,6 +36,7 @@ export interface IButtonComponent extends PressableProps {
   fontWeight?: string
   buttonType?: ButtonType
   buttonContainerStyle?: StyleProp<ViewStyle>
+  rightContainer?: React.JSX.Element
 }
 
 export interface IconWrapperComponent extends FastImageProps {

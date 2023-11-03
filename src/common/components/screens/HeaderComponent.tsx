@@ -5,7 +5,8 @@ import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
 import { verticalScale } from '../../../utils/scaling'
 import { colors, textColor } from '../../Colors'
 import { IHeaderComponent } from '../../Interfaces'
-import { BackButtonComponent, CustomText } from '../generic'
+import { BackButtonComponent, CustomText, IconButtonWrapperComponent } from '../generic'
+import { icons } from '../../Icons'
 
 
 const styles = StyleSheet.create({
@@ -30,13 +31,14 @@ const styles = StyleSheet.create({
   },
   endContainer: {
     width: 30
-  }
+  },
+  refreshButtonContainer: { padding: 6, backgroundColor: colors.white, borderRadius: 20 }
 })
 
 
 export const HeaderComponent = (props: IHeaderComponent) => {
-  const  { 
-    title, showRefreshButton = false, onPressRefreshButton, customHeaderStyle = {}, onPress, showBackBtn = false
+  const {
+    title, showRefreshButton = false, onPressRefreshButton = () => { }, customHeaderStyle = {}, onPress, showBackBtn = false
   } = props
   return (
     <SafeAreaView style={[styles.headerContainer, customHeaderStyle]}>
@@ -50,7 +52,18 @@ export const HeaderComponent = (props: IHeaderComponent) => {
         fontSize={24}
         color={textColor.white}
       /> : null}
-      <View style={styles.endContainer}/>
+     
+      <View style={styles.endContainer} />
+      {showRefreshButton ? <IconButtonWrapperComponent
+        buttonContainerStyle={styles.refreshButtonContainer}
+        iconSource={icons.REFRESH_ICON}
+        iconHeight={18}
+        iconWidth={18}
+        onPressIcon={onPressRefreshButton}
+        tintColor={colors.lightOrange}
+        resizeMode='cover'
+      />
+        : null}
     </SafeAreaView>
   )
 }

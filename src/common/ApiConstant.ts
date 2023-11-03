@@ -23,7 +23,14 @@ export const API_END_POINT = {
   CREATE_PRODUCT: 'api/sell/create',
   ASK_PART_REQUEST: 'api/mypartrequest/create',
   GET_ASK_PART_DROPDOWN_LIST: 'api/mypartrequest/create-dropdown-list',
-  GET_RATINGS_DATA: 'api/qualifying'
+  GET_RATINGS_DATA: 'api/qualifying',
+  PROFILE_DETAILS: 'api/profile/details',
+  WINNING_BID: 'api/mypartrequest/winning',
+  BID_REQUEST: 'api/mypartrequest/bids-received/',
+  UPDATE_USER_NAME: 'api/profile/update-name',
+  UPDATE_PASSWORD: 'api/profile/update-password',
+  UPDATE_USER_INFO: 'api/profile/update-profile'
+
 }
 
 export const API_STATUS_CODE = {

@@ -28,6 +28,8 @@ export const colors = {
   lightestGrey: '#d4d4d4',
   lightWhite: '#fdfdfd',
   lightBlue: '#ecf1f4',
-  lightYellow: '#fdd734'
+  lightYellow: '#fdd734',
+  lightOrangeBackground: '#e8c29b',
+  error: 'red'
 }
 

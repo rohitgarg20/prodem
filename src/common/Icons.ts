@@ -35,5 +35,6 @@ export const icons = {
   LOGOUT: require('../assets/images/logout.png'),
   PROFILE_CAMERA: require('../assets/images/profileBottomCameraIcon.png'),
   PROFILE_BIGGER_CIRCLE: require('../assets/images/profileBiggerCamera.png'),
-  EDIT_ICON: require('../assets/images/editIcon.png')
+  EDIT_ICON: require('../assets/images/editIcon.png'),
+  EMPTY_SCREEN_ICON: require('../assets/images/e3.png'),
 }

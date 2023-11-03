@@ -11,6 +11,9 @@ import loginReducer from '../redux/login/LoginSlice'
 import otpVerificationReducer from '../redux/OtpVerification/OtpVerificationSlice'
 import ratingsReducer from '../redux/ratings/RatingsSlice'
 import signupReducer from '../redux/Signup/SignupSlice'
+import profileReducer from '../redux/profile/ProfileSlice'
+import winningBidReducer from '../redux/winning-bid/WinningBidSlice'
+import myBidRequestReducer from '../redux/my-bid-request/MyBidRequestSlice'
 
 
 export const reducers = combineReducers({
@@ -24,7 +27,10 @@ export const reducers = combineReducers({
   productDetailReducer,
   cartReducer,
   askPartSliceReducer,
-  ratingsReducer
+  ratingsReducer,
+  profileReducer,
+  winningBidReducer,
+  myBidRequestReducer
 })
 
 
