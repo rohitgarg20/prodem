@@ -9,6 +9,8 @@ export const textColor = {
   cinder: '#171A1F',
   stormGrey: '#767676',
   mediumGrey: '#797e81',
+  duckBlue: '#0D6EfD',
+  red: '#FF4000'
 }
 
 export const colors = {

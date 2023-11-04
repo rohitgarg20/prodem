@@ -3,6 +3,7 @@ import { forEach, isEmpty } from 'lodash'
 
 import { IAPIRequest } from './NetworkUtil'
 import { BASE_URL } from '../common/ApiConstant'
+import { log } from '../common/config/log'
 
 
 export class AxiosRequest {
@@ -45,7 +46,7 @@ export class AxiosRequest {
 
   apiRequest = async(request: IAPIRequest) => {
     const { endPoint, method, body, headers, reqParams = '', baseUrl = BASE_URL, cancelToken = undefined } = request
-
+    log('apiRequestapiRequest', cancelToken)
     let reqBody = {}
     if(!isEmpty(body)) {
       reqBody = body
@@ -60,10 +61,11 @@ export class AxiosRequest {
         },
         url: this.createUrl(endPoint, reqParams),
         timeout: 1000,
-        cancelToken
+        cancelToken: cancelToken?.token
       })
-    } catch(err) {
-      throw err
+    } catch(error) {
+      log('apiRequestapiRequest in error ', error)
+      throw error
     }
   }
 

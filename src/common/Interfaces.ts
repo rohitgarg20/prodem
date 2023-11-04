@@ -296,3 +296,10 @@ export interface ISubscriptionCard {
   }[]
   btnBackgroundColor: string
 }
+
+export interface IPartRequestCardComponent {
+  title: string
+  description: string
+  uploadedDate: string
+  partRequestId: number
+}

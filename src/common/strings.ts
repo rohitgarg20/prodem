@@ -39,7 +39,10 @@ export const BUTTONS = {
   POST_YOUR_AD: 'Post Your Ad',
   CANCEL: 'Cancel',
   APPLY: 'Apply',
-  REQUEST_QUOTE: 'Request A Quote Now'
+  REQUEST_QUOTE: 'Request A Quote Now',
+  IGNORE: 'Ignore',
+  LATER: 'Later',
+  BIDDING: 'Bidding'
 }
 
 export const FORGET_PASSWORD = {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { useRoute } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
@@ -32,14 +32,14 @@ export const ProductListScreen = ({ navigation  }) => {
   const homeReducer = useSelector((state: RootState) => state.homeReducer)
   const categoryId = get(routeParams, 'params.categoryId', '')
   const { productListPageNumber, productListTotalPage, productList } = homeReducer
-  let source = axios.CancelToken.source()
+  let sourceRef = useRef(axios.CancelToken.source())
 
   useEffect(() => {
     if(categoryId) {
       fetchProductListData({
         categoryId,
         page: productListPageNumber,
-        cancelToken: source
+        cancelToken: sourceRef.current
       })
     }
 
@@ -50,7 +50,7 @@ export const ProductListScreen = ({ navigation  }) => {
       source.cancel('component unmounted')
     }
 
-  }, [routeParams, dispatch, categoryId, source])
+  }, [routeParams, dispatch, categoryId])
 
 
   const onPressLeftArrowIcon = () => {
@@ -106,7 +106,7 @@ export const ProductListScreen = ({ navigation  }) => {
       fetchProductListData({
         categoryId,
         page: productListPageNumber,
-        cancelToken: source
+        cancelToken: sourceRef.current
       })
     }
   }

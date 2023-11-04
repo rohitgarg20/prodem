@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { useRoute } from '@react-navigation/native'
 import axios from 'axios'
@@ -40,13 +40,13 @@ export const ProductDetailScreen = (props: IPDScreen) => {
   const [selectedImageIndex, updateImageIndex] = useState(0)
   const { productDetail, isProductInCart, isProductInWishlist } = productDetailReducer
   const productId = get(routeParams, 'params.productId', 0)
-  let source = axios.CancelToken.source()
+  let sourceRef = useRef(axios.CancelToken.source())
 
   useEffect(() => {
-
+    let source = axios.CancelToken.source()
     fetchProductDetail({
       productId,
-      cancelToken: source
+      cancelToken: sourceRef.current
     })
 
     return () => {
@@ -56,7 +56,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
       source.cancel('component unmounted')
     }
 
-  }, [dispatch, productId, source])
+  }, [dispatch, productId])
 
 
   const onPressBackButton = () => {
@@ -161,13 +161,13 @@ export const ProductDetailScreen = (props: IPDScreen) => {
     if(isProductInCart) {
       removeProductFromCart({
         productId,
-        cancelToken: source
+        cancelToken: sourceRef.current
       })
     } else {
       addProductToCart({
         qty: 1,
         productId,
-        cancelToken: source
+        cancelToken: sourceRef.current
       })
     }
   }
