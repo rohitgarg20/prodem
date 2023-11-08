@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    columnGap: 10
   },
   seperator: {
     paddingTop: 4

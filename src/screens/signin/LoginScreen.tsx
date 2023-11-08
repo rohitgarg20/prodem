@@ -12,13 +12,14 @@ import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IUserFormItem } from '../../common/Interfaces'
-import { ScreenNames } from '../../common/Screens'
+import { ScreenNames, StackNames } from '../../common/Screens'
 import { BUTTONS, LOGIN_SCREEN } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { onLoginUserReducer } from '../../redux/login/LoginApi'
 import { onChangeUserInput, resetFormDataReducer } from '../../redux/login/LoginSlice'
 import { Dispatch, RootState } from '../../store/DataStore'
-import { navigateSimple } from '../../utils/navigation-utils'
+import { navigateSimple, replaceNavigation } from '../../utils/navigation-utils'
+import { setAuthToken } from '../../utils/auth-utils'
 
 
 const { SubHeading, ForgetPassword } = LOGIN_SCREEN
@@ -81,7 +82,11 @@ export const LoginScreen = ({ navigation }) => {
       const { message, data } =  apiResponse || {}
       showAndroidToastMessage(message)
       if(data?.token) {
-        // change stack to home stack
+        setAuthToken(data?.token)
+        replaceNavigation({
+          navigator: navigation,
+          screenToNavigate: StackNames.PARENT_STACK,
+        })
       } else {
         navigateSimple({ navigator: navigation, screenToNavigate: ScreenNames.EMAIL_VERIFICATION, params: { emailId: formData?.userName?.inputValue } })
       }

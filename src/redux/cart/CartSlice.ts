@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { find, get, isEmpty, reduce } from 'lodash'
 
+import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
+import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { ICartItemComponent } from '../../common/Interfaces'
-import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
-import { getProductIdFromPayload } from '../../utils/app-utils'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
+import { getProductIdFromPayload } from '../../utils/app-utils'
 
 
 interface ICartState {
@@ -26,7 +26,8 @@ const cartItemMapper = (cartItem) => {
     displayPrice: cartItem?.product_offer_price,
     productImage: cartItem?.product_image || icons.DEFAULT_IMAGE,
     quantity: cartItem?.user_cart_qty,
-    cartId: cartItem?.user_cart_id
+    cartId: cartItem?.user_cart_id,
+    qtyNonEditable: true
   }
 }
 

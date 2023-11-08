@@ -53,6 +53,7 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
 
 export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) => {
   const formData = new FormData()
+  log('addNewPartaddNewPart', addPartForm)
   const emptyFieldName = isAddPartFormValid(addPartForm)
   if(!emptyFieldName) {
     Object.keys(addPartForm).forEach((formKey) => {

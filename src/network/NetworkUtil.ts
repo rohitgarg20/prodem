@@ -1,4 +1,4 @@
-import { AxiosHeaders, CancelToken, CancelTokenSource, Method, RawAxiosRequestHeaders } from 'axios'
+import { CancelTokenSource, Method } from 'axios'
 
 export interface IAPIRequest {
   baseUrl?: string
@@ -13,6 +13,9 @@ export interface IAPIRequest {
   onFailure?: string
   showLoaderOnScreen?: boolean
   cancelToken?: CancelTokenSource
+  extraParams?: {
+    [x in string]: any
+  }
 }
 
 export interface IActions {

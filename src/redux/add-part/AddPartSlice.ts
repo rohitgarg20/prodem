@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { filter, get } from 'lodash'
 
 import { log } from '../../common/config/log'
-import { ADD_PART_FORM, ReducerName } from '../../common/Constant'
+import { ADD_PART_FORM, AddPartFieldKeys, ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IAddPartForm, ISellDropDownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
@@ -14,7 +14,13 @@ const initialState: IAddPartForm = {
 
 const onChangeUserInput = (state: IAddPartForm, { payload }) => {
   const { fieldKey, value } = payload
-  state.formData[fieldKey].inputValue = value
+  log('onChangeUserInput', value)
+  let parsedValue = value
+  if(fieldKey === AddPartFieldKeys.DESCRIPTION) {
+    parsedValue = value.replaceAll('\n', '</br>').replaceAll(' ', '&nbsp')
+  }
+  state.formData[fieldKey].inputValue = parsedValue
+  // log('onChangeUserInput', state.formData, value.length, value.replaceAll('\n', '</br>').replaceAll(' ', '&nbsp'), )
 }
 
 const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {

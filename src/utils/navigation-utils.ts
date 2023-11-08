@@ -1,6 +1,8 @@
 import { CommonActions } from '@react-navigation/native'
 import { isEmpty } from 'lodash'
+
 import { log } from '../common/config/log'
+import { StackNames } from '../common/Screens'
 
 let _navigator: any = null
 let _parentStackName: string = ''
@@ -15,6 +17,7 @@ interface INavigation {
 
 export const setNavigator = (navigator) => {
   _navigator = navigator
+  log('navigatornavigator', navigator)
 }
 
 export const setParentStackName = (parentStackName) => {
@@ -71,14 +74,15 @@ export const replaceNavigation = (navigationParams: INavigation) => {
     return
   }
 
-  if(_navigator) {
-    if(parentStackName) {
-      _navigator.replace(parentStackName, { screen: screenToNavigate, params })
-    } else {
-      _navigator.replace(screenToNavigate, params)
-    }
-    return
-  }
+  // if(_navigator) {
+  //   log('inside if is called', _navigator, _parentStackName)
+  //   if(parentStackName || _parentStackName) {
+  //     _navigator.replace((parentStackName || _parentStackName), { screen: screenToNavigate, params })
+  //   } else {
+  //     _navigator.replace(screenToNavigate, params)
+  //   }
+  //   return
+  // }
 
   if(usePushNavigator) {
     pushMainNavigator(navigationParams)
@@ -93,3 +97,16 @@ export const goBack = (navigator: any = undefined) => {
     _navigator.goBack()
   }
 }
+
+export const logoutStack = () => {
+  _navigator.resetRoot({
+    index: 0,
+    routes: [{ name: StackNames.LOGIN_STACK }]
+  })
+}
+
+export const resetStackData = () => {
+  _navigator = null
+  _parentStackName = ''
+}
+

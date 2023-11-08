@@ -9,6 +9,7 @@ import { getImgSource } from '../../../utils/app-utils'
 import { colors } from '../../Colors'
 import { icons } from '../../Icons'
 import { IconWrapperComponent } from '../../Interfaces'
+import { log } from '../../config/log'
 
 const styles = StyleSheet.create({
   imageLoading: {
@@ -32,7 +33,8 @@ export class IconWrapper extends PureComponent<IconWrapperComponent, IState> {
 
   constructor(props: IconWrapperComponent, state) {
     super(props, state)
-    const isImgSrcUri = !isNumber(props.iconSource)
+    const isImgSrcUri = !!props.iconSource && !isNumber(props.iconSource)
+    log('isImgSrcUri', isImgSrcUri, !!props.iconSource)
     this.state = {
       showLoader: isImgSrcUri
     }

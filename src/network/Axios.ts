@@ -4,6 +4,7 @@ import { forEach, isEmpty } from 'lodash'
 import { IAPIRequest } from './NetworkUtil'
 import { BASE_URL } from '../common/ApiConstant'
 import { log } from '../common/config/log'
+import { getToken } from '../utils/auth-utils'
 
 
 export class AxiosRequest {
@@ -44,29 +45,44 @@ export class AxiosRequest {
 
   }
 
-  apiRequest = async(request: IAPIRequest) => {
+  getHeaders = () => {
+    const token = getToken()
+    if(token?.length) {
+      return { 'Authorization': 'Bearer ' + token }
+    }
+    return {}
+  }
+
+  apiRequest = (request: IAPIRequest) => {
     const { endPoint, method, body, headers, reqParams = '', baseUrl = BASE_URL, cancelToken = undefined } = request
     log('apiRequestapiRequest', cancelToken)
     let reqBody = {}
     if(!isEmpty(body)) {
       reqBody = body
     }
-    try {
-      return await axios({
+
+    return new Promise((resolve, reject) => {
+      const axiosResp = axios({
         method: method,
         data: reqBody,
         baseURL: baseUrl,
         headers: {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jtcy1tYXJrZXQuaXQiLCJzZWNyYXRlIjoiYkpMbUFYb1I3NDNYVzMwTm5rbEJlIiwiYXVkIjoiaHR0cHM6Ly9ibXMtbWFya2V0Lml0IiwiaWF0IjoxNjk4ODE2MDY5fQ.nnP2tXXLMlKuElK0CSrzyfpLyO-c6Hva0BhR7QmY3Pw'
+          ...this.getHeaders(),
+          ...headers
         },
         url: this.createUrl(endPoint, reqParams),
         timeout: 1000,
         cancelToken: cancelToken?.token
       })
-    } catch(error) {
-      log('apiRequestapiRequest in error ', error)
-      throw error
-    }
+      try {
+        resolve(axiosResp)
+      } catch(error) {
+        reject(error)
+        log('apiRequestapiRequest in error ', error)
+        // throw error
+      }
+    })
+
   }
 
 }

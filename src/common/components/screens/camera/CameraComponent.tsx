@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { isEmpty } from 'lodash'
 import { BackHandler, StyleSheet, TouchableOpacity, View } from 'react-native'
+import ImageCropPicker from 'react-native-image-crop-picker'
 import { Camera, CameraPermissionStatus, CameraPermissionRequestResult, useCameraDevice } from 'react-native-vision-camera'
 
-import { blobToBase64, getBlob } from '../../../../utils/app-utils'
+// import { blobToBase64, getBlob } from '../../../../utils/app-utils'
 import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
 import { NOT_HAVE_PERMISSION } from '../../../ErrorMessages'
-import { ICameraComponent, IImageItem } from '../../../Interfaces'
+import { ICameraComponent } from '../../../Interfaces'
 import { showAndroidToastMessage } from '../../../Toast'
 import { ButtonComponent, IconWrapper } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
@@ -134,48 +135,56 @@ export const CameraComponent = (props: ICameraComponent) => {
     })
   }
 
-  const getBase64Image = (imageUri) => {
-    return getBlob(imageUri).then((blob) => {
-      return blobToBase64(blob).then(finalImage => {
-        return finalImage as string
-      })
-    })
-  }
+  // const getBase64Image = (imageUri) => {
+  //   return getBlob(imageUri).then((blob) => {
+  //     return blobToBase64(blob).then(finalImage => {
+  //       return finalImage as string
+  //     })
+  //   })
+  // }
 
   const renderCapturePhotoBtn = () => {
     return (
       <View style={styles.captureBtnContainer}>
         <TouchableOpacity style={styles.captureBtn}
-          onPress={takePhoto}/>
+          onPress={takePhoto} />
       </View>
     )
   }
 
-  const onSave = () => {
-    if(onSavePicture) {
-      getBase64Image(photoObj.path).then((base64: string) => {
-        const imageItem: IImageItem = {
-          base64,
-          type: ''
-        }
+  const onSaveCropImage = () => {
+    ImageCropPicker.openCropper({
+      path: photoObj.path,
+      width: 400,
+      height: 400,
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true
+    }).then(image => {
+      const { data, mime } = image
+      if(onSavePicture) {
         onSavePicture({
-          images: [imageItem]
+          images: [{
+            base64: `data:${mime};base64,${data}`,
+            type: mime
+          }]
         })
-      })
-
-    }
-    if(onDismiss) {
-      onDismiss()
-    }
+      }
+      if(onDismiss) {
+        onDismiss()
+      }
+    })
     updateCameraShown(false)
+
   }
+
 
   const renderSavePhotoBtn = () => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
         text={strings.SAVE_PHOTO}
-        onPress={onSave}
+        onPress={onSaveCropImage}
         color={textColor.white}
         buttonContainerStyle={styles.btnContainer}
       />

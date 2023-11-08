@@ -1,7 +1,7 @@
 import { KeyboardType, PressableProps, StyleProp, TextInputProps, TextProps, TextStyle, ViewStyle } from 'react-native'
 import { FastImageProps } from 'react-native-fast-image'
 
-import { AddPartFieldKeys, InputType, PartRequestFieldKeys } from './Constant'
+import { AddPartFieldKeys, InputType, OrderType, PartRequestFieldKeys } from './Constant'
 import { ButtonType } from './Enumerators'
 
 export interface ICustomText extends TextProps {
@@ -36,6 +36,7 @@ export interface IButtonComponent extends PressableProps {
   fontWeight?: string
   buttonType?: ButtonType
   buttonContainerStyle?: StyleProp<ViewStyle>
+  rightContainer?: React.JSX.Element
 }
 
 export interface IconWrapperComponent extends FastImageProps {
@@ -84,6 +85,7 @@ export interface IHeaderComponent {
   showBackBtn?: boolean
   onPress?: () => void
   showInCenter?: boolean
+  showEndContainer?: boolean
 }
 
 export interface IFormField {
@@ -99,6 +101,7 @@ export interface IFormField {
   defaultValue?: string
   selectedItem?: IDropDownItem
   selectedImages?: IImageItem[]
+  placeholder?: string
 }
 
 export interface IAddPartForm {
@@ -180,6 +183,8 @@ export interface IPartRequestDropDownData {
 export interface IImageItem {
   base64: string
   type?: string
+  uri?: string
+  index?: any
 }
 
 export interface ICameraComponent {
@@ -213,6 +218,7 @@ export interface ICartItemComponent {
   cartId: number
   onRemoveItemFromCart?: (productId: number) => void
   updateCartQty: (productId: number, qty: number) => void
+  qtyNonEditable?: boolean
 }
 
 export interface ICartListComponent {
@@ -263,7 +269,7 @@ export interface IProfileOptionItem {
 
 export interface ITopTabBarItem {
   label: string
-  key: RatingTypes
+  key: any
 }
 
 export enum RatingTypes {
@@ -302,4 +308,165 @@ export interface IPartRequestCardComponent {
   description: string
   uploadedDate: string
   partRequestId: number
+  navigateToDetailScreen?: (partRequestId: number) => void
+  onPressWishlistButton?: (partRequestId: number) => void
+  onPressIgnoreButton?: (partRequestId: number) => void
+}
+
+export interface IPartRequestBasicDetail {
+  heading: string
+  // to form heading
+  partrequest_title: string
+  brand_name: string
+  partrequest_year: number
+  vehicle_name: string
+
+  // address detail
+  addressInfo: string
+  country_name: string
+  city_name: string
+  partrequest_delivery_location: string
+
+  // description
+  description: string
+  partrequest_desc: string
+
+
+  // uploaded date
+  uploadedDate: string
+
+  // images gallery
+  imageGallery: string[]
+
+  partRequestStatus: number
+  isPostByLoggedInUser: boolean
+  dealsCount?: string
+  partRequestId: number
+
+}
+
+export interface ICompanyDetail {
+  companyLogo: string
+  companyName: string
+  companyFiscal: string
+  companyAddressStreet: string
+}
+
+export interface IBidDetail {
+  companyName: string
+  bidUserId: number
+  isWinningBid: boolean
+  description: string
+  price: number
+  currency: string
+  bidUnit: string
+  requestStatus: string
+  productType: string
+  messages: {
+    text: string
+    createdAt: string
+    userType: string
+  }[]
+  displayPrice: string
+  availability: string
+  bidId: number
+  partRequestId: number
+}
+
+export interface IPartRequestDetail {
+  requestSlides: string[]
+  heading: string
+  // to form heading
+  partrequest_title: string
+  brand_name: string
+  partrequest_year: number
+  vehicle_name: string
+
+  // addressInfo: string
+  country_name: string
+  city_name: string
+  partrequest_delivery_location: string
+
+  description: string
+  partrequest_desc: string
+
+  date: string
+
+  // company info
+  companyLogo: string
+  company_name: string
+  company_fiscal: string
+  company_address_street: string
+  company_logo: string
+
+  bidding: {
+    partoffer_bid_title_text: string
+    // isWinningBid: boolean
+    partoffer_bid_is_win: number
+    // bidUserId: number
+    partoffer_bid_user_id: number
+
+    // price: number
+    partoffer_bid_price: number
+
+    // currency: string
+    partoffer_bid_currency: number
+
+    // bidUnit: string
+    partoffer_bid_unit: number
+
+    partrequest_status: number
+    // requestStatus: string
+
+    messages: {
+      pob_msg_text: string
+      // text: string
+      // createdAt: string
+      pob_msg_created_at: Date
+      // userType: string
+      pob_msg_user_type: number
+    }[]
+  }[]
+
+}
+
+export interface IProposeOfferDropdownData {
+  offerCurrency: IDropDownItem[]
+  productType: IDropDownItem[]
+  offerAvailability: IDropDownItem[]
+  offerUnit: IDropDownItem[]
+}
+
+export interface IOrderReceivedCardComponent {
+  orderNo: string
+  orderId: number
+  displayStatus: string
+  statusId: OrderType
+  productName: string
+  productId: number
+  orderDate: string
+  orderPrice: string
+  delieveryCost: string
+}
+
+export interface IOrderReceivedDetail {
+  orderNo: string
+  orderId: number
+  displayStatus: string
+  statusId: OrderType
+  productName: string
+  productId: number
+  orderDate: string
+  orderPrice: string
+  delieveryCost: string
+  quantity: number
+  itemPrice: string
+  buyerName?: string
+  buyerEmail?: string
+  buyerMobile?: string
+  address?: string
+  ratingGiven?: number
+  sellerNotes?: string
+  productImage: number | string
+  vendorRemarks: string
 }

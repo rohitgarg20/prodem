@@ -10,7 +10,8 @@ export const textColor = {
   stormGrey: '#767676',
   mediumGrey: '#797e81',
   duckBlue: '#0D6EfD',
-  red: '#FF4000'
+  red: '#FF4000',
+  lightBlack: '#383838'
 }
 
 export const colors = {
@@ -32,6 +33,9 @@ export const colors = {
   lightBlue: '#ecf1f4',
   lightYellow: '#fdd734',
   paleSkyBlue: '#B9F4FC',
-  lightPink: '#FB9883'
+  lightPink: '#FB9883',
+  lightOrangeBackground: '#e8c29b',
+  error: 'red',
+  blue: '#005FBF'
 }
 

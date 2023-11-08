@@ -15,6 +15,7 @@ import { HOME_SCREEN } from '../../common/strings'
 import { fetchCategoriesAndBrandData } from '../../redux/home/HomeApi'
 import { RootState } from '../../store/DataStore'
 import { navigateSimple } from '../../utils/navigation-utils'
+import { logoutAlert } from '../../common/components/Logout'
 
 
 const { HEADER_TITLE, CATEGORIES, SUBHEADING } = HOME_SCREEN

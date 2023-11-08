@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
@@ -32,14 +32,26 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colors.white,
     paddingVertical: verticalScale(15),
-    paddingHorizontal: scale(10)
+    paddingHorizontal: scale(10),
+    rowGap: 2
+  },
+  btnContainer: {
+    paddingHorizontal: 20,
+    height: 40
+  },
+  btnListRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  laterBtn: {
+    paddingRight: 15
   }
 })
 
 const { IGNORE, LATER, BIDDING } = BUTTONS
-export const PartRequestComponent = (props: IPartRequestCardComponent) => {
+export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
 
-  const { title, description, uploadedDate, partRequestId } = props
+  const { title, description, uploadedDate, partRequestId, navigateToDetailScreen, onPressWishlistButton, onPressIgnoreButton } = props
 
   const renderRedIcon = () => {
     return ( <View  style={styles.redDot} /> )
@@ -51,6 +63,8 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         text={title}
         fontSize={18}
         color={textColor.black}
+        numberOfLines={1}
+        ellipsizeMode='tail'
       />
     )
   }
@@ -61,6 +75,8 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         text={description}
         fontSize={14}
         color={textColor.duckBlue}
+        numberOfLines={1}
+        ellipsizeMode='tail'
       />
     )
   }
@@ -71,9 +87,18 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         text={uploadedDate}
         fontSize={14}
         color={textColor.black}
+        numberOfLines={1}
+        ellipsizeMode='tail'
       />
     )
   }
+
+  const onPressIgnoreBtn = useCallback(() => {
+    if(onPressIgnoreButton) {
+      onPressIgnoreButton(partRequestId)
+    }
+  }, [partRequestId, onPressIgnoreButton])
+
 
   const renderIgnoreButtons = () => {
     return (
@@ -83,9 +108,17 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         fontSize={14}
         color={textColor.black}
         textStyle={styles.underline}
+        onPress={onPressIgnoreBtn}
       />
     )
   }
+
+
+  const onPressWishlistBtn = useCallback(() => {
+    if(onPressWishlistButton) {
+      onPressWishlistButton(partRequestId)
+    }
+  }, [onPressWishlistButton, partRequestId])
 
   const renderLaterButton = () => {
     return (
@@ -95,6 +128,8 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         text={LATER}
         fontSize={14}
         color={textColor.black}
+        buttonContainerStyle={styles.laterBtn}
+        onPress={onPressWishlistBtn}
       />
     )
   }
@@ -106,16 +141,19 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
         text={BIDDING}
         fontSize={14}
         color={textColor.white}
+        buttonContainerStyle={styles.btnContainer}
       />
     )
   }
 
   const renderButtonsComponnent = () => {
     return (
-      <View style={styles.rowContainer}>
+      <View style={styles.btnListRow}>
         {renderBiddingButton()}
-        {renderLaterButton()}
-        {renderIgnoreButtons()}
+        <View style={styles.rowContainer}>
+          {renderLaterButton()}
+          {renderIgnoreButtons()}
+        </View>
       </View>
     )
   }
@@ -129,12 +167,19 @@ export const PartRequestComponent = (props: IPartRequestCardComponent) => {
     )
   }
 
+  const onPress = useCallback(() => {
+    if(navigateToDetailScreen) {
+      navigateToDetailScreen(partRequestId)
+    }
+  }, [navigateToDetailScreen, partRequestId])
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container}
+      onPress={onPress}>
       {renderRedDotWithTitle()}
       {renderDescription()}
       {renderUploadedDate()}
       {renderButtonsComponnent()}
-    </View>
+    </Pressable>
   )
-}
+})

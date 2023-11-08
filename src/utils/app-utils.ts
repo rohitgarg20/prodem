@@ -3,6 +3,7 @@ import { find, get, isNumber } from 'lodash'
 import FastImage from 'react-native-fast-image'
 
 import { log } from '../common/config/log'
+import { PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
@@ -59,6 +60,9 @@ export const months = [
   'Dec'
 ]
 
+export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']
+
+
 export const getFormattedDate = (date) => {
   if (!date) return ''
   const newDate = new Date(date)
@@ -79,8 +83,86 @@ export const getDateInMDDYYYYFormat = (date) => {
   return `${month} ${day}, ${year}`
 }
 
+export const isDateCurrentDate = (date) => {
+  return getDateInMDDYYYYFormat(date) === getDateInMDDYYYYFormat(new Date())
+}
+
+export const isDatePreviousDate = (date) => {
+  const currentDate = new Date()
+  return getDateInMDDYYYYFormat(date) === getDateInMDDYYYYFormat(new Date().setDate(currentDate.getDate() - 1))
+}
+
+export const isDateGreaterThanPreviousWeek = (date) => {
+  const currentDate = new Date()
+  return getDateInMDDYYYYFormat(date) >= getDateInMDDYYYYFormat(new Date().setDate(currentDate.getDate() - 7))
+}
+export const getLocalDateTime = (dateObj) => {
+  const date = new Date(dateObj)
+  const dateHrs = date.getHours()
+  let hours: any = dateHrs > 12 ? dateHrs % 12 : dateHrs
+  if (hours < 10) hours = `0${hours}`
+  if (hours === 0) hours = '12'
+  let minutes: any = date.getMinutes()
+  if (minutes < 10) minutes = `0${minutes}`
+  const timeOfDay = date.getHours() < 12 ? 'AM' : 'PM'
+  return `${hours}:${minutes} ${timeOfDay}`
+}
+
+export const getDay = (date) => {
+  const currentDate = new Date(date)
+  const day = currentDate.getDay()
+  return days[day]
+}
+
+export const getFormattedDateInDetailFormat = (date) => {
+  if (!date) return ''
+  if(isDateCurrentDate(date)) {
+    return `Today at ${getLocalDateTime(date)}`
+  }
+  if(isDatePreviousDate(date)) {
+    return `Yesterday at ${getLocalDateTime(date)}`
+  }
+  if(isDateGreaterThanPreviousWeek(date)) {
+    return `Last ${getDay(date)} at ${getLocalDateTime(date)}`
+  }
+  return `${getDateInMDDYYYYFormat(date)} at ${getLocalDateTime(date)}`
+}
+
 export const getProductIdFromPayload = (requestData) => {
   const productObj = find(get(requestData, 'body._parts'), (bodyPart) => bodyPart?.[0] === 'product_id')
   return productObj?.[1]
 }
 
+export const callPromisesParallel = async (promisesArray) => {
+  const rejectionHandler = (promiseRes) => {
+    return promiseRes
+      .then((res) => {
+        return res
+      })
+      .catch((err) => {
+        return { error: err }
+      })
+  }
+
+  return await Promise.all(promisesArray.map(rejectionHandler))
+}
+
+export const getTitleWithSeperator = (title, seperator) => {
+  let displayTitle = title?.toString()
+  if(displayTitle?.length) {
+    return `${displayTitle}${seperator}`
+  }
+  return ''
+}
+
+export const isPartRequestCancelled = (requestStatus) => {
+  return PART_REQUEST_STATUS[requestStatus] === PART_REQUEST_TYPE.CANCELLED
+}
+
+export const isPartRequestResolved = (requestStatus) => {
+  return PART_REQUEST_STATUS[requestStatus] === PART_REQUEST_TYPE.RESOLVED
+}
+
+export const isPartRequestActive = (requestStatus) => {
+  return PART_REQUEST_STATUS[requestStatus] === PART_REQUEST_TYPE.ACTIVE
+}

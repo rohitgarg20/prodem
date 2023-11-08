@@ -35,5 +35,19 @@ export const icons = {
   LOGOUT: require('../assets/images/logout.png'),
   PROFILE_CAMERA: require('../assets/images/profileBottomCameraIcon.png'),
   PROFILE_BIGGER_CIRCLE: require('../assets/images/profileBiggerCamera.png'),
-  EDIT_ICON: require('../assets/images/editIcon.png')
+  EDIT_ICON: require('../assets/images/editIcon.png'),
+  EMPTY_SCREEN_ICON: require('../assets/images/e3.png'),
+  COMPANY_PODEM_LOGO: require('../assets/images/compnayPodemLogo.png'),
+  TIMER_ICON: require('../assets/images/timer.png'),
+  DELETE_ICON: require('../assets/images/bin.png'),
+  CALENDAR_ICON: require('../assets/images/calendar-interface-symbol-tool.png'),
+  RECYCLE_ICON: require('../assets/images/recycle.png'),
+  CIRCLE_CHECKBOX: require('../assets/images/circleCheckbox.png'),
+  TROPHY: require('../assets/images/trophy.png'),
+  SHARE: require('../assets/images/share.png'),
+  EMAIL: require('../assets/images/email.png'),
+  HAPPY: require('../assets/images/happy.png'),
+  NEUTRAL: require('../assets/images/neutral.png'),
+  SAD: require('../assets/images/sad.png'),
+  PODEM_LOGO: require('../assets/images/logo.png')
 }

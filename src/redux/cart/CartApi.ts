@@ -1,10 +1,10 @@
+
 import {
   onFetchedCartListSuccessReducer, onAddNewProductInCartReducer, onRemoveProductFromCartReducer,
   onRemoveProductFailureFromCartReducer
 } from './CartSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
-import { CancelToken } from 'axios'
 
 
 export const getCartDetails = () => {

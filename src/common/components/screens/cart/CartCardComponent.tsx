@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 })
 
 export const CartCardComponent = (props: ICartItemComponent) => {
-  const { productImage, productName, quantity, displayPrice, onRemoveItemFromCart, productId, updateCartQty } = props
+  const { productImage, productName, quantity, displayPrice, onRemoveItemFromCart, productId, updateCartQty, qtyNonEditable = false } = props
 
   const renderItemImage = () => {
     return(
@@ -104,6 +104,17 @@ export const CartCardComponent = (props: ICartItemComponent) => {
     genericDrawerController.openGenericDrawerModal()
   }
 
+  const renderNonEditableQuantity = () => {
+    const displayQty = `Qty: ${quantity}`
+    return (
+      <CustomText
+        text={displayQty}
+        fontSize={14}
+        color={textColor.black}
+      />
+    )
+  }
+
   const renderProductQuantity = () => {
     const displayQty = `Qty: ${quantity}`
     return (
@@ -125,7 +136,7 @@ export const CartCardComponent = (props: ICartItemComponent) => {
     return (
       <View style={styles.itemDetailsContainer}>
         {renderProductName()}
-        {renderProductQuantity()}
+        {qtyNonEditable ? renderNonEditableQuantity() : renderProductQuantity()}
         {renderProductPrice()}
       </View>
     )

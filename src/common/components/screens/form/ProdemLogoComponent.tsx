@@ -6,9 +6,9 @@ import { IconWrapper } from '../../generic'
 export const ProdemLogoComponent = () => {
   return (
     <IconWrapper
-      iconHeight={30}
-      iconWidth={'25%'}
-      iconSource={icons.PASSWORD_INVISIBLE}
+      iconHeight={40}
+      iconWidth={'30%'}
+      iconSource={icons.PODEM_LOGO}
     />
   )
 }

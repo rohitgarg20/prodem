@@ -25,7 +25,17 @@ export const ReducerName = {
   CART_DETAIL: 'cartDetail',
   ASK_PART: 'askPart',
   RATING: 'rating',
-  SUBSCRIPTION: 'subscription'
+  SUBSCRIPTION: 'subscription',
+  PROFILE: 'profile',
+  WINNING_BID: 'winningBid',
+  BID_REQUEST: 'bidRequest',
+  PART_REQUEST: 'carPartRequests',
+  PART_REQUEST_DETAIL: 'part_request_detail',
+  ORDER_RECIEVED: 'order_recieved',
+  ORDER_PLACED: 'order_placed',
+  WISHLIST: 'wishList',
+  MY_PART_REQUEST_LIST: 'myPartRequestList',
+  ORDER_RECEIVED_DETAIL: 'orderReceivedDetail'
 }
 
 
@@ -225,19 +235,19 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Profile Details',
     icon: icons.PROFILE_ICON,
-    screenToNavigate: ScreenNames.PROFILE_DETAILS,
+    screenToNavigate: ScreenNames.PROFILE_SCREEN,
     key: 'profile_details'
   },
   {
     label: 'Order Received',
     icon: icons.ORDER_RECIEVED,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.ORDER_RECIEVED_LIST_SCREEN,
     key: 'order_received'
   },
   {
     label: 'Order Placed',
     icon: icons.ORDER_PLACED,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.ORDER_PLACED_LIST_SCREEN,
     key: 'order_placed'
   },
   {
@@ -249,7 +259,7 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Wishlist',
     icon: icons.WISHLIST_ICON,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.WISHLIST_SCREEN,
     key: 'wishlist'
   },
   {
@@ -261,19 +271,19 @@ export const PROFILE_OPTIONS = [
   {
     label: 'My Part Request',
     icon: icons.MY_PART_REQUEST,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.MY_PART_REQUEST_LIST_SCREEN,
     key: 'my_part_request'
   },
   {
     label: 'My Bid Request',
     icon: icons.MY_BID_REQUEST,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.MY_BID_REQUEST_SCREEN,
     key: 'my_bid_request'
   },
   {
     label: 'Winning Bids',
     icon: icons.WINNING_BIDS,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.WINNING_BID_SCREEN,
     key: 'winning_bids'
   },
   {
@@ -285,19 +295,19 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Ratings',
     icon: icons.RATINGS,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.RATINGS_SCREEN,
     key: 'rating'
   },
   {
-    label: 'Part Offer',
+    label: 'Part Request',
     icon: icons.PART_OFFER,
-    screenToNavigate: '',
-    key: 'part_offer'
+    screenToNavigate: ScreenNames.PART_REQUEST_SCREEN,
+    key: 'part_request'
   },
   {
     label: 'Logout',
     icon: icons.LOGOUT,
-    screenToNavigate: '',
+    screenToNavigate: 'logout',
     key: 'logout'
   }
 ]
@@ -422,6 +432,90 @@ export const ASK_OFFER_FORM = {
   }
 }
 
+export enum ProposeOfferFieldKeys {
+  TITILE = 'title',
+  PRICE = 'price',
+  CURRENCY = 'currency',
+  UNIT = 'unit',
+  PRIVATE_REMARKS = 'privateRemarks',
+  OFFERED_BY = 'offeredBy',
+  AVAILABILITY = 'availability'
+}
+
+export const PROPOSE_OFFER_FORM = {
+  [ProposeOfferFieldKeys.TITILE]: {
+    title: 'The Piece offered',
+    required: true,
+    inputValue: '',
+    type: InputType.TEXT_INPUT,
+    apiKey: 'title',
+    key: PartRequestFieldKeys.TITILE,
+    placeholder: 'ex: Dacia Logan red front bar without scratches'
+  },
+  [ProposeOfferFieldKeys.PRICE]: {
+    title: 'Price with VAT',
+    required: true,
+    type: InputType.TEXT_INPUT,
+    keyboardType: 'number-pad' as KeyboardType,
+    inputValue: '',
+    apiKey: 'price',
+    key: ProposeOfferFieldKeys.PRICE
+  },
+  [ProposeOfferFieldKeys.CURRENCY]: {
+    title: '$',
+    required: true,
+    type: InputType.DROPDOWN,
+    dropdownData: [],
+    defaultValue: 'Not Selected',
+    selectedValue: '',
+    selectedItem: {},
+    key: ProposeOfferFieldKeys.CURRENCY,
+    apiKey: 'currency'
+  },
+  [ProposeOfferFieldKeys.UNIT]: {
+    title: 'U.M.',
+    required: true,
+    type: InputType.DROPDOWN,
+    dropdownData: [],
+    defaultValue: 'Not Selected',
+    selectedValue: '',
+    selectedItem: {},
+    key: ProposeOfferFieldKeys.UNIT,
+    apiKey: 'unit'
+  },
+  [ProposeOfferFieldKeys.PRIVATE_REMARKS]: {
+    title: 'Private Remarks',
+    required: false,
+    inputValue: '',
+    type: InputType.TEXT_INPUT,
+    apiKey: 'remark',
+    key: ProposeOfferFieldKeys.PRIVATE_REMARKS,
+    placeholder: 'Only you see them'
+  },
+  [ProposeOfferFieldKeys.OFFERED_BY]: {
+    title: 'Offered by',
+    required: true,
+    type: InputType.DROPDOWN,
+    dropdownData: [],
+    defaultValue: 'Not Selected',
+    selectedValue: '',
+    selectedItem: {},
+    key: ProposeOfferFieldKeys.OFFERED_BY,
+    apiKey: 'type'
+  },
+  [ProposeOfferFieldKeys.AVAILABILITY]: {
+    title: 'Availability',
+    required: true,
+    type: InputType.DROPDOWN,
+    dropdownData: [],
+    defaultValue: 'Not Selected',
+    selectedValue: '',
+    selectedItem: {},
+    key: ProposeOfferFieldKeys.AVAILABILITY,
+    apiKey: 'availavility'
+  }
+}
+
 export const RATINGS_TOP_BAR = [{
   key: RatingTypes.PENDING,
   label: 'Pending'
@@ -438,3 +532,139 @@ export const RATING_API_RESPONSE_MAPPER: Map<RatingTypes, string> = new Map([
   [RatingTypes.GIVEN, 'rating_given'],
   [RatingTypes.RECIEVED, 'ratingReceived']
 ])
+
+export const WINNING_BIDS_TOP_BAR_KEYS = [{
+  key: 'new',
+  value: 'New'
+},
+{
+  key: 'confirm',
+  value: 'Confirm'
+},
+{
+  key: 'deliverd',
+  value: 'Delivered'
+},
+{
+  key: 'completed',
+  value: 'Completed'
+},
+{
+  key: 'cancel',
+  value: 'Cancelled'
+}]
+
+export const MY_BIDS_REQUEST_TOP_BAR_KEYS = [{
+  key: 'active',
+  value: 'Active'
+},
+{
+  key: 'inactive',
+  value: 'InActive'
+},
+{
+  key: 'lost',
+  value: 'Lost'
+}]
+
+export const PART_REQUEST_TYPE = {
+  CANCELLED: 'cancelled',
+  RESOLVED: 'resolved',
+  ACTIVE: 'active',
+  INACTIVE: 'inactive'
+}
+
+export const PART_REQUEST_STATUS = {
+  1: PART_REQUEST_TYPE.RESOLVED,
+  2: PART_REQUEST_TYPE.ACTIVE,
+  3: PART_REQUEST_TYPE.INACTIVE,
+  4: PART_REQUEST_TYPE.CANCELLED
+}
+
+export const PART_REQUEST_STR_VALUE = {
+  1: 'Resolved requests',
+  2: PART_REQUEST_TYPE.ACTIVE,
+  3: PART_REQUEST_TYPE.INACTIVE,
+  4: 'Cancelled requests'
+}
+
+export type OrderType = 0 | 1 | 2 | 3 | 4 | 5
+
+
+export const OrderReceivedTypeList = [
+  {
+    label: 'New',
+    key: 2
+  },
+  {
+    label: 'Suspended',
+    key: 3
+  },
+  {
+    label: 'Completed',
+    key: 1
+  },
+  {
+    label: 'Rejected',
+    key: 4
+  },
+  {
+    label: 'Cancelled',
+    key: 5
+  },
+  {
+    label: 'All',
+    key: 0
+  }
+]
+
+export const updateOrderStatusOptions = [
+  {
+    value: 'Completed',
+    id: 1
+  },
+  {
+    value: 'Suspended',
+    id: 3
+  },
+  {
+    value: 'Rejected',
+    id: 4
+  }
+]
+
+export const partRequestStatusTypeList = [
+  {
+    label: 'Requests',
+    key: 'requests'
+  },
+  {
+    label: 'Cancelled',
+    key: 'cancled'
+  },
+  {
+    label: 'Resolved',
+    key: 'solved'
+  }
+]
+
+export const ratingsData = [
+  {
+    key: 3,
+    value: 'Positive',
+    icon: icons.HAPPY,
+    tintColor: '#00A040'
+  },
+  {
+    key: 2,
+    value: 'Neutral',
+    icon: icons.NEUTRAL,
+    tintColor: '#606060'
+  },
+  {
+    key: 1,
+    value: 'Negative',
+    icon: icons.SAD,
+    tintColor: '#D00000'
+  },
+]

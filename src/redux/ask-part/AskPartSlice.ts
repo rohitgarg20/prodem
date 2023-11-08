@@ -31,7 +31,6 @@ const onFetchedAskPartRequestDropDownList = (state: IAskPartForm, { payload }) =
   })
   state.formData.maufacturingYear.dropdownData = partrequest_year
 
-  log('onFetchedSellDropDownListonFetchedSellDropDownList', state, payload)
 }
 
 const onSelectDropDowItem = (state: IAskPartForm, { payload }) => {

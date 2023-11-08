@@ -4,7 +4,6 @@ import { reactotronRedux } from 'reactotron-redux'
 
 
 export const reactotron = Reactotron
-// AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from
   .configure({
     name: 'Prodem'
   })

@@ -89,6 +89,10 @@ export const TextInputComponent = memo((props: ITextInputComponent) => {
     }
   }, [textInputRef])
 
+  const onChange = (e) => {
+    log('onChangeonChangeonChange', e)
+  }
+
   const updatePasswordVisibilty = () => {
     updatePasswordVisibleStatus(!isPasswordVisible)
   }
@@ -115,10 +119,12 @@ export const TextInputComponent = memo((props: ITextInputComponent) => {
         returnKeyLabel={returnKeyLabel}
         value={value}
         onChangeText={onChangeInput}
+        // onChange={onChange}
         keyboardType={keyboardType}
         style = {[textFieldStyle, style]}
         ref={setTextInputRef}
         secureTextEntry={isPasswordVisible}
+        onKeyPress={onChange}
         {...restProps}
       />
     )

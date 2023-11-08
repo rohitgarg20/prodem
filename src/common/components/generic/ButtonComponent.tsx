@@ -28,7 +28,7 @@ export const ButtonComponent = memo((props: IButtonComponent) => {
   const {
     text, fontSize = 16, fontWeight = '400',
     color = props.buttonType === SIMPLE_BTN ? textColor.primary : textColor.white,
-    lineHeight, textStyle = {}, isAnimated = false, buttonType, buttonContainerStyle = {},  ...restProps
+    lineHeight, textStyle = {}, isAnimated = false, buttonType, buttonContainerStyle = {},rightContainer,  ...restProps
   } = props
 
   const getButtonContainerStyle = useCallback(() => {
@@ -84,6 +84,7 @@ export const ButtonComponent = memo((props: IButtonComponent) => {
         isAnimated={isAnimated}
         textStyle={getTextContainerStyle()}
       />
+      {rightContainer}
     </Pressable>
   )
 })
