@@ -65,9 +65,20 @@ export const updateUserDetailsApi = (userDetails) => {
   })
 }
 
-export const fetchCountryApi = () => {
-  return apiDispatch({
+export const fetchCountryApi = async () => {
+  return await apiDispatch({
     endPoint: API_END_POINT.FETCH_PART_REQUEST_FILTER_LIST,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
+    showLoaderOnScreen: true
+  })
+}
+
+export const fetchCityApi = async () => {
+  return await apiDispatch({
+    endPoint: API_END_POINT.CITY_API,
     method: 'POST',
     onStart: '',
     onSuccess: '',

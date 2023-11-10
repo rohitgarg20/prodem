@@ -3,11 +3,12 @@ import { useCallback, useEffect, useReducer } from 'react'
 import { ToastAndroid } from 'react-native'
 
 import { ACTION_NAME, FIELD_TYPE, INITIAL_DATA_STATE, USER_INFO_KEYS } from './EditProfileConstant'
-import { fetchCountryApi, updateUserDetailsApi } from '../../../redux/profile/ProfileApi'
+import { fetchCityApi, fetchCountryApi, updateUserDetailsApi } from '../../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../../store/DataStore'
 import { IDropDownItem } from '../../../common/Interfaces'
 import { genericDrawerController } from '../../../common/components/ModalComponent/GenericModalController'
+import { log } from '../../../common/config/log'
 
 const initialState: State = {
   dataList: [...INITIAL_DATA_STATE]
@@ -47,37 +48,47 @@ const useNewInsuranceTrackScreenViewController = () => {
         return item
       })
 
-      // log('newState  1 : ', newState)
+      log('newState  1 : ', newState)
 
       updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     }
   }, [])
 
-  const fetchCountryApiData = async() => {
-    const result: any = await fetchCountryApi()
-    const countryList = result?.data?.country?.map(item => {
-      return {
-        id: item?.country_id || '',
-        value: item?.country_name || ''
-      }
-    }) || []
 
-    const newState = state.dataList?.map((item) => {
-      if(item.key === USER_INFO_KEYS.COUNTRY) {
+  const fetchCountryCityData = async() => {
+    Promise.all([fetchCountryApi(), fetchCityApi()]).then((responseArray: any[]) => {
+      const cityList = responseArray?.[1]?.data?.cityList || []
+      const countryList = responseArray[0]?.data?.country?.map(item => {
         return {
-          ...item,
-          optionList: countryList
+          id: item?.country_id || '',
+          value: item?.country_name || ''
         }
-      }
-      return item
+      }) || []
+
+      const newState = state.dataList?.map((item) => {
+        if(item.key === USER_INFO_KEYS.COUNTRY) {
+          return {
+            ...item,
+            optionList: countryList
+          }
+        }
+
+        if(item.key === USER_INFO_KEYS.CITY) {
+          return {
+            ...item,
+            optionList: cityList
+          }
+        }
+        return item
+      })
+      log('newState  2 : ', newState)
+      updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     })
-    // log('newState  2 : ', newState)
-    updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
 
   }
 
   useEffect(() => {
-    fetchCountryApiData()
+    fetchCountryCityData()
   }, [])
 
 
@@ -106,15 +117,8 @@ const useNewInsuranceTrackScreenViewController = () => {
   const getUserDataForApi = () => {
     const data = {}
     state.dataList?.map((item) => {
-      if (item.key === USER_INFO_KEYS.COUNTRY ||
-        item.key === USER_INFO_KEYS.LEGAL_ENTITY ||
-        item.key === USER_INFO_KEYS.CIF_WHICH ||
-        item.key === USER_INFO_KEYS.PREFERENCES) {
-        // do nothing as they are not supported yet
-      } else {
         const keyName = item.key
         data[keyName] = item.value
-      }
     })
     return data
   }
