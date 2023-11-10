@@ -36,6 +36,7 @@ export const API_END_POINT = {
   UPDATE_USER_NAME: 'api/profile/update-name',
   UPDATE_PASSWORD: 'api/profile/update-password',
   UPDATE_USER_INFO: 'api/profile/update-profile',
+  UPDATE_PROFILE_PHOTO: 'api/profile/update-photo',
   FETCH_PART_REQUEST_FILTER_LIST: 'api/partoffer/filters-list',
   FETCH_BIDDING_OPTIONS: 'api/partoffer/save-bid-options',
   FETCH_PART_REQUEST_LSIT: 'api/partoffer',

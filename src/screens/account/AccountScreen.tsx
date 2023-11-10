@@ -16,7 +16,7 @@ import { bottomModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
 import { IImageItem, IProfileOptionItem } from '../../common/Interfaces'
 import { ScreenNames, StackNames } from '../../common/Screens'
-import { fetchUserProfileData } from '../../redux/profile/ProfileApi'
+import { fetchUserProfileData, updateUserProfilePhotoApi } from '../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../store/DataStore'
 import { navigateSimple, replaceNavigation } from '../../utils/navigation-utils'
@@ -328,7 +328,8 @@ export const AccountScreen = ({ navigation }) => {
 
   const onSavePicture = ({ images }: { images: IImageItem[] }) => {
 
-    // log('onSavePictureonSavePicture', images)
+
+    updateUserProfilePhotoApi(images[0].base64)
     // dispatch({
     //   type: onSelectImagesReducer.type,
     //   payload: {
