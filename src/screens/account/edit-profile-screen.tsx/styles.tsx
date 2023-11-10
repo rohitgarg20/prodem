@@ -100,4 +100,7 @@ export const styles = StyleSheet.create({
   scrollViewContainerStyle: {
     paddingBottom: 30,
   },
+  titleSeperator: {
+    paddingBottom: scale(5)
+  },
 });

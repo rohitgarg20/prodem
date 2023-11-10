@@ -148,7 +148,7 @@ export const TextInputComponent = memo((props: ITextInputComponent) => {
     )
   }
 
-  log('textInputTypetextInputType', textFieldKey)
+  // log('textInputTypetextInputType', textFieldKey)
 
   if(textInputType === 'default') {
     return (

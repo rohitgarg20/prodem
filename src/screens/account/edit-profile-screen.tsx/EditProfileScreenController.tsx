@@ -3,10 +3,11 @@ import { useCallback, useEffect, useReducer } from 'react'
 import { ToastAndroid } from 'react-native'
 
 import { ACTION_NAME, FIELD_TYPE, INITIAL_DATA_STATE, USER_INFO_KEYS } from './EditProfileConstant'
-import { log } from '../../../common/config/log'
-import { updateUserDetailsApi } from '../../../redux/profile/ProfileApi'
+import { fetchCountryApi, updateUserDetailsApi } from '../../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../../store/DataStore'
+import { IDropDownItem } from '../../../common/Interfaces'
+import { genericDrawerController } from '../../../common/components/ModalComponent/GenericModalController'
 
 const initialState: State = {
   dataList: [...INITIAL_DATA_STATE]
@@ -46,10 +47,37 @@ const useNewInsuranceTrackScreenViewController = () => {
         return item
       })
 
-      log('newState  : ', newState)
+      // log('newState  1 : ', newState)
 
       updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     }
+  }, [])
+
+  const fetchCountryApiData = async() => {
+    const result: any = await fetchCountryApi()
+    const countryList = result?.data?.country?.map(item => {
+      return {
+        id: item?.country_id || '',
+        value: item?.country_name || ''
+      }
+    }) || []
+
+    const newState = state.dataList?.map((item) => {
+      if(item.key === USER_INFO_KEYS.COUNTRY) {
+        return {
+          ...item,
+          optionList: countryList
+        }
+      }
+      return item
+    })
+    // log('newState  2 : ', newState)
+    updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
+
+  }
+
+  useEffect(() => {
+    fetchCountryApiData()
   }, [])
 
 
@@ -117,12 +145,30 @@ const useNewInsuranceTrackScreenViewController = () => {
     })
   }, [])
 
+  const updateDropDownValue = useCallback((dropDownItem: IDropDownItem, actionName: string) => {
+    genericDrawerController.closeGenericDrawerModal()
+
+    if(actionName === ACTION_NAME.UPDATE_COUNTRY) {
+      const currentValue = state.dataList.find(item => item?.key === USER_INFO_KEYS.COUNTRY)?.value
+      const newValue = dropDownItem.id
+      if(currentValue != newValue) {
+        // reset city also
+      }
+    }
+
+    updateState({
+      type: actionName,
+      payload: dropDownItem.id
+    })
+  }, [])
+
   return {
     dataList: state.dataList,
     updateState,
     onSubmit,
     updateTextValue,
-    updateRadioButtonValue
+    updateRadioButtonValue,
+    updateDropDownValue
   }
 }
 

@@ -65,6 +65,17 @@ export const updateUserDetailsApi = (userDetails) => {
   })
 }
 
+export const fetchCountryApi = () => {
+  return apiDispatch({
+    endPoint: API_END_POINT.FETCH_PART_REQUEST_FILTER_LIST,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
+    showLoaderOnScreen: true
+  })
+}
+
 export const logoutUser = () => {
   apiDispatch({
     endPoint: API_END_POINT.LOGOUT_USER,

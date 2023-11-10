@@ -1,12 +1,13 @@
 export enum FIELD_TYPE {
   RADIO_BOX = 'RADIO_BOX',
   TEXTBOX = 'TEXTBOX',
+  DROP_DOWN = 'DROP_DOWN'
 }
 
 export enum USER_INFO_KEYS {
   USER_NAME = 'p_user_name',
   PHONE_NO = 'p_user_mobile',
-  COUNTRY = 'country_city',
+  COUNTRY = 'p_user_country',
   CITY= 'p_user_city',
   ADDRESS = 'p_user_address',
   LEGAL_ENTITY = 'legalEntity',
@@ -71,7 +72,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
   },
   {
     key: USER_INFO_KEYS.COUNTRY,
-    fieldType: FIELD_TYPE.TEXTBOX,
+    fieldType: FIELD_TYPE.DROP_DOWN,
     value: '',
     defaultValue: '',
     label: 'Country',
