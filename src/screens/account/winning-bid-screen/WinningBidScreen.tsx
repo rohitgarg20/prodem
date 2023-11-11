@@ -41,6 +41,13 @@ const WinningBidScreen = () => {
     }
   }
 
+
+  const getEmptyComponent = () =>  <EmptyScreenComponent />
+
+  const getRenderItem = ({ item }) => <BidItemContainer item={item}/>
+
+  const getKeyExtractor = (item, index) =>  `${item.bidId}_${index}` || ''
+
   return <View style={styles.container}>
     <HeaderComponent
       showBackBtn
@@ -53,13 +60,13 @@ const WinningBidScreen = () => {
     {isLoading ? null : <FlatList
       key={selectedType}
       data={winningBidList}
-      renderItem={({item}) => <BidItemContainer item={item}/>}
-      keyExtractor={item => item.bidId || ''}
-      ListEmptyComponent={() => <EmptyScreenComponent />}
+      renderItem={getRenderItem}
+      keyExtractor={getKeyExtractor}
+      ListEmptyComponent={getEmptyComponent}
       contentContainerStyle={styles.flatListContainer}
       removeClippedSubviews={true}
       // decelerationRate="fast"
-      maxToRenderPerBatch={windowSize} 
+      maxToRenderPerBatch={windowSize}
       windowSize={windowSize}
     />}
   </View>
