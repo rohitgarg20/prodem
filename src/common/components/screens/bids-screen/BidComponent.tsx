@@ -3,8 +3,9 @@ import { CustomText } from "../../generic/CustomText"
 import { colors, textColor } from "../../../Colors"
 import { scale } from "../../../../utils/scaling"
 import { BID_COMPONENT_LABEL } from "../../../strings"
+import { memo } from "react"
 
-const BidItemContainer = ({ item }: { item: IBidItem }) => {
+const BidItemContainer = memo(({ item }: { item: IBidItem }) => {
     const LabelComponent = ({
         keyLabel,
         valueLabel
@@ -45,7 +46,7 @@ const BidItemContainer = ({ item }: { item: IBidItem }) => {
       <LabelComponent keyLabel={BID_COMPONENT_LABEL.COMPANY_NAME} valueLabel={item.companyName} />
       <LabelComponent keyLabel={BID_COMPONENT_LABEL.COMPANY_TRADE} valueLabel={item.companyTrade} />
     </View>
-  }
+  })
 
   export default BidItemContainer
 

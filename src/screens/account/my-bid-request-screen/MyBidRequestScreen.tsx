@@ -20,6 +20,7 @@ const MyBidRequestScreen = () => {
   const myBidRequestList = useAppSelector(getMyBidRequestDataListSelector(selectedType))
   const isLoading = useAppSelector(getMyBidRequestDataFetchingStatusSelector(selectedType))
   const dispatch = useAppDispatch()
+  const windowSize = myBidRequestList.length > 50 ? myBidRequestList.length / 4 : 21;
 
 
   useEffect(() => {
@@ -51,11 +52,14 @@ const MyBidRequestScreen = () => {
     {isLoading ? null: <FlatList
       key={selectedType}
       data={myBidRequestList}
-      renderItem={BidItemContainer}
+      renderItem={({item}) => <BidItemContainer item={item}/>}
       keyExtractor={item => item.bidId || ''}
-      removeClippedSubviews={false}
+      removeClippedSubviews={true}
       ListEmptyComponent={() => <EmptyScreenComponent />}
       contentContainerStyle={styles.flatListContainer}
+      // decelerationRate="fast"
+      maxToRenderPerBatch={windowSize} 
+      windowSize={windowSize}
     />}
   </View>
 
