@@ -34,7 +34,6 @@ export class IconWrapper extends PureComponent<IconWrapperComponent, IState> {
   constructor(props: IconWrapperComponent, state) {
     super(props, state)
     const isImgSrcUri = !!props.iconSource && !isNumber(props.iconSource)
-    log('isImgSrcUri', isImgSrcUri, !!props.iconSource)
     this.state = {
       showLoader: isImgSrcUri
     }

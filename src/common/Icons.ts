@@ -49,5 +49,6 @@ export const icons = {
   HAPPY: require('../assets/images/happy.png'),
   NEUTRAL: require('../assets/images/neutral.png'),
   SAD: require('../assets/images/sad.png'),
-  PODEM_LOGO: require('../assets/images/logo.png')
+  PODEM_LOGO: require('../assets/images/logo.png'),
+  MY_COMPANY_LOGO: require('../assets/images/myCompLogo.jpeg')
 }

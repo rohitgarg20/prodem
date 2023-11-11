@@ -40,6 +40,7 @@ export const BUTTONS = {
   EDIT_MOBILE_NO: 'Edit',
   SEND: 'Send',
   POST_YOUR_AD: 'Post Your Ad',
+  EDIT_YOUR_AD: 'Edit Your Ad',
   CANCEL: 'Cancel',
   APPLY: 'Apply',
   REQUEST_QUOTE: 'Request A Quote Now',
@@ -66,7 +67,8 @@ export const SET_PASSWORD = {
 }
 
 export const ADD_PART_SCREEN = {
-  headerTitle: 'Add Part'
+  headerTitle: 'Add Part',
+  EditPart: 'Edit Part'
 }
 
 export const ASK_PART_SCREEN = {

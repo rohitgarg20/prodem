@@ -30,6 +30,7 @@ const onProductDetailApiSuccessResponse = (state: IProductDetail, { payload }) =
   const { responseData } = payload
   const productDetails = get(responseData, 'data.product', {})
   const cartDetails: any = get(responseData, 'data.cartDetails.items', [])
+  const loggedInUserId = get(payload, 'extraParams.loggedInUserId', '')
   const imageGallery = productDetails?.product_slides?.split(',') || [icons.DEFAULT_IMAGE]
   const productId = productDetails?.product_id
   const formattedProductDetail = {
@@ -45,7 +46,8 @@ const onProductDetailApiSuccessResponse = (state: IProductDetail, { payload }) =
     brand: productDetails?.company_name,
     createdAt: getFormattedDate(productDetails?.product_created_at),
     userMobile: productDetails?.p_user_mobile,
-    description: productDetails?.product_details || ''
+    description: productDetails?.product_details || '',
+    isProductByLoogedInUser: loggedInUserId === productDetails?.product_user_id
   }
   state.productDetail = formattedProductDetail
   state.isProductInWishlist = productDetails?.user_wishlist_product_id === productId

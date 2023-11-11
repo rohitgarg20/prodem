@@ -84,7 +84,6 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
   log('partRequestDetailApiSuccess', payload)
   const respData = get(payload, 'responseData.data', {})
   const loggedInUserId = get(payload, 'extraParams.loggedInUserId', '')
-  log('partRequestDetailApiSuccess loggedInUserId', loggedInUserId)
   const productData = get(respData, 'product', {})
   const biddingList = get(respData, 'bids', [])
   let imagesGallery = map(productData?.partrequest_slides?.split(','), (item) => {
@@ -96,7 +95,6 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
   })
 
   const partRequestId = get(productData, 'partrequest_id')
-  log('productData?.partrequest_year', productData?.partrequest_year)
   const formattedProductDetail = {
     heading: `${productData?.partrequest_title} for ${getTitleWithSeperator(productData?.brand_name, ',')} ${getTitleWithSeperator((productData?.partrequest_year || '').toString(), ',')} ${productData?.vehicle_name || ''}`,
 
@@ -188,7 +186,6 @@ const setActivePartRequestId = (state: IPartRequestDetail, { payload }) => {
 }
 
 const addRemoveProductToIgnoreList = (state: IPartRequestDetail, { payload }) => {
-  log('addRemoveProductToIgnoreListaddRemoveProductToIgnoreList', payload)
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isIgnoredByUser = updatedValue === 'add'
@@ -196,7 +193,6 @@ const addRemoveProductToIgnoreList = (state: IPartRequestDetail, { payload }) =>
 }
 
 const addRemoveProductToWishlistList = (state: IPartRequestDetail, { payload }) => {
-  log('addRemoveProductToWishlistListaddRemoveProductToWishlistList', payload)
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isAddedInWishlistByUser = updatedValue === 'new'

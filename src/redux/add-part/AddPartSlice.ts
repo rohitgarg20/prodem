@@ -1,15 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { filter, get } from 'lodash'
+import { filter, find, get, isEmpty } from 'lodash'
 
 import { log } from '../../common/config/log'
-import { ADD_PART_FORM, AddPartFieldKeys, ReducerName } from '../../common/Constant'
+import { ADD_PART_FORM, AddPartFieldKeys, InputType, ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IAddPartForm, ISellDropDownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 
 
 const initialState: IAddPartForm = {
-  formData: ADD_PART_FORM
+  formData: ADD_PART_FORM,
+  editProductId: -1
 }
 
 const onChangeUserInput = (state: IAddPartForm, { payload }) => {
@@ -52,12 +53,86 @@ const onRemoveImage = (state: IAddPartForm, { payload }) => {
 }
 
 const onAddNewPart = (state: IAddPartForm) => {
-  state.formData = ADD_PART_FORM
+  const addPartForm = state.formData
+  Object.keys(addPartForm).forEach((formKey) => {
+    const formKeyData = addPartForm?.[formKey]
+    const { type } = formKeyData
+    if(type === InputType.TEXT_INPUT) {
+      addPartForm[formKey].inputValue = ''
+    }
+    if(type === InputType.DROPDOWN) {
+      addPartForm[formKey].selectedItem = {}
+    }
+
+    if(type === InputType.IMAGES_SELECTION) {
+      addPartForm[formKey].selectedImages = []
+    }
+  })
+  state.formData = addPartForm
 }
 
 const onAddNewPartError = (state: IAddPartForm, { payload }) => {
   const { error } = payload
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+}
+
+const getProductType = (state: IAddPartForm, productStatus: number) => {
+  const statusAvailableList = state.formData.status.dropdownData
+  if(!isEmpty(statusAvailableList)) {
+    return find(statusAvailableList, (item) => item.id === productStatus)
+  } else {
+    return {
+      id: productStatus,
+      value: productStatus === 1 ? 'New' : 'Old'
+    }
+  }
+}
+
+const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
+  log('payloadpayload', payload)
+  const { productId, productName, productDescription, displayPrice, quantity, categoryName,  subcategoryName, subCategoryId, productType, productSlides } = payload
+  const addPartForm = state.formData
+  Object.keys(addPartForm).forEach((formKey) => {
+    switch(formKey) {
+      case AddPartFieldKeys.NAME:
+        addPartForm.name.inputValue = productName
+        break
+      case AddPartFieldKeys.DESCRIPTION:
+        addPartForm.detail.inputValue = productDescription
+        break
+      case AddPartFieldKeys.CATEGORY:
+        addPartForm.category.selectedItem = {
+          id: subCategoryId,
+          value: `${categoryName} > ${(subcategoryName || '').trim()}`
+        }
+        break
+      case AddPartFieldKeys.IMAGES:
+        addPartForm.productSlides.selectedImages = productSlides.map((item) => {
+          return {
+            imgUrl: item
+          }
+        })
+        break
+      case AddPartFieldKeys.STATUS:
+        addPartForm.status.selectedItem = getProductType(state, productType)
+        break
+      case AddPartFieldKeys.VEHICLES:
+        addPartForm.vehicles.selectedItem = {
+
+        }
+        break
+      case AddPartFieldKeys.PRICE:
+        addPartForm.price.inputValue = displayPrice
+        break
+      case AddPartFieldKeys.QUANTITY:
+        addPartForm.quantity.inputValue = (quantity || 0).toString()
+        break
+      default:
+        break
+    }
+  })
+  state.formData = addPartForm
+  state.editProductId = productId
 }
 
 const addPartSlice = createSlice({
@@ -70,13 +145,14 @@ const addPartSlice = createSlice({
     onSelectImagesReducer: onSelectImage,
     onRemoveImageReducer: onRemoveImage,
     onAddPartSuccessReducer: onAddNewPart,
-    onAddPartFailureReducer: onAddNewPartError
+    onAddPartFailureReducer: onAddNewPartError,
+    editFormReducer: prepoulateAddPartFormData
   }
 })
 
 export const {
   onChangeUserInputReducer, onFetchedSellDropDownListSuccess, onSelectDropDowItemReducer, onSelectImagesReducer,
-  onRemoveImageReducer, onAddPartFailureReducer, onAddPartSuccessReducer
+  onRemoveImageReducer, onAddPartFailureReducer, onAddPartSuccessReducer, editFormReducer
 } = addPartSlice.actions
 
 export default addPartSlice.reducer

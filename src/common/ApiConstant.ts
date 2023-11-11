@@ -57,7 +57,10 @@ export const API_END_POINT = {
   UPDATE_ORDER_STATUS: 'api/orderreceived/change-status',
   LOGOUT_USER: 'api/user/logout',
   GET_NOTIFICATION_LIST: 'api/notification',
-  READ_NOTIFICATION: 'api/notification/read-notification'
+  READ_NOTIFICATION: 'api/notification/read-notification',
+  GET_SELLER_PRODUCT_LIST: 'api/sell',
+  DELETE_PRODUCT: 'api/sell/delete',
+  UPDATE_PRODUCT: 'api/sell/update'
 }
 
 export const API_STATUS_CODE = {

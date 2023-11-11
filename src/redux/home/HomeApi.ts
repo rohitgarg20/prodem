@@ -4,6 +4,7 @@ import { onHomeApiFailureResponseReducer, onHomeApiSuccessReducer, onProductApiS
 import { onProductDetailApiSuccessResponseReducer } from './ProductDetailSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
+import { store } from '../../store/DataStore'
 
 
 export const fetchCategoriesAndBrandData = () => {
@@ -61,13 +62,16 @@ export const fetchProductDetail = ({
 
   const formData = new FormData()
   formData.append('product_id', productId)
-
+  const loggedInUserId = store.getState().profileReducer.userDetails?.p_user_id
   apiDispatch({
     method: 'POST',
     endPoint: API_END_POINT.GET_PRODUCT_DETAIL,
     showLoaderOnScreen: true,
     body: formData,
     onSuccess: onProductDetailApiSuccessResponseReducer.type,
-    cancelToken
+    cancelToken,
+    extraParams: {
+      loggedInUserId
+    }
   })
 }

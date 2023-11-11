@@ -6,6 +6,7 @@ import cartReducer from '../redux/cart/CartSlice'
 import { checkUserExistanceReducer } from '../redux/CheckUserExistance/UserExistanceSlice'
 import homeReducer from '../redux/home/HomeSlice'
 import productDetailReducer from '../redux/home/ProductDetailSlice'
+import sellerProductListReducer from '../redux/home/SellerAds'
 import { loaderReducer } from '../redux/LoaderDataStore/LoaderSlice'
 import loginReducer from '../redux/login/LoginSlice'
 import myBidRequestReducer from '../redux/my-bid-request/MyBidRequestSlice'
@@ -24,7 +25,6 @@ import signupReducer from '../redux/Signup/SignupSlice'
 import subscriptionReducer from '../redux/subscription/SubscriptionSlice'
 import winningBidReducer from '../redux/winning-bid/WinningBidSlice'
 import wishListReducer from '../redux/wishlist/WishlistSlice'
-
 
 export const reducers = combineReducers({
   checkUserExistanceReducer,
@@ -50,7 +50,8 @@ export const reducers = combineReducers({
   myPartRequestListReducer,
   OrderReceivedDetailReducer,
   orderPlacedDetailReducer,
-  notificationReducer
+  notificationReducer,
+  sellerProductListReducer
 })
 
 

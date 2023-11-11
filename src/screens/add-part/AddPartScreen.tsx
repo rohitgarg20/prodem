@@ -1,11 +1,13 @@
+
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { addPartStyle } from './styles'
+import { dimissKeyboard } from '../../common/App-Utils'
 import { textColor } from '../../common/Colors'
-import { ButtonComponent, CenterModalPopup, CustomText, IconButtonWrapperComponent, IconWrapper, LabelWithArrowComponent, SpacerComponent, TextInputComponent } from '../../common/components'
+import { ButtonComponent, CenterModalPopup, CustomText, IconButtonWrapperComponent, IconWrapper, LabelWithArrowComponent, TextInputComponent } from '../../common/components'
 import { BottomModalPopup } from '../../common/components/generic/BottomModalPopup'
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { HeaderComponent } from '../../common/components/screens'
@@ -20,21 +22,25 @@ import { bottomModal, centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
 import { IDropDownItem, IFormField, IImageItem } from '../../common/Interfaces'
 import { ADD_PART_SCREEN, BUTTONS } from '../../common/strings'
-import { addNewPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
+import { addNewPart, editPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
 import { getTotalImagesTakenCountSelector } from '../../redux/add-part/AddPartSelector'
 import { onChangeUserInputReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer } from '../../redux/add-part/AddPartSlice'
+import { fetchSellerProductList } from '../../redux/home/SellerAdsApi'
 import { RootState } from '../../store/DataStore'
+import { goBack } from '../../utils/navigation-utils'
 
 
-const { headerTitle } = ADD_PART_SCREEN
+const { headerTitle, EditPart } = ADD_PART_SCREEN
 const MAX_IMAGES_ALLOWED = 5
 
-export const AddPartScreen = () => {
+export const AddPartScreen = ({ navigation, route }) => {
 
   const addPartForm = useSelector((state: RootState) => state.addPartReducer.formData)
   const totalImagesTakenCount = useSelector(getTotalImagesTakenCountSelector)
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
+  const isEditFlow = route?.params?.isEditFlow || false
+  const productId = route?.params?.productId
 
   const dispatch = useDispatch()
 
@@ -128,6 +134,7 @@ export const AddPartScreen = () => {
 
 
   const showDropDownMenu = useCallback((fieldKey, dropdownData) => {
+    dimissKeyboard()
     renderDropDownComponent(dropdownData, fieldKey)
     genericDrawerController.openGenericDrawerModal()
   }, [renderDropDownComponent])
@@ -171,7 +178,7 @@ export const AddPartScreen = () => {
   }
 
   const showImagesSelectPopup = () => {
-
+    dimissKeyboard()
     genericDrawerController.showGenericDrawerModal({
       closeDrawerOnOutsideTouch: true,
       renderingComponent: () => <BottomModalPopup innerContent={renderSelectOptionsListComponent} />,
@@ -193,7 +200,7 @@ export const AddPartScreen = () => {
     return (
       <View style={addPartStyle.imageItemContainer}>
         <IconWrapper
-          iconSource={item.base64}
+          iconSource={item.base64 || item.imgUrl || ''}
           iconHeight={'100%'}
           iconWidth={'100%'}
           style={addPartStyle.imageStyle}
@@ -302,13 +309,23 @@ export const AddPartScreen = () => {
   }
 
   const postAd = useCallback(() => {
-    addNewPart(addPartForm)
-  }, [addPartForm])
+    if(isEditFlow) {
+      editPart(addPartForm, productId).then(() => {
+        fetchSellerProductList({ showLoaderOnScreen: true })
+        goBack(navigation)
+      }).catch(() => {
+        //
+      })
+    } else {
+      addNewPart(addPartForm)
+    }
+    dimissKeyboard()
+  }, [addPartForm, isEditFlow, productId, navigation])
 
   const renderAddPartButton = () => {
     return (
       <ButtonComponent
-        text={BUTTONS.POST_YOUR_AD}
+        text={isEditFlow ? BUTTONS.EDIT_YOUR_AD : BUTTONS.POST_YOUR_AD}
         onPress={postAd}
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
       />
@@ -352,7 +369,10 @@ export const AddPartScreen = () => {
 
   return (
     <View style={addPartStyle.mainContainer}>
-      <HeaderComponent title={headerTitle} />
+      <HeaderComponent
+        title={ isEditFlow ? EditPart : headerTitle}
+        showBackBtn={isEditFlow}
+      />
       {renderAddPartForm()}
       { showCameraComponent && <CameraComponent
         onSavePicture={onSavePicture}

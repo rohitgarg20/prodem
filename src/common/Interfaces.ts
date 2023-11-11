@@ -106,6 +106,7 @@ export interface IFormField {
 
 export interface IAddPartForm {
   formData: Record<AddPartFieldKeys, IFormField>
+  editProductId?: number
 }
 
 export interface IAskPartForm {
@@ -185,6 +186,7 @@ export interface IImageItem {
   type?: string
   uri?: string
   index?: any
+  imgUrl?: string
 }
 
 export interface ICameraComponent {
@@ -243,6 +245,12 @@ export interface IProductCardComponent {
   companyLogo: string
   companyName: string
   onPressProductCard?: (productId: number) => void
+  productDescription?: string
+  categoryName?: string
+  subcategoryName?: string
+  subCategoryId?: number
+  productType?: number
+  productSlides?: string[]
 }
 
 export interface IProductDetailScreen {
@@ -259,6 +267,7 @@ export interface IProductDetailScreen {
   createdAt: string
   userMobile: string
   description: string
+  isProductByLoogedInUser: boolean
 }
 
 export interface IProfileOptionItem {

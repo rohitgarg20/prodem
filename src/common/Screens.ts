@@ -31,7 +31,8 @@ export const ScreenNames = {
   ORDER_RECEIVED_DETAIL: 'order_received_detail',
   SPLASH_SCREEN: 'splash_screen',
   ORDER_PLACED_DETAIL_SCREEN: 'order_placed_detail_screen',
-  NOTIFICATION_LIST_SCREEN: 'notification_list_screen'
+  NOTIFICATION_LIST_SCREEN: 'notification_list_screen',
+  SELLER_PRODUCT_LIST_SCREEN: 'seller_product_list_screen'
 }
 
 export const StackNames = {

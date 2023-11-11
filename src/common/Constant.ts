@@ -37,7 +37,8 @@ export const ReducerName = {
   MY_PART_REQUEST_LIST: 'myPartRequestList',
   ORDER_RECEIVED_DETAIL: 'orderReceivedDetail',
   ORDER_PLACED_DETAIL: 'orderPlacedDetail',
-  NOTIFICATION_LIST: 'notificationList'
+  NOTIFICATION_LIST: 'notificationList',
+  SELLER_ADS_REDUCER: 'SellerAdsReducer'
 }
 
 
@@ -265,10 +266,10 @@ export const PROFILE_OPTIONS = [
     key: 'wishlist'
   },
   {
-    label: 'My Part',
+    label: 'My Ads',
     icon: icons.MY_PART,
-    screenToNavigate: '',
-    key: 'my_part'
+    screenToNavigate: ScreenNames.SELLER_PRODUCT_LIST_SCREEN,
+    key: 'my_ads'
   },
   {
     label: 'My Part Request',

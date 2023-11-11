@@ -209,6 +209,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
   }
 
   const renderFooterButtons = () => {
+    if(isEmpty(productDetail) || productDetail?.isProductByLoogedInUser) return null
     return (
       <View style={styles.rowContainer}>
         {renderWishlistButton()}

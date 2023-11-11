@@ -2,10 +2,12 @@
 import { find, get, isNumber } from 'lodash'
 import FastImage from 'react-native-fast-image'
 
+import { BASE_URL } from '../common/ApiConstant'
 import { log } from '../common/config/log'
 import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
-import { showAndroidToastMessage } from '../common/Toast'
 import { SOMETHING_WENT_WRONG } from '../common/ErrorMessages'
+import { showAndroidToastMessage } from '../common/Toast'
+import { Alert } from 'react-native'
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
@@ -176,4 +178,41 @@ export const getOrderStatusLabel = (orderStatus) => {
 export const handleApiFailure = (payload) => {
   const { error } = payload || {}
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+}
+
+export const getSellerProductImagesUrl = (id) => {
+  return `${BASE_URL}imagecache/thumb/uploads__productslides/${id}`
+}
+
+export const getBase64FromImageUrl = async (url: string) => {
+  const data = await fetch(url)
+  const blob = await data.blob()
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(blob)
+    reader.onloadend = () => {
+      const base64data = reader.result
+      resolve(base64data)
+    }
+    reader.onerror = reject
+  })
+}
+
+export const showAlert = (title, heading, onPress, btnTitle) => {
+  Alert.alert(title, heading, [
+    {
+      text: 'Cancel'
+
+    },
+    {
+      text: btnTitle,
+      onPress: () => {
+        onPress()
+      }
+    }
+  ],
+  {
+    cancelable: true
+  }
+  )
 }

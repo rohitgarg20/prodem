@@ -55,7 +55,7 @@ const onProductApiSuccessResponse = (state: IHomeData, { payload }) => {
       quantity: productItem?.product_qty,
       productImage: productItem?.product_image,
       productViews: productItem?.product_views || 0,
-      companyLogo: 'https://bms-market.it/themes/img/platimum.jpg',
+      companyLogo: icons.MY_COMPANY_LOGO,
       companyName: productItem?.company_name,
       categoryId: productItem?.category_id,
       categoryName: productItem?.category_name
