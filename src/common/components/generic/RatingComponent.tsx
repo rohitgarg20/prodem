@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
+import  Animated, { Easing, Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import { ButtonComponent } from './ButtonComponent'
 import { CustomText } from './CustomText'
@@ -8,9 +9,11 @@ import RadioButtonComponent from './RadioButtonComponent'
 import { TextInputComponent } from './TextInputComponent'
 import { scale, verticalScale } from '../../../utils/scaling'
 import { colors, textColor } from '../../Colors'
+import { log } from '../../config/log'
 import { ratingsData } from '../../Constant'
 import { ButtonType } from '../../Enumerators'
 import { showAndroidToastMessage } from '../../Toast'
+import { dimissKeyboard } from '../../App-Utils'
 
 const styles = StyleSheet.create({
   textInputMultine: {
@@ -20,21 +23,42 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingHorizontal: scale(30),
     paddingVertical: 20,
-    borderRadius: 10
+    borderRadius: 10,
+    maxHeight: 450
   },
   ratingDescription: {
     rowGap: 10
   }
 })
 
+const SCROLL_TO = verticalScale(130)
+
 export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating: number, description: string) => void }) => {
 
   const [selectedRating, updateSelectedRating] = useState(-1)
   const [description, updateDescription] = useState('')
-
+  const containerPosition = useSharedValue(1)
   const onChangeRadioButton = (key) => {
     updateSelectedRating(key)
   }
+
+  const keyboardDidHide = useCallback(() => {
+    containerPosition.value = 0
+  }, [containerPosition])
+
+  const keyboardDidShow = useCallback(() => {
+    log('keyboardDidShowkeyboardDidShow')
+    containerPosition.value = 1
+  }, [containerPosition])
+
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    return () => {
+      keyboardDidHideListener.remove()
+      keyboardDidShowListener.remove()
+    }
+  }, [keyboardDidHide, keyboardDidShow])
 
   const renderRatingsAvailable = () => {
     return (
@@ -52,6 +76,7 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
     if(!description.length) {
       showAndroidToastMessage('Description cannot be empty')
     } else {
+      dimissKeyboard()
       submitRating(selectedRating, description)
     }
   }
@@ -60,7 +85,7 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
     return (
       <TextInputComponent
         value={description}
-        multiline={true}
+        // multiline={true}
         onChangeText={updateDescription}
         textInputType='roundedCorners'
         // textContainerStyle = {addPartStyle.textInputField}
@@ -94,10 +119,26 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
     )
   }
 
+  const getContainerStyle = useAnimatedStyle(() => {
+    return {
+      ...styles.ratingContainer,
+      transform: [{
+        translateY: interpolate(
+          containerPosition.value,
+          [0, 1],
+          [0, -SCROLL_TO],
+          Extrapolation.CLAMP
+        )
+      }]
+    }
+  }, [])
+
   return (
-    <View style={styles.ratingContainer}>
+    <Animated.View
+      style={getContainerStyle}
+    >
       {renderRatingsAvailable()}
       {renderRatingDescriptionComponent()}
-    </View>
+    </Animated.View>
   )
 }

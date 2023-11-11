@@ -11,6 +11,7 @@ interface IUserDetails {
   p_user_headquarters_address?: string
   p_user_iban_code?: string
   p_user_lastlogin?: string
+  p_user_photo?: string
 }
 
 interface IUserProfileDetail {

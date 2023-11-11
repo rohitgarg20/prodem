@@ -1,7 +1,8 @@
+/* eslint-disable guard-for-in */
 import { createSlice } from '@reduxjs/toolkit'
 import { get } from 'lodash'
 
-import { API_STATUS_CODE } from '../../common/ApiConstant'
+import { API_STATUS_CODE, BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
 import {  ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
@@ -29,6 +30,9 @@ const onProfileDataApiSuccessReducer = (state: IUserProfileDetail, { payload }) 
   const userData = { }
   for(let key in userDetails) {
     userData[key] = (userDetails[key] === 'undefined' || !userDetails[key]) ? '' : userDetails[key]
+    if(key === 'p_user_photo') {
+      userData[key] = `${BASE_URL}imagecache/thumb/uploads__profile-photo/400x400/${userDetails[key]}`
+    }
   }
 
   log('*** userData userData : ', userData)

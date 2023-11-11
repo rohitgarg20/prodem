@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
-import { ToastAndroid } from 'react-native'
+import { Keyboard, ToastAndroid } from 'react-native'
 
 import { ACTION_NAME, FIELD_TYPE, INITIAL_DATA_STATE, USER_INFO_KEYS } from './EditProfileConstant'
+import { genericDrawerController } from '../../../common/components/ModalComponent/GenericModalController'
 import { log } from '../../../common/config/log'
-import { updateUserDetailsApi } from '../../../redux/profile/ProfileApi'
+import { IDropDownItem } from '../../../common/Interfaces'
+import { fetchCityApi, fetchCountryApi, updateUserDetailsApi, updateUserNameApi } from '../../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../../store/DataStore'
+import { goBack } from '../../../utils/navigation-utils'
+import { showAndroidToastMessage } from '../../../common/Toast'
 
 const initialState: State = {
   dataList: [...INITIAL_DATA_STATE]
@@ -30,7 +34,7 @@ const reducer = (currentState: State, action: Dispatcher) => {
   return currentState
 }
 
-const useNewInsuranceTrackScreenViewController = () => {
+const useNewInsuranceTrackScreenViewController = (navigation) => {
   const [state, updateState]: [State, (value: Dispatcher) => void] = useReducer(
     reducer,
     initialState,
@@ -46,10 +50,47 @@ const useNewInsuranceTrackScreenViewController = () => {
         return item
       })
 
-      log('newState  : ', newState)
+      log('newState  1 : ', newState)
 
       updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     }
+  }, [])
+
+
+  const fetchCountryCityData = async() => {
+    Promise.all([fetchCountryApi(), fetchCityApi()]).then((responseArray: any[]) => {
+      const cityList = responseArray?.[1]?.data?.cityList || []
+      const countryList = responseArray[0]?.data?.country?.map(item => {
+        return {
+          id: item?.country_id || '',
+          value: item?.country_name || ''
+        }
+      }) || []
+
+      const newState = state.dataList?.map((item) => {
+        if(item.key === USER_INFO_KEYS.COUNTRY) {
+          return {
+            ...item,
+            optionList: countryList
+          }
+        }
+
+        if(item.key === USER_INFO_KEYS.CITY) {
+          return {
+            ...item,
+            optionList: cityList
+          }
+        }
+        return item
+      })
+      log('newState  2 : ', newState)
+      updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
+    })
+
+  }
+
+  useEffect(() => {
+    fetchCountryCityData()
   }, [])
 
 
@@ -78,24 +119,25 @@ const useNewInsuranceTrackScreenViewController = () => {
   const getUserDataForApi = () => {
     const data = {}
     state.dataList?.map((item) => {
-      if (item.key === USER_INFO_KEYS.COUNTRY ||
-        item.key === USER_INFO_KEYS.LEGAL_ENTITY ||
-        item.key === USER_INFO_KEYS.CIF_WHICH ||
-        item.key === USER_INFO_KEYS.PREFERENCES) {
-        // do nothing as they are not supported yet
-      } else {
-        const keyName = item.key
-        data[keyName] = item.value
-      }
+      const keyName = item.key
+      data[keyName] = item.value
     })
     return data
   }
 
   const onSubmit = async () => {
+    Keyboard.dismiss()
     const isValidForm = validateForm()
     if (isValidForm) {
-      const userDetails = getUserDataForApi()
-      updateUserDetailsApi(userDetails)
+      const userDetailsForApi: any = getUserDataForApi()
+      log('userDetailsuserDetailsuserDetails is = ', userDetailsForApi)
+      updateUserNameApi((userDetailsForApi?.p_user_name || ''))
+      updateUserDetailsApi(userDetailsForApi).then((resp) => {
+        showAndroidToastMessage('User profile updated successfully')
+        goBack(navigation)
+      }).catch(() => {
+        showAndroidToastMessage('Error while updating profile')
+      })
     } else {
       ToastAndroid.show('Please Fill Form Correctly', ToastAndroid.SHORT)
 
@@ -117,12 +159,30 @@ const useNewInsuranceTrackScreenViewController = () => {
     })
   }, [])
 
+  const updateDropDownValue = useCallback((dropDownItem: IDropDownItem, actionName: string) => {
+    genericDrawerController.closeGenericDrawerModal()
+
+    if(actionName === ACTION_NAME.UPDATE_COUNTRY) {
+      const currentValue = state.dataList.find(item => item?.key === USER_INFO_KEYS.COUNTRY)?.value
+      const newValue = dropDownItem.id
+      if(currentValue != newValue) {
+        // reset city also
+      }
+    }
+
+    updateState({
+      type: actionName,
+      payload: dropDownItem.id
+    })
+  }, [])
+
   return {
     dataList: state.dataList,
     updateState,
     onSubmit,
     updateTextValue,
-    updateRadioButtonValue
+    updateRadioButtonValue,
+    updateDropDownValue
   }
 }
 

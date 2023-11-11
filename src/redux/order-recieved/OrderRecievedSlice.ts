@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { find, get, map } from 'lodash'
 
+import { onSuccessOrderStatusApiReducer } from './OrderReceivedDetailSlice'
 import { log } from '../../common/config/log'
 import { OrderReceivedTypeList, OrderType, ReducerName } from '../../common/Constant'
 import { IOrderReceivedCardComponent } from '../../common/Interfaces'
@@ -60,6 +61,16 @@ export const orderRecievedSlice = createSlice({
     onChangeSelectedOrderTypeReducer: onChangeSelectedOrderType,
     onOrderRecievedApiFailureReducer: onOrderRecievedApiFailure,
     resetReducerData: resetData
+  },
+  extraReducers: (builder) => {
+    builder.addCase(onSuccessOrderStatusApiReducer.type, (state, action) => {
+      const orderId = get(action, 'payload.extraParams.orderId')
+      const statusId = get(action, 'payload.extraParams.status')
+      const filterProductList = state.orderRecievedList?.filter(orderItem => {
+        return (orderItem.orderId !== orderId) || (orderItem.orderId === orderId && orderItem.statusId === statusId)
+      })
+      state.orderRecievedList = filterProductList
+    })
   }
 })
 

@@ -86,11 +86,20 @@ const onRemarksApiSuccess = (state: IOrderReceivedDetailState, { payload }) => {
 }
 
 const onSuccessOrderStatusApi = (state: IOrderReceivedDetailState, { payload }) => {
-  log('onRemarksApiSuccessonRemarksApiSuccess', payload)
   genericDrawerController.closeGenericDrawerModal()
-  showAndroidToastMessage('Ratings submitted successfully')
-  // state.orderDetails = undefined
-  // state.selectedStatusItem = {}
+  log('onRemarksApiSuccessonRemarksApiSuccess', payload)
+  const orderId = get(payload, 'extraParams.orderId', '')
+  const status = get(payload, 'extraParams.status', '')
+  let orderDetails = state.orderDetails as IOrderReceivedDetail
+  if(state.orderDetails?.orderId === orderId) {
+    orderDetails.statusId = status
+    orderDetails.displayStatus = getOrderStatusLabel(status)
+    state.selectedStatusItem = {
+      id: status,
+      value: getOrderStatusLabel(status)
+    }
+    state.orderDetails = orderDetails
+  }
 }
 
 

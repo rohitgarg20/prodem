@@ -5,6 +5,7 @@ import { ReducerName } from '../../common/Constant'
 import { INotificationDetail } from '../../common/Interfaces'
 import { handleApiFailure } from '../../utils/app-utils'
 import { log } from '../../common/config/log'
+import { onHomeApiSuccessReducer } from '../home/HomeSlice'
 
 interface INotificationState {
   notificationData?: {
@@ -92,6 +93,12 @@ export const notificationSlice = createSlice({
     onMarkReadNotificationActionReducer: onMarkReadNotificationAction,
     onMarkReadNotificationActionApiFailureReducer: onMarkReadNotificationActionApiFailure,
     onNotificationListApiFailureReducer: onNotificationListApiFailure
+  },
+  extraReducers: (builder) => {
+    builder.addCase(onHomeApiSuccessReducer, (state, action) => {
+      log('payloadpayloadpayloadpayload notificationSlice', action)
+      state.totalNotificationCount = get(action, 'payload.responseData.data.notificationCounter', 0)
+    })
   }
 })
 

@@ -49,6 +49,7 @@ export interface IIconButtonWrapper extends IconWrapperComponent {
   onPressIcon: () => void
   buttonContainerStyle?: StyleProp<ViewStyle>
   isDisabled?: boolean
+  hitSlopTouchable?: number
 }
 
 export interface ICrossButtonComponent extends IIconButtonWrapper {

@@ -24,7 +24,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation()
 
   const onRefreshButtonPressed = () => {
-    fetchUserProfileData(false)
+    fetchUserProfileData(true)
   }
 
   const onEditInfoPressed = () => {

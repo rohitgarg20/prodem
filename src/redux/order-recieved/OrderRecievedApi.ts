@@ -89,9 +89,14 @@ export const changeOrderStatus = ({
       showLoaderOnScreen: true,
       onSuccess: onSuccessOrderStatusApiReducer.type,
       onFailure: onFailureApiResponseReducer.type,
-      body: formData
+      body: formData,
+      extraParams: {
+        orderId,
+        status
+      }
     })
     try {
+      showAndroidToastMessage('Status of order updated successfully')
       resolve(apiResponse)
     } catch(err) {
       reject(err)

@@ -36,6 +36,7 @@ export const colors = {
   lightPink: '#FB9883',
   lightOrangeBackground: '#e8c29b',
   error: 'red',
-  blue: '#005FBF'
+  blue: '#005FBF',
+  lightGreen: '#41f54a'
 }
 

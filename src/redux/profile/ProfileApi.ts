@@ -2,6 +2,7 @@ import { onProfileDataApiInitiate, onProfileDataApiSuccess, onProfileDataApiFail
   updateUserName, onProfileUpdateApiFailed, logoutUserFailureReducer, logoutUserSuccessReducer } from './ProfileSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
+import { showAndroidToastMessage } from '../../common/Toast'
 
 export const fetchUserProfileData = (showLoaderOnScreen = true) => {
 
@@ -19,14 +20,21 @@ export const fetchUserProfileData = (showLoaderOnScreen = true) => {
 export const updateUserNameApi = (name) => {
   const formData = new FormData()
   formData.append('name', name)
-  apiDispatch({
-    endPoint: API_END_POINT.UPDATE_USER_NAME,
-    method: 'POST',
-    body: formData,
-    onStart: '',
-    onSuccess: updateUserName.type,
-    onFailure: onProfileUpdateApiFailed.type,
-    showLoaderOnScreen: true
+  return new Promise((resolve, reject) => {
+    const apiResp = apiDispatch({
+      endPoint: API_END_POINT.UPDATE_USER_NAME,
+      method: 'POST',
+      body: formData,
+      onStart: '',
+      onSuccess: updateUserName.type,
+      onFailure: onProfileUpdateApiFailed.type,
+      showLoaderOnScreen: true
+    })
+    try {
+      resolve(apiResp)
+    }catch(err) {
+      reject(err)
+    }
   })
 }
 
@@ -37,14 +45,23 @@ export const updateUserPasswordApi = ({
   const formData = new FormData()
   formData.append('current_password', currentPassword)
   formData.append('new_password', newPassword)
-  apiDispatch({
-    endPoint: API_END_POINT.UPDATE_PASSWORD,
-    method: 'POST',
-    body: formData,
-    onStart: '',
-    onSuccess: '',
-    onFailure: onProfileUpdateApiFailed.type,
-    showLoaderOnScreen: true
+  return new Promise((resolve, reject) => {
+    const apiResp = apiDispatch({
+      endPoint: API_END_POINT.UPDATE_PASSWORD,
+      method: 'POST',
+      body: formData,
+      onStart: '',
+      onSuccess: '',
+      onFailure: onProfileUpdateApiFailed.type,
+      showLoaderOnScreen: true
+    })
+    try {
+      resolve(apiResp)
+      showAndroidToastMessage('Password updated successfully')
+    }catch(err) {
+      showAndroidToastMessage('Errow while updating password')
+      reject(err)
+    }
   })
 }
 
@@ -54,13 +71,57 @@ export const updateUserDetailsApi = (userDetails) => {
     formData.append(key, userDetails[key])
   }
 
+  return new Promise((resolve, reject) => {
+    const apiResp = apiDispatch({
+      endPoint: API_END_POINT.UPDATE_USER_INFO,
+      method: 'POST',
+      body: formData,
+      onStart: '',
+      onSuccess: onProfileDataApiSuccess.type,
+      onFailure: onProfileUpdateApiFailed.type,
+      showLoaderOnScreen: true
+    })
+    try {
+      resolve(apiResp)
+    } catch(err) {
+      reject(err)
+    }
+  })
+}
+
+export const updateUserProfilePhotoApi = (photoBase64) => {
+  const formData = new FormData()
+  formData.append('photo_base64', photoBase64)
+
   apiDispatch({
-    endPoint: API_END_POINT.UPDATE_USER_INFO,
+    endPoint: API_END_POINT.UPDATE_PROFILE_PHOTO,
     method: 'POST',
     body: formData,
     onStart: '',
     onSuccess: onProfileDataApiSuccess.type,
     onFailure: onProfileUpdateApiFailed.type,
+    showLoaderOnScreen: true
+  })
+}
+
+export const fetchCountryApi = async () => {
+  return await apiDispatch({
+    endPoint: API_END_POINT.FETCH_PART_REQUEST_FILTER_LIST,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
+    showLoaderOnScreen: true
+  })
+}
+
+export const fetchCityApi = async () => {
+  return await apiDispatch({
+    endPoint: API_END_POINT.CITY_API,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
     showLoaderOnScreen: true
   })
 }

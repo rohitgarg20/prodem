@@ -66,7 +66,11 @@ export const ProfileNameEditScreen = () => {
 
   const onSaveUserNamePressed = () => {
     if(userName) {
-      updateUserNameApi(userName)
+      updateUserNameApi(userName).then(() => {
+        showAndroidToastMessage('User name updated successfully')
+      }).catch((err) => {
+        showAndroidToastMessage('Error while updating user name')
+      })
     } else {
       showAndroidToastMessage(NAME_MIN_LENGTH_INVALID)
     }

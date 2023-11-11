@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { map } from 'lodash'
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { useSelector } from 'react-redux'
 
 import { colors, textColor } from '../../common/Colors'
 import { CustomText, IconButtonWrapperComponent, IconWrapper } from '../../common/components'
 import { BottomModalPopup } from '../../common/components/generic/BottomModalPopup'
+import { logoutAlert } from '../../common/components/Logout'
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { CameraComponent } from '../../common/components/screens/camera/CameraComponent'
 import { ImagePickerComponent } from '../../common/components/screens/image-picker/ImagePickerComponent'
@@ -15,13 +17,12 @@ import { PICTURE_OPTIONS_KEY, PROFILE_OPTIONS } from '../../common/Constant'
 import { bottomModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
 import { IImageItem, IProfileOptionItem } from '../../common/Interfaces'
-import { ScreenNames, StackNames } from '../../common/Screens'
-import { fetchUserProfileData } from '../../redux/profile/ProfileApi'
+import { ScreenNames } from '../../common/Screens'
+import { updateUserProfilePhotoApi } from '../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../redux/profile/ProfileSelector'
-import { useAppSelector } from '../../store/DataStore'
-import { navigateSimple, replaceNavigation } from '../../utils/navigation-utils'
+import { RootState, useAppSelector } from '../../store/DataStore'
+import { navigateSimple } from '../../utils/navigation-utils'
 import { scale, verticalScale } from '../../utils/scaling'
-import { logoutAlert } from '../../common/components/Logout'
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -104,6 +105,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: scale(10),
     top: verticalScale(15)
+  },
+  notificationCountContainer: {
+    height: 30,
+    width: 30,
+    borderRadius: 20,
+    backgroundColor: colors.lightGreen,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
@@ -112,7 +121,7 @@ export const AccountScreen = ({ navigation }) => {
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
   const userData = useAppSelector(getUserDetailsSelector)
-
+  const notificationCount = useSelector((state: RootState) => state.notificationReducer.totalNotificationCount) || 0
   // useEffect(() => {
   //   fetchUserProfileData()
   // }, [])
@@ -158,6 +167,7 @@ export const AccountScreen = ({ navigation }) => {
         onPressIcon={openSelectUserImagePopup}
         buttonContainerStyle={styles.selectImageButton}
         tintColor={colors.primary}
+        hitSlopTouchable={15}
       />
     )
   }
@@ -166,7 +176,7 @@ export const AccountScreen = ({ navigation }) => {
     return (
       <View style={styles.selectPhotoContainer}>
         <IconWrapper
-          iconSource={icons.PROFILE_BIGGER_CIRCLE}
+          iconSource={ userData?.p_user_photo ||  icons.PROFILE_BIGGER_CIRCLE}
           iconHeight={100}
           iconWidth={100}
           style={styles.profileIcon}
@@ -254,8 +264,20 @@ export const AccountScreen = ({ navigation }) => {
     )
   }
 
+  const renderNotificationCount = () => {
+    return (
+      <View style={styles.notificationCountContainer}>
+        <CustomText
+          text={notificationCount.toString()}
+          fontSize={14}
+          color={textColor.white}
+          fontWeight='400'
+        />
+      </View>
+    )
+  }
 
-  const renderProfileIconWithNameContainer = (icon, label) => {
+  const renderProfileIconWithNameContainer = (icon, label, key) => {
     return (
       <View style={styles.profileIconWithNameContainer}>
         <IconWrapper
@@ -269,6 +291,7 @@ export const AccountScreen = ({ navigation }) => {
           fontSize={16}
           color={textColor.midnightMoss}
         />
+        {key === 'notifications' && renderNotificationCount()}
       </View>
     )
   }
@@ -301,7 +324,7 @@ export const AccountScreen = ({ navigation }) => {
         style={styles.optionRowContainer}
         onPress={() => navigateToDedicatedScreen(screenToNavigate)}
       >
-        {renderProfileIconWithNameContainer(icon, label)}
+        {renderProfileIconWithNameContainer(icon, label, key)}
         {renderArrowContainer()}
       </Pressable>
     )
@@ -328,7 +351,8 @@ export const AccountScreen = ({ navigation }) => {
 
   const onSavePicture = ({ images }: { images: IImageItem[] }) => {
 
-    // log('onSavePictureonSavePicture', images)
+
+    updateUserProfilePhotoApi(images[0].base64)
     // dispatch({
     //   type: onSelectImagesReducer.type,
     //   payload: {

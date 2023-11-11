@@ -11,7 +11,7 @@ import { log } from '../../../common/config/log'
 import { WINNING_BIDS_TOP_BAR_KEYS } from '../../../common/Constant'
 import { WINNING_BID_SCREEN } from '../../../common/strings'
 import { fetchWinningBidApiData } from '../../../redux/winning-bid/WinningBidApi'
-import { getWinningBidDataListSelector } from '../../../redux/winning-bid/WinningBidSelector'
+import { getWinningBidDataFetchingStatusSelector, getWinningBidDataListSelector } from '../../../redux/winning-bid/WinningBidSelector'
 import { resetWinningBidDataReducer } from '../../../redux/winning-bid/WinningBidSlice'
 import { store, useAppDispatch, useAppSelector } from '../../../store/DataStore'
 
@@ -20,6 +20,7 @@ const { HEADER_TITLE } = WINNING_BID_SCREEN
 const WinningBidScreen = () => {
   const [selectedType, updateSelectedType] = useState(WINNING_BIDS_TOP_BAR_KEYS[0].key)
   const winningBidList = useAppSelector(getWinningBidDataListSelector(selectedType))
+  const isLoading = useAppSelector(getWinningBidDataFetchingStatusSelector(selectedType))
 
   log('winningBidList : ', winningBidList)
   const dispatch = useAppDispatch()
@@ -48,7 +49,7 @@ const WinningBidScreen = () => {
       dataList={WINNING_BIDS_TOP_BAR_KEYS}
       onItemChanged={onSelectedTabChanged}
     />
-    <FlatList
+    {isLoading ? null : <FlatList
       key={selectedType}
       data={winningBidList}
       renderItem={({item}) => <BidItemContainer item={item}/>}
@@ -56,7 +57,7 @@ const WinningBidScreen = () => {
       removeClippedSubviews={false}
       ListEmptyComponent={() => <EmptyScreenComponent />}
       contentContainerStyle={styles.flatListContainer}
-    />
+    />}
   </View>
 
 }
