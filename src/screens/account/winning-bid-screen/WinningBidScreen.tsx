@@ -21,6 +21,7 @@ const WinningBidScreen = () => {
   const [selectedType, updateSelectedType] = useState(WINNING_BIDS_TOP_BAR_KEYS[0].key)
   const winningBidList = useAppSelector(getWinningBidDataListSelector(selectedType))
   const isLoading = useAppSelector(getWinningBidDataFetchingStatusSelector(selectedType))
+  const windowSize = winningBidList.length > 50 ? winningBidList.length / 4 : 21;
 
   log('winningBidList : ', winningBidList)
   const dispatch = useAppDispatch()
@@ -54,9 +55,12 @@ const WinningBidScreen = () => {
       data={winningBidList}
       renderItem={({item}) => <BidItemContainer item={item}/>}
       keyExtractor={item => item.bidId || ''}
-      removeClippedSubviews={false}
       ListEmptyComponent={() => <EmptyScreenComponent />}
       contentContainerStyle={styles.flatListContainer}
+      removeClippedSubviews={true}
+      // decelerationRate="fast"
+      maxToRenderPerBatch={windowSize} 
+      windowSize={windowSize}
     />}
   </View>
 
