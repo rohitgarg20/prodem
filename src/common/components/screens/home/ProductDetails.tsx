@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { textColor } from '../../../Colors'
+import { SCREEN_WIDTH } from '../../../Constant'
 import { icons } from '../../../Icons'
 import { CustomText, IconWrapper } from '../../generic'
 
@@ -20,7 +21,9 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flexDirection: 'row',
-    columnGap: 15
+    columnGap: 15,
+    flex: 1,
+    width: '100%'
   },
   productViewsContainer: {
     flexDirection: 'row',
@@ -64,12 +67,15 @@ export const ProductDetails = ({
 
   const renderProductName = () => {
     return (
-      <CustomText
-        text={productName}
-        fontSize={18}
-        color = {textColor.black}
-        fontWeight="bold"
-      />
+      <View style={{
+        maxWidth: SCREEN_WIDTH * 0.6
+      }}>
+        <CustomText
+          text={productName}
+          fontSize={18}
+          color = {textColor.black}
+        />
+      </View>
 
     )
   }
@@ -79,8 +85,8 @@ export const ProductDetails = ({
       <CustomText
         text={displayPrice}
         fontSize={16}
-        color = {textColor.stormGrey}
-        fontWeight="600"
+        color = {textColor.red}
+        fontWeight="500"
       />
 
     )
@@ -104,8 +110,8 @@ export const ProductDetails = ({
       <CustomText
         text={`${productViews} Views`}
         fontSize={16}
-        color = {textColor.stormGrey}
-        fontWeight="400"
+        color = {textColor.lightBlack}
+        // fontWeight="600"
         textStyle={styles.productCount}
       />
     )

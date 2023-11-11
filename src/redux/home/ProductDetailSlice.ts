@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { findIndex, get } from 'lodash'
+import { find, findIndex, get, isEmpty } from 'lodash'
 
 import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { IProductDetailScreen } from '../../common/Interfaces'
+import { CART_MESSAGES, WISHLIT_MESSAGES } from '../../common/strings'
+import { showAndroidToastMessage } from '../../common/Toast'
 import { getFormattedDate, getProductIdFromPayload, getProductType } from '../../utils/app-utils'
 import { onAddNewProductInCartReducer, onRemoveProductFromCartReducer } from '../cart/CartSlice'
-import { showAndroidToastMessage } from '../../common/Toast'
-import { CART_MESSAGES } from '../../common/strings'
+import { onAddNewProductInWishListReducer, onRemoveProductFromWishListReducer } from '../wishlist/WishlistSlice'
 
 
 interface IProductDetail {
@@ -43,7 +44,8 @@ const onProductDetailApiSuccessResponse = (state: IProductDetail, { payload }) =
     type: getProductType(productDetails?.product_type),
     brand: productDetails?.company_name,
     createdAt: getFormattedDate(productDetails?.product_created_at),
-    userMobile: productDetails?.p_user_mobile
+    userMobile: productDetails?.p_user_mobile,
+    description: productDetails?.product_details || ''
   }
   state.productDetail = formattedProductDetail
   state.isProductInWishlist = productDetails?.user_wishlist_product_id === productId
@@ -67,20 +69,53 @@ export const productDetailSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(onAddNewProductInCartReducer, (state, action: any) => {
-      const { requestData } = action?.payload || {}
-      const productId = getProductIdFromPayload(requestData)
-      if(productId === state?.productDetail?.productId) {
-        state.isProductInCart = true
-        showAndroidToastMessage(CART_MESSAGES.ITEM_SUCCESS)
+      const { responseData } = action?.payload || {}
+      log('extraReducersextraReducers', state, action)
+      if(!isEmpty(state?.productDetail?.productId)) {
+        const addedProductDetail = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId)
+        if(!isEmpty(addedProductDetail)) {
+          state.isProductInCart = true
+          showAndroidToastMessage(CART_MESSAGES.ITEM_SUCCESS)
+        } else {
+          showAndroidToastMessage(CART_MESSAGES.FAILURE)
+        }
       }
     })
     builder.addCase(onRemoveProductFromCartReducer, (state, action: any) => {
-      const { requestData } = action?.payload || {}
-      const productId = getProductIdFromPayload(requestData)
-      if(productId === state?.productDetail?.productId) {
-        state.isProductInCart = false
-        showAndroidToastMessage(CART_MESSAGES.REMOVE_SUCCESS)
+      log('extraReducersextraReducers', state, action)
+      const { requestData, responseData } = action?.payload || {}
+      const productRemovedFromCart = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId)
+      if(!isEmpty(state?.productDetail?.productId)) {
+        if(isEmpty(productRemovedFromCart)) {
+          state.isProductInCart = false
+          showAndroidToastMessage(CART_MESSAGES.REMOVE_SUCCESS)
+        } else {
+          showAndroidToastMessage(CART_MESSAGES.FAILURE_REMOVE)
+        }
       }
+    })
+    builder.addCase(onAddNewProductInWishListReducer, (state, action: any) => {
+      const { responseData } = action?.payload || {}
+      log('extraReducersextraReducers', state, action)
+      const isAddedInWishlist = get(responseData, 'data.wishlistDetails.user_wishlist_product_id', '').toString() === (state?.productDetail?.productId || '')?.toString()
+      if(isAddedInWishlist) {
+        state.isProductInWishlist = true
+        showAndroidToastMessage(WISHLIT_MESSAGES.ITEM_SUCCESS)
+      } else {
+        showAndroidToastMessage(WISHLIT_MESSAGES.FAILURE)
+      }
+    })
+    builder.addCase(onRemoveProductFromWishListReducer, (state, action: any) => {
+      const { responseData } = action?.payload || {}
+      state.isProductInWishlist = false
+      showAndroidToastMessage(WISHLIT_MESSAGES.REMOVE_SUCCESS)
+      // const isRemovedFromWishlist = get(responseData, 'data.wishlistDetails.user_wishlist_product_id', '').toString() === (state?.productDetail?.productId || '')?.toString()
+      // if(isRemovedFromWishlist) {
+      //   state.isProductInWishlist = false
+      //   showAndroidToastMessage(WISHLIT_MESSAGES.REMOVE_SUCCESS)
+      // } else {
+      //   showAndroidToastMessage(WISHLIT_MESSAGES.FAILURE_REMOVE)
+      // }
     })
   }
 })

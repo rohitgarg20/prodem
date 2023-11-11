@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { styles } from './styles'
 import { colors, textColor } from '../../common/Colors'
 import { ButtonComponent, CenterModalPopup, CustomText, IconWrapper, LabelWithArrowComponent, SpacerComponent, SubmitRatingComponent, TextInputComponent } from '../../common/components'
+import EmptyScreenComponent from '../../common/components/generic/EmptyScreenComponent'
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { HeaderComponent } from '../../common/components/screens'
 import { DropDownListComponent } from '../../common/components/screens/dropdown/DropDownListComponent'
@@ -31,6 +32,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
   const { route } = props
   const dispatch = useDispatch()
   const orderDetails = useSelector((state: RootState) => state.OrderReceivedDetailReducer.orderDetails)
+  const isFetching = useSelector((state: RootState) => state.OrderReceivedDetailReducer.isFetching)
   const selectedDropDownItem = useSelector((state: RootState) => state.OrderReceivedDetailReducer.selectedStatusItem)
 
   useEffect(() => {
@@ -44,10 +46,14 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
   }, [route, dispatch])
 
   const {
-    orderDate, orderNo, orderPrice, itemPrice, quantity, delieveryCost, productName,
+    orderDate, orderNo, orderPrice, itemPrice, quantity, deliveryCost, productName,
     productImage = '', address, buyerEmail, buyerMobile, buyerName, orderId, vendorRemarks
   } = orderDetails || {}
   const [sellerNote, updateSellerNotes] = useState(vendorRemarks)
+
+  useEffect(() => {
+    updateSellerNotes(vendorRemarks)
+  }, [vendorRemarks])
 
   const renderQtyWithPrice = () => {
     const dispValue = itemPrice + ' X ' + quantity
@@ -110,8 +116,8 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         text={productName}
         fontSize={14}
         color={textColor.lightBlack}
-        numberOfLines={3}
-        ellipsizeMode='tail'
+        // numberOfLines={3}
+        // ellipsizeMode='tail'
         textStyle={styles.productName}
       />
     )
@@ -142,7 +148,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainerFlexEnd}>
         <CustomText
-          text={'Product cost:'}
+          text={'Final Amount:'}
           fontSize={15}
           fontWeight="bold"
           color={textColor.black}
@@ -168,7 +174,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
           color={textColor.black}
         />
         <CustomText
-          text={delieveryCost}
+          text={deliveryCost}
           fontSize={15}
           color={textColor.black}
         />
@@ -201,13 +207,13 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
       <View style={styles.iconWithLabelContainer}>
         <IconWrapper
           iconSource={icon}
-          iconHeight={15}
-          iconWidth={15}
+          iconHeight={16}
+          iconWidth={16}
           tintColor={tintColor}
         />
         <CustomText
           text={label}
-          fontSize={14}
+          fontSize={16}
           color={colorText}
         />
       </View>
@@ -219,12 +225,13 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
       <View>
         <CustomText
           text={'Delivery Address'}
-          fontSize={14}
-          color={textColor.mediumGrey}
+          fontSize={16}
+          color={textColor.black}
+          fontWeight='bold'
         />
         <CustomText
           text={address}
-          fontSize={14}
+          fontSize={16}
           color={textColor.mediumGrey}
         />
       </View>
@@ -418,6 +425,15 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     )
   }
 
+  const renderTotalPriceContainer = ()=> {
+    return (
+      <View style={styles.totalPriceContainer}>
+        {renderDeliveryCost()}
+        {renderTotalCost()}
+      </View>
+    )
+  }
+
   const renderContentContainer = () => {
     return (
       <ScrollView style={styles.contentContainer}
@@ -426,8 +442,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         {renderProductNameWithImage()}
         {renderQtyWithPrice()}
         <SpacerComponent style={styles.priceSeperator} />
-        {renderTotalCost()}
-        {renderDeliveryCost()}
+        {renderTotalPriceContainer()}
         {renderCarDetails()}
         {renderDeliveryInformation()}
         {renderSellerNotes()}
@@ -436,7 +451,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
       </ScrollView>
     )
   }
-
+  log('isEmpty(orderDetails) && !isFetching', isEmpty(orderDetails), !isFetching)
 
   return (
     <View style={styles.container}>
@@ -445,6 +460,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         title={'Order Detail'}
       />
       { !isEmpty(orderDetails) && renderContentContainer()}
+      { isEmpty(orderDetails) && !isFetching && ( <EmptyScreenComponent /> ) }
     </View>
   )
 }

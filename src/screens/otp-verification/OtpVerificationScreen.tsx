@@ -187,7 +187,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
       style={styles.otpContainer}
       contentContainerStyle={styles.scrollViewContainer}
     >
-      <BackButtonComponent />
+      <BackButtonComponent  />
       <SpacerComponent style={styles.backBtnSeperator} />
       {renderIconComponent()}
       {renderHeadingComponent()}

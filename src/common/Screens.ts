@@ -29,8 +29,9 @@ export const ScreenNames = {
   WISHLIST_SCREEN: 'wishlist_screen',
   MY_PART_REQUEST_LIST_SCREEN: 'my_part_request_list_screen',
   ORDER_RECEIVED_DETAIL: 'order_received_detail',
-  SPLASH_SCREEN: 'splash_screen'
-
+  SPLASH_SCREEN: 'splash_screen',
+  ORDER_PLACED_DETAIL_SCREEN: 'order_placed_detail_screen',
+  NOTIFICATION_LIST_SCREEN: 'notification_list_screen'
 }
 
 export const StackNames = {

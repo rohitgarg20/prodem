@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 import { FlashList } from '@shopify/flash-list'
 import { isEmpty } from 'lodash'
@@ -12,10 +12,12 @@ import { RatingCardComponent } from '../../../common/components/screens/ratings/
 import { log } from '../../../common/config/log'
 import { RATINGS_TOP_BAR } from '../../../common/Constant'
 import { IRatingCard, RatingTypes } from '../../../common/Interfaces'
+import { ScreenNames } from '../../../common/Screens'
 import { RATINGS_SCREEN } from '../../../common/strings'
 import { getRatingListData } from '../../../redux/ratings/RatingApi'
 import { onChangeRatingTypeReducer, resetDataReducer } from '../../../redux/ratings/RatingsSlice'
 import { RootState } from '../../../store/DataStore'
+import { navigateSimple } from '../../../utils/navigation-utils'
 
 const { HEADER_TITLE } = RATINGS_SCREEN
 
@@ -48,10 +50,22 @@ export const RatingsScreen = () => {
 
   }
 
+  const navigateToOrderReceivedScreen = useCallback((orderId) => {
+    if(selectedRatingType !== RatingTypes.RECIEVED) {
+      navigateSimple({
+        screenToNavigate: ScreenNames.ORDER_RECEIVED_DETAIL,
+        params: {
+          orderId
+        }
+      })
+    }
+  }, [selectedRatingType])
+
   const renderRatingCardComponent = ({ item }: { item: IRatingCard }) => {
     return (
       <RatingCardComponent
         {...item}
+        navigateToOrderReceivedScreen={navigateToOrderReceivedScreen}
       />
     )
   }

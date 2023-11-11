@@ -10,6 +10,8 @@ import { loaderReducer } from '../redux/LoaderDataStore/LoaderSlice'
 import loginReducer from '../redux/login/LoginSlice'
 import myBidRequestReducer from '../redux/my-bid-request/MyBidRequestSlice'
 import myPartRequestListReducer from '../redux/my-part-request/MyPartRequestListSlice'
+import notificationReducer from '../redux/notification/NotificationSlice'
+import orderPlacedDetailReducer from '../redux/order-placed/OrderPlacedDetailSlice'
 import orderPlacedReducer from '../redux/order-placed/OrderPlacedSlice'
 import OrderReceivedDetailReducer from '../redux/order-recieved/OrderReceivedDetailSlice'
 import OrderRecievedReducer from '../redux/order-recieved/OrderRecievedSlice'
@@ -46,7 +48,9 @@ export const reducers = combineReducers({
   orderPlacedReducer,
   wishListReducer,
   myPartRequestListReducer,
-  OrderReceivedDetailReducer
+  OrderReceivedDetailReducer,
+  orderPlacedDetailReducer,
+  notificationReducer
 })
 
 

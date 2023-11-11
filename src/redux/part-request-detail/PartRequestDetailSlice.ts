@@ -252,6 +252,10 @@ const proposeNewOfferApiFailure = (state: IPartRequestDetail, { payload }) => {
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
 }
 
+const resetData = () => {
+  return initialState
+}
+
 const partRequestDetailSlice = createSlice({
   initialState,
   name: ReducerName.PART_REQUEST_DETAIL,
@@ -267,7 +271,8 @@ const partRequestDetailSlice = createSlice({
     sendMsgBySellerSuccessReducer: sendMsgBySellerSuccess,
     selectBidAsWinningApiSuccessReducer: selectBidAsWinningApiSuccess,
     proposeNewOfferApiSuccessReducer: proposeNewOfferApiSuccess,
-    proposeNewOfferApiFailureReducer: proposeNewOfferApiFailure
+    proposeNewOfferApiFailureReducer: proposeNewOfferApiFailure,
+    resetReducerData: resetData
   }
 })
 
@@ -275,7 +280,7 @@ export const {
   partRequestDetailApiSuccessReducer, onChangeUserInputReducer, onSelectDropDowItemReducer, onFetchedBidOptionsSuccessReducer,
   setActivePartRequestIdReducer, addRemoveProductToIgnoreListReducer, addRemoveProductToWishlistListReducer,
   sendMsgByBuyerSuccessReducer, sendMsgBySellerSuccessReducer, selectBidAsWinningApiSuccessReducer, proposeNewOfferApiSuccessReducer,
-  proposeNewOfferApiFailureReducer
+  proposeNewOfferApiFailureReducer, resetReducerData
 } = partRequestDetailSlice.actions
 
 export default partRequestDetailSlice.reducer

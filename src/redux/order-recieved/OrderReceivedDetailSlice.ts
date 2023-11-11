@@ -8,23 +8,23 @@ import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { IDropDownItem, IOrderReceivedDetail } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { getOrderStatusLabel } from '../../utils/app-utils'
 
 interface IOrderReceivedDetailState {
   orderDetails?: IOrderReceivedDetail
   selectedStatusItem?: IDropDownItem
+  isFetching: Boolean
 }
 
 const initialState: IOrderReceivedDetailState = {
   orderDetails: undefined,
-  selectedStatusItem: {}
+  selectedStatusItem: {},
+  isFetching: true
 }
 
 // order_remark
 // order_vendor_remark
 
-const getOrderStatusLabel = (orderStatus) => {
-  return find(OrderReceivedTypeList, (orderStatusType) => orderStatusType.key === orderStatus)?.label || ''
-}
 
 const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload }) => {
   const orderDetail = get(payload, 'responseData.data.orderDetails', {})
@@ -37,10 +37,10 @@ const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload
     productName: orderDetail?.product_name,
     productId: orderDetail?.product_id,
     orderDate: orderDetail?.product_created_at,
-    orderPrice: orderDetail?.order_price,
-    delieveryCost: orderDetail?.order_delivery_amount,
+    orderPrice: orderDetail?.order_final_amount,
+    deliveryCost: orderDetail?.order_delivery_amount,
     quantity: orderDetail?.product_qty,
-    itemPrice: orderDetail?.product_price,
+    itemPrice: orderDetail?.order_price,
     buyerName: orderDetail?.order_name,
     buyerEmail: orderDetail?.order_phone,
     buyerMobile: orderDetail?.order_email,
@@ -54,6 +54,7 @@ const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload
     id: orderDetail?.order_status,
     value: orderStatusLabel
   }
+  state.isFetching = false
   log('statestatestatestatestate', state)
 }
 
@@ -65,6 +66,7 @@ const onSelectDropDowItem = (state: IOrderReceivedDetailState, { payload }) => {
 const resetFetchedOrderDetail = (state: IOrderReceivedDetailState) => {
   state.orderDetails = undefined
   state.selectedStatusItem = {}
+  state.isFetching = true
 }
 
 const onRatingApiSuccess = (state: IOrderReceivedDetailState, { payload }) => {
@@ -96,6 +98,7 @@ const onFailureApiResponse = (state: IOrderReceivedDetailState, { payload }) => 
   log('onRemaksApiFailureonRemaksApiFailure', payload)
   genericDrawerController.closeGenericDrawerModal()
   const { error } = payload
+  state.isFetching = false
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
   // state.orderDetails = undefined
   // state.selectedStatusItem = {}
@@ -107,6 +110,7 @@ const orderReceivedDetailSlice = createSlice({
   initialState,
   reducers: {
     onFetchedOrderDetailSuccessReducer: onFetchedOrderDetailSuccess,
+    onFetchedOrderDetailFailureReducer: onFailureApiResponse,
     onSelectDropDowItemReducer: onSelectDropDowItem,
     resetFetchedOrderDetailReducer: resetFetchedOrderDetail,
     onRatingApiSuccessReducer: onRatingApiSuccess,
@@ -119,7 +123,7 @@ const orderReceivedDetailSlice = createSlice({
 export const {
   onFetchedOrderDetailSuccessReducer, onSelectDropDowItemReducer, resetFetchedOrderDetailReducer,
   onRatingApiSuccessReducer, onRemarksApiSuccessReducer,
-  onFailureApiResponseReducer, onSuccessOrderStatusApiReducer
+  onFailureApiResponseReducer, onSuccessOrderStatusApiReducer, onFetchedOrderDetailFailureReducer
 } = orderReceivedDetailSlice.actions
 
 export default orderReceivedDetailSlice.reducer

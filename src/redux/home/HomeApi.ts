@@ -1,4 +1,6 @@
-import { onHomeApiFailureResponseReducer, onHomeApiSuccessReducer, onProductApiSuccessResponseReducer } from './HomeSlice'
+import { onHomeApiFailureResponseReducer, onHomeApiSuccessReducer, onProductApiSuccessResponseReducer,
+  updateFetchingStatusReducer, updateFetchingStatusFailureReducer
+} from './HomeSlice'
 import { onProductDetailApiSuccessResponseReducer } from './ProductDetailSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
@@ -15,13 +17,27 @@ export const fetchCategoriesAndBrandData = () => {
 }
 
 export const fetchProductListData = ({
-  categoryId, page, cancelToken
+  categoryId, page, cancelToken, search, signal = undefined, sortBy = ''
+}: {
+  categoryId: any
+  page: number
+  cancelToken: any
+  search: string
+  signal?: any
+  sortBy?: string
 }) => {
 
   const formData = new FormData()
-  formData.append('category', categoryId)
+  if(!!categoryId) {
+    formData.append('category', categoryId)
+  }
   formData.append('page', page)
-  // formData.append('search', 'capac chiulasa')
+  if(search.length) {
+    formData.append('search', search)
+  }
+  if(sortBy.length) {
+    formData.append('sort_by', sortBy)
+  }
   // formData.append('subcategory', 1)
 
   apiDispatch({
@@ -31,7 +47,10 @@ export const fetchProductListData = ({
     body: formData,
     // onFailure: onProductApiSuccessResponse.type ,
     onSuccess: onProductApiSuccessResponseReducer.type,
-    cancelToken
+    onStart: updateFetchingStatusReducer.type,
+    onFailure: updateFetchingStatusFailureReducer.type,
+    cancelToken,
+    signal
   })
 }
 

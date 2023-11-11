@@ -86,7 +86,7 @@ export const setPartRequestListApiSuccess = (state: IPartRequestState, { payload
 }
 
 export const removePartRequestOnLaterOrWishlist = (state: IPartRequestState, { payload }) => {
-  log('state.selectedPartRequestTypestate.selectedPartRequestType', state.selectedPartRequestType)
+  log('state.selectedPartRequestTypestate.selectedPartRequestType', state.selectedPartRequestType, payload)
   if((state.selectedPartRequestType !== 'not-offered') && (state.selectedPartRequestType !== 'alrady-bid')) {
     const partRequestId = get(payload, 'extraParams.partRequestId')
     const selectedPartRequestData = state.partRequestData?.[state.selectedPartRequestType]

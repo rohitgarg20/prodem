@@ -13,10 +13,12 @@ import { getProductIdFromPayload } from '../../utils/app-utils'
 
 interface ICartState {
   cartList?: Record<string, ICartItemComponent>
+  isFetching: boolean
 }
 
 const initialState: ICartState  = {
-  cartList: {}
+  cartList: {},
+  isFetching: true
 }
 
 const cartItemMapper = (cartItem) => {
@@ -50,6 +52,7 @@ const onFetchedCartListSuccess = (state: ICartState, { payload }) => {
   log('cartListDatacartListData', cartListData)
 
   state.cartList = cartListData
+  state.isFetching = false
 }
 
 
@@ -60,13 +63,14 @@ const onAddNewProductInCart = (state: ICartState, { payload }) => {
   log('onAddNewProductInCart', updatedCartList)
   const cartData = find(updatedCartList, (cartItem) => cartItem?.product_id === productId)
   log('onAddNewProductInCart', cartData)
+  if(!isEmpty(cartData)) {
+    const cartDataMapper = cartItemMapper(cartData)
+    log('onAddNewProductInCart', cartDataMapper)
 
-  const cartDataMapper = cartItemMapper(cartData)
-  log('onAddNewProductInCart', cartDataMapper)
-
-  state.cartList = {
-    ...state.cartList,
-    [productId]: cartDataMapper
+    state.cartList = {
+      ...state.cartList,
+      [productId]: cartDataMapper
+    }
   }
   genericDrawerController.closeGenericDrawerModal()
 }

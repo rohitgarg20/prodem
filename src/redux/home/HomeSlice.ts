@@ -11,13 +11,15 @@ interface IHomeData {
   productList: IProductCardComponent[]
   productListPageNumber: number
   productListTotalPage: number
+  isFetching: boolean
 }
 
 const initialState: IHomeData = {
   categories: [],
   productList: [],
   productListPageNumber: 1,
-  productListTotalPage: 0
+  productListTotalPage: 0,
+  isFetching: false
 }
 
 const onHomeApiSuccessResponse = (state: IHomeData, { payload }) => {
@@ -62,13 +64,21 @@ const onProductApiSuccessResponse = (state: IHomeData, { payload }) => {
   state.productList = [...state.productList, ...productList]
   state.productListPageNumber = state.productListPageNumber + 1
   state.productListTotalPage = productData.last_page
-
+  state.isFetching = false
 }
 
 const resetProductListData = (state: IHomeData) => {
   state.productList = []
   state.productListPageNumber = 1
   state.productListTotalPage = 0
+}
+
+const updateFetchingStatus = (state: IHomeData) => {
+  state.isFetching = true
+}
+
+const updateFetchingStatusFailure = (state: IHomeData) => {
+  state.isFetching = false
 }
 
 export const homeSlice = createSlice({
@@ -78,13 +88,15 @@ export const homeSlice = createSlice({
     onHomeApiSuccessReducer: onHomeApiSuccessResponse,
     onHomeApiFailureResponseReducer: onHomeApiFailureResponse,
     onProductApiSuccessResponseReducer: onProductApiSuccessResponse,
-    resetProductListReducer: resetProductListData
+    resetProductListReducer: resetProductListData,
+    updateFetchingStatusReducer: updateFetchingStatus,
+    updateFetchingStatusFailureReducer: updateFetchingStatusFailure
   }
 })
 
 export const {
   onHomeApiSuccessReducer,  onHomeApiFailureResponseReducer, onProductApiSuccessResponseReducer,
-  resetProductListReducer
+  resetProductListReducer, updateFetchingStatusReducer, updateFetchingStatusFailureReducer
 } = homeSlice.actions
 
 export default homeSlice.reducer

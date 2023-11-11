@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 export const OrderRecievedCardComponent = memo((props: IProps) => {
   const { orderRecievedItemData, navigateToOrderDetail } = props
   const {
-    orderNo, orderDate, orderId, orderPrice, productName, displayStatus, delieveryCost
+    orderNo, orderDate, orderId, orderPrice, productName, displayStatus, deliveryCost
   } = orderRecievedItemData
 
 
@@ -63,7 +63,7 @@ export const OrderRecievedCardComponent = memo((props: IProps) => {
   }
 
   const renderTotalPrice = () => {
-    const totalPrice = `${orderPrice} + ${delieveryCost} delivery cost`
+    const totalPrice = `${orderPrice} + ${deliveryCost} delivery cost`
     return (
       <CustomText
         text={totalPrice}

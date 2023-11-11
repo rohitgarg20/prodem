@@ -27,7 +27,7 @@ const onOrderPlacedApiSuccess = (state: IOrderRecievedState, { payload }) => {
       productId: orderRecieveItem?.product_id,
       orderDate: getFormattedDateInDetailFormat(orderRecieveItem?.order_created_at),
       orderPrice: orderRecieveItem?.order_amount,
-      delieveryCost: orderRecieveItem?.order_delivery_amount
+      deliveryCost: orderRecieveItem?.order_delivery_amount
     }
   })
   state.orderPlacedList = formattedOrderRecieved

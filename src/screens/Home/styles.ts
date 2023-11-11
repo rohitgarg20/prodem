@@ -72,16 +72,34 @@ export const productListStyles = StyleSheet.create({
   },
   seperator: {
     height: 20
+  },
+  textSytle: {
+    textDecorationLine: 'underline',
+    textDecorationColor: colors.lightBlack
+  },
+  sortByFilter: {
+    alignItems: 'center'
+  },
+  dropdownContainer: {
+    paddingVertical: 0
+  },
+  dropdownList: {
+    width: '100%',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
   }
 })
 
 export const productDetailStyles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: colors.lightestGrey
+    backgroundColor: colors.blueishCyan
   },
   productDetailContainer: {
     padding: 20
+  },
+  contentStyle: {
+    flex: 1
   },
   wishlistBtnContainer: {
     padding: 10,

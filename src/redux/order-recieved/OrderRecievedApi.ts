@@ -1,7 +1,7 @@
 import { onFetchedOrderDetailSuccessReducer, onRatingApiSuccessReducer,
-  onRemarksApiSuccessReducer, onSuccessOrderStatusApiReducer, onFailureApiResponseReducer
+  onRemarksApiSuccessReducer, onSuccessOrderStatusApiReducer, onFailureApiResponseReducer, onFetchedOrderDetailFailureReducer
 } from './OrderReceivedDetailSlice'
-import { onOrderRecievedApiSuccessReducer } from './OrderRecievedSlice'
+import { onOrderRecievedApiSuccessReducer, onOrderRecievedApiFailureReducer } from './OrderRecievedSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { apiDispatch } from '../../network/DispatchApiCall'
@@ -12,7 +12,8 @@ export const fetchOrderRecievedList = () => {
     endPoint: API_END_POINT.GET_ORDER_RECIEVED_LIST,
     method: 'POST',
     showLoaderOnScreen: true,
-    onSuccess: onOrderRecievedApiSuccessReducer.type
+    onSuccess: onOrderRecievedApiSuccessReducer.type,
+    onFailure: onOrderRecievedApiFailureReducer.type,
   })
 }
 
@@ -24,6 +25,7 @@ export const fetchOrderDetails = (orderId) => {
     method: 'POST',
     showLoaderOnScreen: true,
     onSuccess: onFetchedOrderDetailSuccessReducer.type,
+    onFailure: onFetchedOrderDetailFailureReducer.type,
     body: formData
   })
 }
@@ -43,7 +45,12 @@ export const submitRating = ({
     showLoaderOnScreen: true,
     onSuccess: onRatingApiSuccessReducer.type,
     onFailure: onFailureApiResponseReducer.type,
-    body: formData
+    body: formData,
+    extraParams: {
+      orderId,
+      ratingGiven: ratings,
+      desc
+    }
   })
 }
 

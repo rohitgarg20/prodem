@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     paddingTop: 10
   },
   topPadding: {
-    paddingTop: 10
+    paddingTop: 20
   },
   productName: {
     flex: 1
@@ -75,5 +75,11 @@ export const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     maxWidth: 150
+  },
+  totalPriceContainer: {
+    marginVertical: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: colors.lightBlue
   },
 })

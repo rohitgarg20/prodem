@@ -35,7 +35,9 @@ export const ReducerName = {
   ORDER_PLACED: 'order_placed',
   WISHLIST: 'wishList',
   MY_PART_REQUEST_LIST: 'myPartRequestList',
-  ORDER_RECEIVED_DETAIL: 'orderReceivedDetail'
+  ORDER_RECEIVED_DETAIL: 'orderReceivedDetail',
+  ORDER_PLACED_DETAIL: 'orderPlacedDetail',
+  NOTIFICATION_LIST: 'notificationList'
 }
 
 
@@ -253,7 +255,7 @@ export const PROFILE_OPTIONS = [
   {
     label: 'Notifications',
     icon: icons.NOTIFICATION,
-    screenToNavigate: '',
+    screenToNavigate: ScreenNames.NOTIFICATION_LIST_SCREEN,
     key: 'notifications'
   },
   {
@@ -667,4 +669,15 @@ export const ratingsData = [
     icon: icons.SAD,
     tintColor: '#D00000'
   },
+]
+
+export const sortByFilters = [
+  {
+    id: 'price-asc-asc',
+    value: 'Price (Low to High)'
+  },
+  {
+    id: 'price-desc-desc',
+    value: 'Price (High to Low)'
+  }
 ]

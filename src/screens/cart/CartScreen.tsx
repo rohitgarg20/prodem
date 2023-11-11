@@ -13,6 +13,9 @@ import { CART_SCREEN } from '../../common/strings'
 import { addProductToCart, getCartDetails, removeProductFromCart } from '../../redux/cart/CartApi'
 import { getCartListSelector, getCartData } from '../../redux/cart/CartSelector'
 import { verticalScale } from '../../utils/scaling'
+import { isEmpty } from 'lodash'
+import { RootState } from '../../store/DataStore'
+import EmptyScreenComponent from '../../common/components/generic/EmptyScreenComponent'
 
 
 const { HEADER_TITLE } = CART_SCREEN
@@ -21,7 +24,7 @@ export const CartScreen = () => {
 
   const cartData = useSelector(getCartData)
   const cartList = useSelector(getCartListSelector)
-
+  const isFetching = useSelector((state: RootState) => state.cartReducer.isFetching)
   useEffect(() => {
     getCartDetails()
   }, [])
@@ -67,6 +70,11 @@ export const CartScreen = () => {
   }
 
   const renderCartListComponent = () => {
+    if(isEmpty(cartList) && !isFetching) {
+      return  (
+        <EmptyScreenComponent />
+      )
+    }
     return (
       <FlashList
         contentContainerStyle={cartStyles.cartListContainer}

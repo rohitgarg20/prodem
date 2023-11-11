@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   viewsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   }
 })
@@ -94,8 +94,8 @@ export const ProductItemCardComponent = (props: IProductCardComponent) => {
       <CustomText
         text={displayPrice}
         fontSize={18}
-        color = {textColor.stormGrey}
-        fontWeight="600"
+        color = {colors.lightBlack}
+        fontWeight="400"
       />
 
     )
@@ -150,7 +150,7 @@ export const ProductItemCardComponent = (props: IProductCardComponent) => {
         iconHeight={16}
         iconWidth={16}
         resizeMode='cover'
-        tintColor={textColor.stormGrey}
+        tintColor={textColor.primary}
       />
     )
   }

@@ -54,7 +54,7 @@ export class AxiosRequest {
   }
 
   apiRequest = (request: IAPIRequest) => {
-    const { endPoint, method, body, headers, reqParams = '', baseUrl = BASE_URL, cancelToken = undefined } = request
+    const { endPoint, method, body, headers, reqParams = '', baseUrl = BASE_URL, cancelToken = undefined, signal = undefined } = request
     log('apiRequestapiRequest', cancelToken)
     let reqBody = {}
     if(!isEmpty(body)) {
@@ -71,8 +71,9 @@ export class AxiosRequest {
           ...headers
         },
         url: this.createUrl(endPoint, reqParams),
-        timeout: 1000,
-        cancelToken: cancelToken?.token
+        timeout: 10000,
+        cancelToken: cancelToken?.token,
+        signal
       })
       try {
         resolve(axiosResp)

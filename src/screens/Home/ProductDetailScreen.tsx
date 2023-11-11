@@ -12,6 +12,7 @@ import { ButtonComponent, IconButtonWrapperComponent } from '../../common/compon
 import { OptionIconWithLabelComponent } from '../../common/components/generic/OptionsIconWithLabelComponent'
 import { HeaderComponent } from '../../common/components/screens'
 import { ImageGalleryComponent } from '../../common/components/screens/home/ImageGalleryComponent'
+import { ProductDescriptionComponent } from '../../common/components/screens/home/ProductDescriptionComponent'
 import { ProductDetails } from '../../common/components/screens/home/ProductDetails'
 import { ProductOtherDetailsComponent } from '../../common/components/screens/home/ProductOtherDetailsComponent'
 import { log } from '../../common/config/log'
@@ -22,6 +23,7 @@ import { PRODUCT_DETAIL_SCREEN } from '../../common/strings'
 import { addProductToCart, removeProductFromCart } from '../../redux/cart/CartApi'
 import { fetchProductDetail } from '../../redux/home/HomeApi'
 import { resetProductDetailReducer } from '../../redux/home/ProductDetailSlice'
+import { addProductWishlist, removeProductFromWishlist } from '../../redux/wishlist/WishlistApi'
 import { RootState } from '../../store/DataStore'
 import { goBack } from '../../utils/navigation-utils'
 
@@ -40,13 +42,13 @@ export const ProductDetailScreen = (props: IPDScreen) => {
   const [selectedImageIndex, updateImageIndex] = useState(0)
   const { productDetail, isProductInCart, isProductInWishlist } = productDetailReducer
   const productId = get(routeParams, 'params.productId', 0)
-  let sourceRef = useRef(axios.CancelToken.source())
+  let sourceRef = useRef(axios.CancelToken.source()).current
 
   useEffect(() => {
     let source = axios.CancelToken.source()
     fetchProductDetail({
       productId,
-      cancelToken: sourceRef.current
+      cancelToken: sourceRef
     })
 
     return () => {
@@ -56,7 +58,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
       source.cancel('component unmounted')
     }
 
-  }, [dispatch, productId])
+  }, [dispatch, productId, sourceRef])
 
 
   const onPressBackButton = () => {
@@ -129,6 +131,17 @@ export const ProductDetailScreen = (props: IPDScreen) => {
     )
   }
 
+
+  const renderProductDescriptopn = () => {
+    const { description } = productDetail as IProductDetailScreen
+    return (
+      <ProductDescriptionComponent
+        description={description}
+      />
+    )
+
+  }
+
   const renderContentContainer = () => {
     return (
       <ScrollView contentContainerStyle={styles.productDetailContainer}>
@@ -136,12 +149,24 @@ export const ProductDetailScreen = (props: IPDScreen) => {
         {renderProductGallery()}
         {renderCallButton()}
         {renderOtherDetailsComponent()}
+        {renderProductDescriptopn()}
       </ScrollView>
     )
   }
 
   const onPressWishlist = () => {
-
+    log('isProductInWishlistisProductInWishlist', isProductInWishlist)
+    if(!isProductInWishlist) {
+      addProductWishlist({
+        productId,
+        cancelToken: sourceRef
+      })
+    } else {
+      removeProductFromWishlist({
+        productId,
+        cancelToken: sourceRef
+      })
+    }
   }
 
   const renderWishlistButton = () => {
@@ -161,13 +186,13 @@ export const ProductDetailScreen = (props: IPDScreen) => {
     if(isProductInCart) {
       removeProductFromCart({
         productId,
-        cancelToken: sourceRef.current
+        cancelToken: sourceRef
       })
     } else {
       addProductToCart({
         qty: 1,
         productId,
-        cancelToken: sourceRef.current
+        cancelToken: sourceRef
       })
     }
   }
@@ -191,6 +216,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
       </View>
     )
   }
+
 
   return (
     <View style={styles.mainContainer}>

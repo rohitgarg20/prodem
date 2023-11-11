@@ -1,15 +1,15 @@
 import React, { memo } from 'react'
 
 import { map } from 'lodash'
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
+import { log } from '../../../config/log'
 import { icons } from '../../../Icons'
 import { IRatingCard } from '../../../Interfaces'
 import { RATINGS_SCREEN } from '../../../strings'
 import { CustomText, IconWrapper } from '../../generic'
-import { log } from '../../../config/log'
 
 export const styles = StyleSheet.create({
   ratingCardContainer: {
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
 const { ORDER_NO } = RATINGS_SCREEN
 
 export const RatingCardComponent = memo((props: IRatingCard) => {
-  const { orderNo, ratingDesc, userName, isRatingPending, ratingType, ratingStar, orderDate } = props
+  const { orderNo, ratingDesc, userName, isRatingPending, ratingType, ratingStar, orderDate, navigateToOrderReceivedScreen, orderId } = props
 
   const renderOrderNo = () => {
     const displayLabel = `${ORDER_NO}  ${orderNo}`
@@ -118,11 +118,18 @@ export const RatingCardComponent = memo((props: IRatingCard) => {
     )
   }
 
+  const onPressCard = () => {
+    if(navigateToOrderReceivedScreen) {
+      navigateToOrderReceivedScreen(orderId)
+    }
+  }
+
   return (
-    <View style={styles.ratingCardContainer}>
+    <Pressable style={styles.ratingCardContainer}
+      onPress={onPressCard}>
       {renderOrderNo()}
       {renderDescriptionOrUserName()}
       {renderBottomContainer()}
-    </View>
+    </Pressable>
   )
 })

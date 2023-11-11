@@ -6,6 +6,7 @@ import { ScreenNames } from '../common/Screens'
 import EditProfileScreen from '../screens/account/edit-profile-screen.tsx/EditProfileScreen'
 import MyBidRequestScreen from '../screens/account/my-bid-request-screen/MyBidRequestScreen'
 import { MyPartRequestListScreen } from '../screens/account/my-part-request/MyPartRequestListScreen'
+import { NotificationScreen } from '../screens/account/notification-list-screen/NotificationListScreen'
 import { OrderPlacedListScreen } from '../screens/account/order-placed-list-screen/OrderPlacedListScreen'
 import { OrderRecievedListScreen } from '../screens/account/order-recieved-list-screen/OrderRecievedListScreen'
 import { PartRequestDetailScreen } from '../screens/account/part-request-detail-screen/PartRequestDetailScreen'
@@ -16,6 +17,7 @@ import { RatingsScreen } from '../screens/account/ratings/RatingsScreen'
 import { SubscriptionScreen } from '../screens/account/subscription/SubscriptionScreen'
 import WinningBidScreen from '../screens/account/winning-bid-screen/WinningBidScreen'
 import { WishlistScreen } from '../screens/cart/WishlistScreen'
+import { OrderPlacedDetailScreen } from '../screens/order-placed-detail-screen/OrderPlacedDetailScreen'
 import { OrderReceivedDetailScreen } from '../screens/order-recieved-detail-screen/OrderReceivedDetailScreen'
 
 const Stack = createStackNavigator()
@@ -53,6 +55,10 @@ export const AccountStack = () => {
         component={MyPartRequestListScreen} />
       <Stack.Screen name={ScreenNames.ORDER_RECEIVED_DETAIL}
         component={OrderReceivedDetailScreen} />
+      <Stack.Screen name={ScreenNames.ORDER_PLACED_DETAIL_SCREEN}
+        component={OrderPlacedDetailScreen} />
+      <Stack.Screen name={ScreenNames.NOTIFICATION_LIST_SCREEN}
+        component={NotificationScreen} />
     </Stack.Navigator>
   )
 }

@@ -15,7 +15,7 @@ import { getSelectedPartRequestType } from '../../../redux/part-request/PartRequ
 import { removePartRequestOnLaterOrWishlistReducer } from '../../../redux/part-request/PartRequestSlice'
 import { addPartRequestToWishlistApi, fetchPartRequestDetail, ignorePartRequestApi } from '../../../redux/part-request-detail/PartRequestDetailApi'
 import { getBasicDetail, getCompanyDetail, getBiddingList, isWishlistStatusChanged, isRequestIgnoredStatusChanged, isAddedInWishlist, isPartRequestIgnored } from '../../../redux/part-request-detail/PartRequestDetailSelector'
-import { setActivePartRequestIdReducer } from '../../../redux/part-request-detail/PartRequestDetailSlice'
+import { resetReducerData, setActivePartRequestIdReducer } from '../../../redux/part-request-detail/PartRequestDetailSlice'
 import { isPartRequestCancelled, isPartRequestResolved } from '../../../utils/app-utils'
 import { goBack } from '../../../utils/navigation-utils'
 
@@ -55,6 +55,9 @@ export const PartRequestDetailScreen = (props: IProps) => {
       fetchPartRequestDetail({
         productId: partRequestId
       })
+    }
+    return () => {
+      dispatch({ type: resetReducerData.type })
     }
   }, [dispatch, route])
 

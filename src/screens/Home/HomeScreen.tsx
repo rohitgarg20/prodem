@@ -64,7 +64,7 @@ export const HomeScreen = ({ navigation }) => {
     )
   }
 
-  const onPressCategoryCard = (categoryId) => {
+  const onPressCategoryCard = (categoryId = undefined) => {
     navigateSimple({
       navigator: navigation,
       screenToNavigate: ScreenNames.PRODUCT_LIST_SCREEN,
@@ -106,7 +106,7 @@ export const HomeScreen = ({ navigation }) => {
   const renderContentContainer = () => {
     return (
       <View style={homeStyles.contentContainer}>
-        <SearchBarComponent />
+        <SearchBarComponent onPressSearchBar={onPressCategoryCard}/>
         {renderScreenHeadingComponent()}
         {renderCategoriesList()}
       </View>

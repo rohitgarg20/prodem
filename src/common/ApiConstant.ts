@@ -49,13 +49,15 @@ export const API_END_POINT = {
   GET_ORDER_RECIEVED_LIST: 'api/orderreceived',
   GET_ORDER_PLACED_LIST: 'api/order',
   GET_ORDER_DETAILS: 'api/orderreceived/details',
-
+  GET_ORDER_PLACED_DETAIL: 'api/order/details',
   MY_PART_REQUEST_LIST: 'api/mypartrequest/my-request/',
   CANCEL_MY_PART_REQUEST: 'api/mypartrequest/cancel-a-request-by-buyer',
   GIVE_RATING: 'api/qualifying/add-rating',
   ADD_REMARKS: 'api/orderreceived/update-remark',
   UPDATE_ORDER_STATUS: 'api/orderreceived/change-status',
-  LOGOUT_USER: 'api/user/logout'
+  LOGOUT_USER: 'api/user/logout',
+  GET_NOTIFICATION_LIST: 'api/notification',
+  READ_NOTIFICATION: 'api/notification/read-notification'
 }
 
 export const API_STATUS_CODE = {

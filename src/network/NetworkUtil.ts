@@ -1,4 +1,4 @@
-import { CancelTokenSource, Method } from 'axios'
+import { CancelTokenSource, GenericAbortSignal, Method } from 'axios'
 
 export interface IAPIRequest {
   baseUrl?: string
@@ -16,6 +16,7 @@ export interface IAPIRequest {
   extraParams?: {
     [x in string]: any
   }
+  signal?: GenericAbortSignal
 }
 
 export interface IActions {

@@ -4,16 +4,18 @@ import { find, get, map } from 'lodash'
 import { log } from '../../common/config/log'
 import { OrderReceivedTypeList, OrderType, ReducerName } from '../../common/Constant'
 import { IOrderReceivedCardComponent } from '../../common/Interfaces'
-import { getFormattedDateInDetailFormat } from '../../utils/app-utils'
+import { getFormattedDateInDetailFormat, handleApiFailure } from '../../utils/app-utils'
 
 interface IOrderRecievedState {
   selectedOrderType: OrderType
   orderRecievedList?: IOrderReceivedCardComponent[]
+  isFetching: boolean
 }
 
 const initialState: IOrderRecievedState = {
   selectedOrderType: 2,
-  orderRecievedList: []
+  orderRecievedList: [],
+  isFetching: true
 }
 
 const onOrderRecievedApiSuccess = (state: IOrderRecievedState, { payload }) => {
@@ -29,16 +31,25 @@ const onOrderRecievedApiSuccess = (state: IOrderRecievedState, { payload }) => {
       productId: orderRecieveItem?.product_id,
       orderDate: getFormattedDateInDetailFormat(orderRecieveItem?.order_created_at),
       orderPrice: orderRecieveItem?.order_amount,
-      delieveryCost: orderRecieveItem?.order_delivery_amount
+      deliveryCost: orderRecieveItem?.order_delivery_amount
     }
   })
   state.orderRecievedList = formattedOrderRecieved
+  state.isFetching = false
 
 }
 
 const onChangeSelectedOrderType = (state: IOrderRecievedState, { payload }) => {
   state.selectedOrderType = payload?.orderType
+}
 
+const resetData = (state: IOrderRecievedState) => {
+  return initialState
+}
+
+const onOrderRecievedApiFailure = (state: IOrderRecievedState, { payload }) => {
+  state.isFetching = false
+  handleApiFailure(payload)
 }
 
 export const orderRecievedSlice = createSlice({
@@ -46,10 +57,12 @@ export const orderRecievedSlice = createSlice({
   initialState,
   reducers: {
     onOrderRecievedApiSuccessReducer: onOrderRecievedApiSuccess,
-    onChangeSelectedOrderTypeReducer: onChangeSelectedOrderType
+    onChangeSelectedOrderTypeReducer: onChangeSelectedOrderType,
+    onOrderRecievedApiFailureReducer: onOrderRecievedApiFailure,
+    resetReducerData: resetData
   }
 })
 
-export const { onOrderRecievedApiSuccessReducer,  onChangeSelectedOrderTypeReducer} = orderRecievedSlice.actions
+export const { onOrderRecievedApiSuccessReducer,  onChangeSelectedOrderTypeReducer, resetReducerData, onOrderRecievedApiFailureReducer } = orderRecievedSlice.actions
 
 export default orderRecievedSlice.reducer

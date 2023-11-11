@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center'
 
+  },
+  textInputContainer: {
+    borderWidth: 0
   }
 })
 
@@ -131,6 +134,8 @@ export const OtpInputComponent = forwardRef((props: IProps, ref) => {
         onChangeText={(value) => onChangeOtpInputValue(value, index)}
         onKeyPress = {(event) => onKeyPress(event, index) }
         editable = {!isDisabled}
+        textInputType='roundedCorners'
+        textContainerStyle = {styles.textInputContainer}
       />
     )
   }

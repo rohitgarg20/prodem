@@ -3,7 +3,9 @@ import { find, get, isNumber } from 'lodash'
 import FastImage from 'react-native-fast-image'
 
 import { log } from '../common/config/log'
-import { PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
+import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
+import { showAndroidToastMessage } from '../common/Toast'
+import { SOMETHING_WENT_WRONG } from '../common/ErrorMessages'
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
@@ -165,4 +167,13 @@ export const isPartRequestResolved = (requestStatus) => {
 
 export const isPartRequestActive = (requestStatus) => {
   return PART_REQUEST_STATUS[requestStatus] === PART_REQUEST_TYPE.ACTIVE
+}
+
+export const getOrderStatusLabel = (orderStatus) => {
+  return find(OrderReceivedTypeList, (orderStatusType) => orderStatusType.key === orderStatus)?.label || ''
+}
+
+export const handleApiFailure = (payload) => {
+  const { error } = payload || {}
+  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
 }

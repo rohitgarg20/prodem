@@ -258,6 +258,7 @@ export interface IProductDetailScreen {
   brand: string
   createdAt: string
   userMobile: string
+  description: string
 }
 
 export interface IProfileOptionItem {
@@ -287,6 +288,7 @@ export interface IRatingCard {
   userName: string
   ratingType: string
   orderId: string
+  navigateToOrderReceivedScreen?: (orderId) => void
 }
 
 export interface ISubscriptionCard {
@@ -446,7 +448,7 @@ export interface IOrderReceivedCardComponent {
   productId: number
   orderDate: string
   orderPrice: string
-  delieveryCost: string
+  deliveryCost: string
 }
 
 export interface IOrderReceivedDetail {
@@ -458,7 +460,7 @@ export interface IOrderReceivedDetail {
   productId: number
   orderDate: string
   orderPrice: string
-  delieveryCost: string
+  deliveryCost: string
   quantity: number
   itemPrice: string
   buyerName?: string
@@ -469,4 +471,41 @@ export interface IOrderReceivedDetail {
   sellerNotes?: string
   productImage: number | string
   vendorRemarks: string
+}
+
+export interface IOrderPlacedDetail {
+  orderNo: string
+  customerName: string
+  orderDate: string
+  email: string
+  phone: string
+  address: string
+  productName: string
+  itemPrice: string
+  quantity: number
+  orderPrice: string
+  deliveryCost: string
+  customerRemarks: string
+  productImage: string | number
+  sellerName: string
+  sellerPhone: string
+  sellerEmail: string
+  buyerName: string
+  buyerEmail: string
+  buyerMobile: string
+  orderId: number
+  displayStatus: string
+  statusId: number
+  productId: number
+}
+
+export interface INotificationDetail {
+  notificationId: number
+  userId: number
+  bookingId: number
+  title: string
+  description: string
+  notificationDate: string
+  isRead: boolean
+  notificationType: 'bidStatusUpdated' | 'newBidReceived' | 'bidWinnerSelected' | 'newOrderReceived' | 'buySubscriptionPlan'
 }

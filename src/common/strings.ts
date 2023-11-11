@@ -100,7 +100,16 @@ export const WISHLIST_SCREEN = {
 
 export const CART_MESSAGES = {
   ITEM_SUCCESS: 'Product is added to cart',
-  REMOVE_SUCCESS: 'Product is removed from cart'
+  REMOVE_SUCCESS: 'Product is removed from cart',
+  FAILURE: 'Unable to add product in cart',
+  FAILURE_REMOVE: 'Unable to remove product from cart'
+}
+
+export const WISHLIT_MESSAGES = {
+  ITEM_SUCCESS: 'Product is added to wishlist',
+  REMOVE_SUCCESS: 'Product is removed from wishlist',
+  FAILURE: 'Unable to add product in wishlist',
+  FAILURE_REMOVE: 'Unable to remove product from wishlist'
 }
 
 export const RATINGS_SCREEN = {
@@ -231,4 +240,24 @@ export const ORDER_PLACED = {
 
 export const MY_PART_REQUEST_LIST_SCREEN = {
   HEADER_TITLE: 'My Part Request'
+}
+
+export const NOTIFICATION_SCREEN = {
+  HEADER_TITLE: 'Notifications'
+}
+
+export const ORDER_PLACED_DETAIL_SCREEN = {
+  HEADER_TITLE: 'Order Detail',
+  ORDERT_STATUS: 'Order Status',
+  CUSTOMER_NAME: 'Customer Name',
+  DATE: 'Date',
+  EMAIL: 'Email',
+  PHONE: 'Phone',
+  DELIVERY_ADDRESS: 'Delivery Address',
+  ESTIMATED_DELIVERY: '* Estimated Delivery Amount : ',
+  FINAL_AMOUNT: 'Final Amount',
+  CUSTOMER_REMARKS: `Customer's Remark`,
+  SELLER_DETAILS: 'Seller Details',
+  BUYER_DETAILS: 'Buyer Details',
+  INFO: '* The delivery cost shown is that of your general settings taken at the time of placing the order.'
 }

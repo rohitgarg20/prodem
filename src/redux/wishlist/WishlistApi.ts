@@ -18,7 +18,6 @@ export const getWishlistDetails = () => {
 
 export const addProductWishlist = ({
   productId,
-  qty = 1,
   cancelToken = undefined
 }: {
   productId: number
@@ -27,9 +26,8 @@ export const addProductWishlist = ({
 }) => {
   const formData = new FormData()
   formData.append('product_id', productId)
-  formData.append('qty', qty)
   apiDispatch({
-    endPoint: API_END_POINT.ADD_PART_REQUEST_TO_WISHLIST,
+    endPoint: API_END_POINT.ADD_PRODUCT_TO_WISHLIST,
     method: 'POST',
     showLoaderOnScreen: true,
     body: formData,

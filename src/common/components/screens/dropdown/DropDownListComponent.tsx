@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { StyleSheet, View, FlatList  } from 'react-native'
+import { StyleSheet, View, FlatList, ViewProps, StyleProp, ViewStyle  } from 'react-native'
 
 import { DropDownItemComponent } from './DropDownItemComponent'
 import { scale } from '../../../../utils/scaling'
@@ -39,11 +39,15 @@ export const DropDownListComponent = (
   {
     dropdownList,
     onPressDropDownItem,
-    fieldKey
+    fieldKey,
+    dropDownContainer,
+    flatlistContainer
   }: {
     dropdownList: IDropDownItem[]
     onPressDropDownItem: (dropDownItem: IDropDownItem, fieldKey: string) => void
     fieldKey: string
+    dropDownContainer?: StyleProp<ViewStyle>
+    flatlistContainer?: StyleProp<ViewStyle>
   }
 ) => {
 
@@ -76,11 +80,25 @@ export const DropDownListComponent = (
     )
   }
 
+  const getDropdownContainerStyle = useCallback(() => {
+    return [
+      styles.dropDownContainer,
+      dropDownContainer
+    ]
+  }, [dropDownContainer])
+
+  const getFlatlistContainerStyle = useCallback(() => {
+    return [
+      styles.flatlistContainer,
+      flatlistContainer
+    ]
+  }, [flatlistContainer])
+
   return (
-    <View style={styles.dropDownContainer}>
+    <View style={getDropdownContainerStyle()}>
       <FlatList
         data={dropdownList}
-        contentContainerStyle={styles.flatlistContainer}
+        contentContainerStyle={getFlatlistContainerStyle()}
         renderItem={renderDropDownItemComponent}
         keyExtractor={getKeyExtractor}
         ItemSeparatorComponent={itemSeperatorCompoent}

@@ -6,18 +6,19 @@ import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { styles } from './styles'
+import EmptyScreenComponent from '../../../common/components/generic/EmptyScreenComponent'
 import { HeaderComponent } from '../../../common/components/screens'
 import { OrderRecievedCardComponent } from '../../../common/components/screens/order-received'
 import { ScrollableTopBarComponent } from '../../../common/components/screens/ratings'
 import { log } from '../../../common/config/log'
 import { OrderReceivedTypeList } from '../../../common/Constant'
+import { ScreenNames } from '../../../common/Screens'
 import { ORDER_RECIEVED } from '../../../common/strings'
 import { fetchOrderRecievedList } from '../../../redux/order-recieved/OrderRecievedApi'
 import { getOrderRecievedListByStatus } from '../../../redux/order-recieved/OrderRecievedSelector'
-import { onChangeSelectedOrderTypeReducer } from '../../../redux/order-recieved/OrderRecievedSlice'
+import { onChangeSelectedOrderTypeReducer, resetReducerData } from '../../../redux/order-recieved/OrderRecievedSlice'
 import { RootState } from '../../../store/DataStore'
 import { navigateSimple } from '../../../utils/navigation-utils'
-import { ScreenNames } from '../../../common/Screens'
 
 const { HEADER_TITLE } = ORDER_RECIEVED
 
@@ -25,11 +26,17 @@ export const OrderRecievedListScreen = () => {
 
   const dispatch = useDispatch()
   const selectedOrderStatusType = useSelector((state: RootState) => state.OrderRecievedReducer.selectedOrderType)
+  const isFetching = useSelector((state: RootState) => state.OrderRecievedReducer.isFetching)
   const orderRecievedList = useSelector(getOrderRecievedListByStatus(selectedOrderStatusType))
 
   useEffect(() => {
     fetchOrderRecievedList()
-  }, [])
+    return () => {
+      dispatch({
+        type: resetReducerData
+      })
+    }
+  }, [dispatch])
 
   const updateOrderType = useCallback((selectedOrderStatus) => {
     log('')
@@ -81,7 +88,12 @@ export const OrderRecievedListScreen = () => {
   }
 
   const renderOrderRecievedListComponent = () => {
-    if(isEmpty(orderRecievedList)) return null
+    if(isEmpty(orderRecievedList)) {
+      if(!isFetching) {
+        return <EmptyScreenComponent />
+      }
+      return null
+    }
     return (
       <FlashList
         data={orderRecievedList}

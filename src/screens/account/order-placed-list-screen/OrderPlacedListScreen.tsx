@@ -11,6 +11,8 @@ import { OrderRecievedCardComponent } from '../../../common/components/screens/o
 import { ORDER_PLACED } from '../../../common/strings'
 import { fetchOrderPlacedList } from '../../../redux/order-placed/OrderPlacedApi'
 import { RootState } from '../../../store/DataStore'
+import { navigateSimple } from '../../../utils/navigation-utils'
+import { ScreenNames } from '../../../common/Screens'
 
 const { HEADER_TITLE } = ORDER_PLACED
 
@@ -34,7 +36,12 @@ export const OrderPlacedListScreen = () => {
   }
 
   const navigateToOrderDetail = useCallback((orderId) => {
-
+    navigateSimple({
+      screenToNavigate: ScreenNames.ORDER_PLACED_DETAIL_SCREEN,
+      params: {
+        orderId
+      }
+    })
   },[])
 
   const renderOrderItemCardComponent = ({ item }) => {
