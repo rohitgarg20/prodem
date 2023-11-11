@@ -36,6 +36,7 @@ export const API_END_POINT = {
   UPDATE_USER_NAME: 'api/profile/update-name',
   UPDATE_PASSWORD: 'api/profile/update-password',
   UPDATE_USER_INFO: 'api/profile/update-profile',
+  UPDATE_PROFILE_PHOTO: 'api/profile/update-photo',
   FETCH_PART_REQUEST_FILTER_LIST: 'api/partoffer/filters-list',
   FETCH_BIDDING_OPTIONS: 'api/partoffer/save-bid-options',
   FETCH_PART_REQUEST_LSIT: 'api/partoffer',
@@ -49,6 +50,7 @@ export const API_END_POINT = {
   GET_ORDER_RECIEVED_LIST: 'api/orderreceived',
   GET_ORDER_PLACED_LIST: 'api/order',
   GET_ORDER_DETAILS: 'api/orderreceived/details',
+  CITY_API: 'api/profile/dropdown-list',
 
   MY_PART_REQUEST_LIST: 'api/mypartrequest/my-request/',
   CANCEL_MY_PART_REQUEST: 'api/mypartrequest/cancel-a-request-by-buyer',

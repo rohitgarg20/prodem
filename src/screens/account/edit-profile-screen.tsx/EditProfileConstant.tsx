@@ -1,21 +1,22 @@
 export enum FIELD_TYPE {
   RADIO_BOX = 'RADIO_BOX',
   TEXTBOX = 'TEXTBOX',
+  DROP_DOWN = 'DROP_DOWN'
 }
 
 export enum USER_INFO_KEYS {
   USER_NAME = 'p_user_name',
   PHONE_NO = 'p_user_mobile',
-  COUNTRY = 'country_city',
+  COUNTRY = 'p_user_country',
   CITY= 'p_user_city',
   ADDRESS = 'p_user_address',
-  LEGAL_ENTITY = 'legalEntity',
-  CIF_WHICH = 'cif_which',
+  LEGAL_ENTITY = 'p_user_company_name',
+  CIF_WHICH = 'p_user_tax_registration_code',
   NR_REG_COM = 'p_user_nr_reg_com',
   HEADQUARTER_ADDRESS = 'p_user_headquarters_address',
   BANK = 'p_user_bank',
   IBAN_CODE = 'p_user_iban_code',
-  PREFERENCES = 'preferences',
+  PREFERENCES = 'p_user_optimized_type',
 }
 
 export enum ACTION_NAME {
@@ -36,12 +37,13 @@ export enum ACTION_NAME {
 
 export const USER_PREFERENCE_LIST = [
   {
-    key: 'seller',
+    key: '1',
+    value: 'Buyer'
+  },
+  {
+    key: '2',
     value: 'Seller'
-  }, {
-    key: 'buyer',
-    value: 'buyer'
-  }
+  },
 ]
 
 export const INITIAL_DATA_STATE: IStateElement[] = [
@@ -71,7 +73,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
   },
   {
     key: USER_INFO_KEYS.COUNTRY,
-    fieldType: FIELD_TYPE.TEXTBOX,
+    fieldType: FIELD_TYPE.DROP_DOWN,
     value: '',
     defaultValue: '',
     label: 'Country',
@@ -83,7 +85,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
   },
   {
     key: USER_INFO_KEYS.CITY,
-    fieldType: FIELD_TYPE.TEXTBOX,
+    fieldType: FIELD_TYPE.DROP_DOWN,
     value: '',
     defaultValue: '',
     label: 'City',

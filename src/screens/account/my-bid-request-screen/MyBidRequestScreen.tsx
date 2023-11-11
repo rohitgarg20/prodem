@@ -7,7 +7,7 @@ import SingleSelectMenuBarComponent from "../../../common/components/generic/Sin
 import { MY_BIDS_REQUEST_TOP_BAR_KEYS } from "../../../common/Constant"
 import { store, useAppDispatch, useAppSelector } from "../../../store/DataStore"
 import EmptyScreenComponent from "../../../common/components/generic/EmptyScreenComponent"
-import { getMyBidRequestDataListSelector } from "../../../redux/my-bid-request/MyBidRequestSelector"
+import { getMyBidRequestDataFetchingStatusSelector, getMyBidRequestDataListSelector } from "../../../redux/my-bid-request/MyBidRequestSelector"
 import { resetMyBidRequestDataReducer } from "../../../redux/my-bid-request/MyBidRequestSlice"
 import { fetchMyBidRequestApiData } from "../../../redux/my-bid-request/MyBidRequestApi"
 import styles from './styles'
@@ -18,7 +18,9 @@ const { HEADER_TITLE } = BID_REQUEST_SCREEN
 const MyBidRequestScreen = () => {
   const [selectedType, updateSelectedType] = useState(MY_BIDS_REQUEST_TOP_BAR_KEYS[0].key)
   const myBidRequestList = useAppSelector(getMyBidRequestDataListSelector(selectedType))
+  const isLoading = useAppSelector(getMyBidRequestDataFetchingStatusSelector(selectedType))
   const dispatch = useAppDispatch()
+
 
   useEffect(() => {
     fetchMyBidRequestApiData(selectedType)
@@ -46,7 +48,7 @@ const MyBidRequestScreen = () => {
       dataList={MY_BIDS_REQUEST_TOP_BAR_KEYS}
       onItemChanged={onSelectedTabChanged}
     />
-    <FlatList
+    {isLoading ? null: <FlatList
       key={selectedType}
       data={myBidRequestList}
       renderItem={BidItemContainer}
@@ -54,7 +56,7 @@ const MyBidRequestScreen = () => {
       removeClippedSubviews={false}
       ListEmptyComponent={() => <EmptyScreenComponent />}
       contentContainerStyle={styles.flatListContainer}
-    />
+    />}
   </View>
 
 }

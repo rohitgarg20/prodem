@@ -22,6 +22,7 @@ interface ITextDropDownComponent {
   dropDownContainerStyle?: StyleProp<ViewStyle>
   fontSize?: number
   lineHeight?: number
+  fontWeight?: string
 }
 
 
@@ -43,7 +44,7 @@ export const LabelWithArrowComponent = memo((props: ITextDropDownComponent) => {
 
   const {
     onPress, dropdownData, defaultValue, selectedDropDownItem, dropDownKey, propsTextColor,
-    dropDownContainerStyle = {}, fontSize, lineHeight
+    dropDownContainerStyle = {}, fontSize, lineHeight, fontWeight
   } = props
 
 
@@ -57,6 +58,7 @@ export const LabelWithArrowComponent = memo((props: ITextDropDownComponent) => {
         color={propsTextColor || (selectedItemValue ? textColor.black : textColor.stormGrey)}
         fontSize={fontSize || 16}
         lineHeight={lineHeight || 22}
+        fontWeight={fontWeight}
       />
     )
   }

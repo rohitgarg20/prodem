@@ -65,6 +65,43 @@ export const updateUserDetailsApi = (userDetails) => {
   })
 }
 
+export const updateUserProfilePhotoApi = (photoBase64) => {
+  const formData = new FormData()
+  formData.append('photo_base64', photoBase64)
+
+  apiDispatch({
+    endPoint: API_END_POINT.UPDATE_PROFILE_PHOTO,
+    method: 'POST',
+    body: formData,
+    onStart: '',
+    onSuccess: onProfileDataApiSuccess.type,
+    onFailure: onProfileUpdateApiFailed.type,
+    showLoaderOnScreen: true
+  })
+}
+
+export const fetchCountryApi = async () => {
+  return await apiDispatch({
+    endPoint: API_END_POINT.FETCH_PART_REQUEST_FILTER_LIST,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
+    showLoaderOnScreen: true
+  })
+}
+
+export const fetchCityApi = async () => {
+  return await apiDispatch({
+    endPoint: API_END_POINT.CITY_API,
+    method: 'POST',
+    onStart: '',
+    onSuccess: '',
+    onFailure: '',
+    showLoaderOnScreen: true
+  })
+}
+
 export const logoutUser = () => {
   apiDispatch({
     endPoint: API_END_POINT.LOGOUT_USER,
