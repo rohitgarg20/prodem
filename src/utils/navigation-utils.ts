@@ -106,7 +106,11 @@ export const logoutStack = () => {
 }
 
 export const resetStackData = () => {
-  _navigator = null
+  // _navigator = null
   _parentStackName = ''
+}
+
+export const resetNavigator = () => {
+  _navigator = null
 }
 

@@ -1,4 +1,5 @@
 import { createRef } from 'react'
+import { isIos } from '../../Constant'
 
 class GenericDrawerController {
   renderingComponent: any = undefined
@@ -14,7 +15,7 @@ class GenericDrawerController {
 
   showGenericDrawerModal = ({
     renderingComponent,
-    closeDrawerOnOutsideTouch,
+    closeDrawerOnOutsideTouch = isIos,
     closeModal = this.closeGenericDrawerModal,
     modalPositionStyling = {},
     onCloseModalCallback = () => {}

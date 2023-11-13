@@ -103,6 +103,7 @@ export interface IFormField {
   selectedItem?: IDropDownItem
   selectedImages?: IImageItem[]
   placeholder?: string
+  apiValue?: string
 }
 
 export interface IAddPartForm {

@@ -1,5 +1,6 @@
 
 import { find, get, isNumber } from 'lodash'
+import { Alert } from 'react-native'
 import FastImage from 'react-native-fast-image'
 
 import { BASE_URL } from '../common/ApiConstant'
@@ -7,7 +8,6 @@ import { log } from '../common/config/log'
 import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../common/ErrorMessages'
 import { showAndroidToastMessage } from '../common/Toast'
-import { Alert } from 'react-native'
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
@@ -181,7 +181,7 @@ export const handleApiFailure = (payload) => {
 }
 
 export const getSellerProductImagesUrl = (id) => {
-  return `${BASE_URL}imagecache/thumb/uploads__productslides/${id}`
+  return `${BASE_URL}imagecache/thumb/uploads__productslides/400x400/${id}`
 }
 
 export const getBase64FromImageUrl = async (url: string) => {

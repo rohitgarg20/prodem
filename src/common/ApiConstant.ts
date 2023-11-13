@@ -1,6 +1,8 @@
 // export const BASE_URL = 'https://demo.exultcybersolution.in/'
 
-export const BASE_URL = 'https://bms-market.it/'
+// export const BASE_URL = 'https://bms-market.it/'
+export const BASE_URL = 'https://autozon.pro/'
+
 
 
 export const API_END_POINT = {

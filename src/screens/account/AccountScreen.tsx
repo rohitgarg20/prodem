@@ -173,6 +173,7 @@ export const AccountScreen = ({ navigation }) => {
   }
 
   const renderSelectUserPhotoButton = () => {
+    log('userDatauserDatauserData', userData?.p_user_photo)
     return (
       <View style={styles.selectPhotoContainer}>
         <IconWrapper

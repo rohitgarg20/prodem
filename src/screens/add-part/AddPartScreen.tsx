@@ -1,7 +1,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { FlatList, View } from 'react-native'
+import { BackHandler, FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { addPartStyle } from './styles'
@@ -16,7 +16,7 @@ import { DropDownListComponent } from '../../common/components/screens/dropdown/
 import { ImagePickerComponent } from '../../common/components/screens/image-picker/ImagePickerComponent'
 import { SelectPictureOptionListComponent } from '../../common/components/screens/select-picture/SelectPictureComponent'
 import { log } from '../../common/config/log'
-import { AddPartFieldKeys, PICTURE_OPTIONS_KEY } from '../../common/Constant'
+import { AddPartFieldKeys, PICTURE_OPTIONS_KEY, isIos } from '../../common/Constant'
 import { ButtonType } from '../../common/Enumerators'
 import { bottomModal, centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
@@ -24,7 +24,7 @@ import { IDropDownItem, IFormField, IImageItem } from '../../common/Interfaces'
 import { ADD_PART_SCREEN, BUTTONS } from '../../common/strings'
 import { addNewPart, editPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
 import { getTotalImagesTakenCountSelector } from '../../redux/add-part/AddPartSelector'
-import { onChangeUserInputReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer } from '../../redux/add-part/AddPartSlice'
+import { onChangeUserInputReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer, resetAddPartSuccessReducer } from '../../redux/add-part/AddPartSlice'
 import { fetchSellerProductList } from '../../redux/home/SellerAdsApi'
 import { RootState } from '../../store/DataStore'
 import { goBack } from '../../utils/navigation-utils'
@@ -36,6 +36,7 @@ const MAX_IMAGES_ALLOWED = 5
 export const AddPartScreen = ({ navigation, route }) => {
 
   const addPartForm = useSelector((state: RootState) => state.addPartReducer.formData)
+  const isLoading = useSelector((state: RootState) => state.loaderReducer.isLoading) || false
   const totalImagesTakenCount = useSelector(getTotalImagesTakenCountSelector)
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
@@ -44,9 +45,27 @@ export const AddPartScreen = ({ navigation, route }) => {
 
   const dispatch = useDispatch()
 
+  const onBackPressed = useCallback(() => {
+    log('onn back pressed is called')
+    return isLoading
+  }, [isLoading])
+
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBackPressed)
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPressed)
+    }
+  }, [onBackPressed])
+
   useEffect(() => {
     getSellingDropDownList()
-  }, [])
+    return () => {
+      dispatch({
+        type: resetAddPartSuccessReducer.type
+      })
+    }
+  }, [dispatch])
 
   const renderTitleComponent = useCallback((title: string) => {
     return (
@@ -127,7 +146,7 @@ export const AddPartScreen = ({ navigation, route }) => {
   const renderDropDownComponent = useCallback((dropdownData, fieldKey) => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(dropdownData, fieldKey),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
   }, [renderCenterDropDown])
@@ -198,21 +217,24 @@ export const AddPartScreen = ({ navigation, route }) => {
 
   const renderSelectedImageItem = ({ item }: { item: IImageItem }) => {
     return (
-      <View style={addPartStyle.imageItemContainer}>
-        <IconWrapper
-          iconSource={item.base64 || item.imgUrl || ''}
-          iconHeight={'100%'}
-          iconWidth={'100%'}
-          style={addPartStyle.imageStyle}
-          resizeMode='cover'
-        />
-        <IconButtonWrapperComponent
-          iconSource={icons.CROSS_ICON}
-          iconHeight={15}
-          iconWidth={15}
-          buttonContainerStyle={addPartStyle.crossIconContainer}
-          onPressIcon={() => removeSelectedImage(item)}
-        />
+      <View style={addPartStyle.imageItemParentContainer}>
+        <View style={addPartStyle.imageItemContainer}>
+          <IconWrapper
+            iconSource={item.base64 || item.imgUrl || ''}
+            iconHeight={'100%'}
+            iconWidth={'100%'}
+            style={addPartStyle.imageStyle}
+            resizeMode='cover'
+          />
+          <IconButtonWrapperComponent
+            iconSource={icons.CROSS_ICON}
+            iconHeight={15}
+            iconWidth={15}
+            buttonContainerStyle={addPartStyle.crossIconContainer}
+            onPressIcon={() => removeSelectedImage(item)}
+            hitSlopTouchable={10}
+          />
+        </View>
       </View>
     )
   }

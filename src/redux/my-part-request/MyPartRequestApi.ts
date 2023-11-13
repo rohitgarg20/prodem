@@ -1,6 +1,7 @@
 import { onFetchedPartRequestApiSuccessReducer, onCancelPartRequestSuccessReducer } from './MyPartRequestListSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
+import { onFetchedBidOptionsSuccessReducer } from '../part-request-detail/PartRequestDetailSlice'
 
 
 export const fetchMyPartRequestList = (status = 'requests') => {
@@ -9,6 +10,15 @@ export const fetchMyPartRequestList = (status = 'requests') => {
     method: 'POST',
     showLoaderOnScreen: true,
     onSuccess: onFetchedPartRequestApiSuccessReducer.type
+  })
+}
+
+export const fetchBiddingOptions = async () => {
+  apiDispatch({
+    endPoint: API_END_POINT.FETCH_BIDDING_OPTIONS,
+    method: 'POST',
+    showLoaderOnScreen: true,
+    onSuccess: onFetchedBidOptionsSuccessReducer.type
   })
 }
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { FlatList, View } from 'react-native'
+import { BackHandler, FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { dimissKeyboard } from '../../common/App-Utils'
@@ -14,7 +14,7 @@ import { DropDownListComponent } from '../../common/components/screens/dropdown/
 import { ImagePickerComponent } from '../../common/components/screens/image-picker/ImagePickerComponent'
 import { SelectPictureOptionListComponent } from '../../common/components/screens/select-picture/SelectPictureComponent'
 import { log } from '../../common/config/log'
-import { PartRequestFieldKeys, PICTURE_OPTIONS_KEY } from '../../common/Constant'
+import { isIos, PartRequestFieldKeys, PICTURE_OPTIONS_KEY } from '../../common/Constant'
 import { ButtonType } from '../../common/Enumerators'
 import { bottomModal, centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
@@ -33,12 +33,27 @@ const MAX_IMAGES_ALLOWED = 5
 export const AskOfferScreen = () => {
 
   const askPartForm = useSelector((state: RootState) => state.askPartSliceReducer.formData)
+  const isLoading = useSelector((state: RootState) => state.loaderReducer.isLoading) || false
   log('askPartFormaskPartForm', askPartForm)
   const totalImagesTakenCount = useSelector(getAskPartTotalImagesTakenCountSelector)
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
 
   const dispatch = useDispatch()
+
+
+  const onBackPressed = useCallback(() => {
+    log('onn back pressed is called')
+    return isLoading
+  }, [isLoading])
+
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBackPressed)
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPressed)
+    }
+  }, [onBackPressed])
 
   useEffect(() => {
     getRequestPartDropDownData()
@@ -123,13 +138,14 @@ export const AskOfferScreen = () => {
   const renderDropDownComponent = useCallback((dropdownData, fieldKey) => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(dropdownData, fieldKey),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
   }, [renderCenterDropDown])
 
 
   const showDropDownMenu = useCallback((fieldKey, dropdownData) => {
+    dimissKeyboard()
     renderDropDownComponent(dropdownData, fieldKey)
     genericDrawerController.openGenericDrawerModal()
   }, [renderDropDownComponent])
@@ -312,6 +328,7 @@ export const AskOfferScreen = () => {
   }
 
   const postAd = useCallback(() => {
+    dimissKeyboard()
     requestNewPartApi(askPartForm)
   }, [askPartForm])
 

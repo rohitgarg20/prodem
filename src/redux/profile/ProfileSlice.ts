@@ -7,6 +7,7 @@ import { log } from '../../common/config/log'
 import {  ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { onLoginApiSuccessReducer } from '../login/LoginSlice'
 
 
 const initialState: IUserProfileDetail = {
@@ -22,11 +23,9 @@ const onProfileDataApiInitiateReducer = (state: IUserProfileDetail) => {
 
 }
 
-const onProfileDataApiSuccessReducer = (state: IUserProfileDetail, { payload }) => {
+const getUserDetails = (payload) => {
   const { responseData : { data: responseData = {} } = {} } = payload
-  log('Hey responseData : ', payload)
-
-  const userDetails = responseData?.details
+  const userDetails = responseData?.details || responseData?.userDetails
   const userData = { }
   for(let key in userDetails) {
     userData[key] = (userDetails[key] === 'undefined' || !userDetails[key]) ? '' : userDetails[key]
@@ -34,11 +33,28 @@ const onProfileDataApiSuccessReducer = (state: IUserProfileDetail, { payload }) 
       userData[key] = `${BASE_URL}imagecache/thumb/uploads__profile-photo/400x400/${userDetails[key]}`
     }
   }
+  return userData
 
-  log('*** userData userData : ', userData)
+}
+
+const onProfileDataApiSuccessReducer = (state: IUserProfileDetail, { payload }) => {
+  // const { responseData : { data: responseData = {} } = {} } = payload
+  // log('Hey responseData : ', payload)
+
+  // const userDetails = responseData?.details
+  // const userData = { }
+  // for(let key in userDetails) {
+  //   userData[key] = (userDetails[key] === 'undefined' || !userDetails[key]) ? '' : userDetails[key]
+  //   if(key === 'p_user_photo') {
+  //     userData[key] = `${BASE_URL}imagecache/thumb/uploads__profile-photo/400x400/${userDetails[key]}`
+  //   }
+  // }
+
+  // log('*** userData userData : ', userData)
 
 
-  state.userDetails = userData
+  state.userDetails = getUserDetails(payload)
+  log('userDetailsuserDetailsuserDetails', state.userDetails)
   state.isFetchingData = false
   state.hasApiError = false
 }
@@ -101,6 +117,13 @@ export const ratingSlice = createSlice({
     resetDataReducer: resetData,
     logoutUserSuccessReducer: logoutUser,
     logoutUserFailureReducer: logoutUserFailure
+  },
+  extraReducers: (builder) => {
+    builder.addCase(onLoginApiSuccessReducer.type, (state, action) => {
+      const payload = get(action, 'payload', {})
+      log('payloadpayloadpayloadpayloadpayload', payload, action)
+      state.userDetails = getUserDetails(payload)
+    })
   }
 })
 

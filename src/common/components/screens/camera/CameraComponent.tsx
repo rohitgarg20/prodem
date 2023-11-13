@@ -6,6 +6,9 @@ import ImageCropPicker from 'react-native-image-crop-picker'
 import { Camera, CameraPermissionStatus, CameraPermissionRequestResult, useCameraDevice } from 'react-native-vision-camera'
 
 // import { blobToBase64, getBlob } from '../../../../utils/app-utils'
+import { useDispatch } from 'react-redux'
+
+import { hideLoader, showLoader } from '../../../../redux/LoaderDataStore/LoaderSlice'
 import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../Constant'
@@ -66,6 +69,7 @@ const strings = {
 
 export const CameraComponent = (props: ICameraComponent) => {
   const [ isCameraShown, updateCameraShown ] = useState(false)
+  const dispatch = useDispatch()
   const { onSavePicture, onDismiss } = props
 
   const cameraRef: any = useRef(null)
@@ -153,6 +157,14 @@ export const CameraComponent = (props: ICameraComponent) => {
   }
 
   const onSaveCropImage = () => {
+    dispatch({
+      type: showLoader.type
+    })
+    setTimeout(() => {
+      dispatch({
+        type: hideLoader.type
+      })
+    }, 1000)
     ImageCropPicker.openCropper({
       path: photoObj.path,
       width: 400,

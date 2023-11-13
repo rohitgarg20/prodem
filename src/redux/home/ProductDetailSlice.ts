@@ -72,9 +72,11 @@ export const productDetailSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(onAddNewProductInCartReducer, (state, action: any) => {
       const { responseData } = action?.payload || {}
-      log('extraReducersextraReducers', state, action)
-      if(!isEmpty(state?.productDetail?.productId)) {
+      log('extraReducersextraReducers from onAddNewProductInCartReducer', state, action, state?.productDetail?.productId, state?.productDetail)
+      if(state?.productDetail?.productId) {
+        log('extraReducersextraReducers from onAddNewProductInCartReducer if', state, action)
         const addedProductDetail = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId)
+        log('addedProductDetailaddedProductDetail', addedProductDetail)
         if(!isEmpty(addedProductDetail)) {
           state.isProductInCart = true
           showAndroidToastMessage(CART_MESSAGES.ITEM_SUCCESS)
@@ -84,21 +86,26 @@ export const productDetailSlice = createSlice({
       }
     })
     builder.addCase(onRemoveProductFromCartReducer, (state, action: any) => {
-      log('extraReducersextraReducers', state, action)
+      log('extraReducersextraReducers from onRemoveProductFromCartReducer', state, action)
       const { requestData, responseData } = action?.payload || {}
-      const productRemovedFromCart = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId)
-      if(!isEmpty(state?.productDetail?.productId)) {
+      const productRemovedFromCart = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId) || {}
+      log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart, get(responseData, 'data.cartDetails.items', []))
+      if(state?.productDetail?.productId) {
+        log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart, isEmpty(productRemovedFromCart), typeof productRemovedFromCart)
+
         if(isEmpty(productRemovedFromCart)) {
+          log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart)
           state.isProductInCart = false
           showAndroidToastMessage(CART_MESSAGES.REMOVE_SUCCESS)
         } else {
+          log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart)
           showAndroidToastMessage(CART_MESSAGES.FAILURE_REMOVE)
         }
       }
     })
     builder.addCase(onAddNewProductInWishListReducer, (state, action: any) => {
       const { responseData } = action?.payload || {}
-      log('extraReducersextraReducers', state, action)
+      log('extraReducersextraReducers onAddNewProductInWishListReducer', state, action)
       const isAddedInWishlist = get(responseData, 'data.wishlistDetails.user_wishlist_product_id', '').toString() === (state?.productDetail?.productId || '')?.toString()
       if(isAddedInWishlist) {
         state.isProductInWishlist = true

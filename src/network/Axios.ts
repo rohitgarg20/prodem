@@ -5,6 +5,7 @@ import { IAPIRequest } from './NetworkUtil'
 import { BASE_URL } from '../common/ApiConstant'
 import { log } from '../common/config/log'
 import { getToken } from '../utils/auth-utils'
+import { isIos } from '../common/Constant'
 
 
 export class AxiosRequest {
@@ -56,7 +57,7 @@ export class AxiosRequest {
   apiRequest = (request: IAPIRequest) => {
     const { endPoint, method, body, headers, reqParams = '', baseUrl = BASE_URL, cancelToken = undefined, signal = undefined } = request
     log('apiRequestapiRequest', cancelToken)
-    let reqBody = {}
+    let reqBody = isIos ? undefined : {}
     if(!isEmpty(body)) {
       reqBody = body
     }
@@ -71,15 +72,17 @@ export class AxiosRequest {
           ...headers
         },
         url: this.createUrl(endPoint, reqParams),
-        timeout: 10000,
+        timeout: 20000,
         cancelToken: cancelToken?.token,
         signal
       })
       try {
+        log('apiRequestapiRequest in error ', axiosResp)
         resolve(axiosResp)
       } catch(error) {
-        reject(error)
         log('apiRequestapiRequest in error ', error)
+        reject(error)
+
         // throw error
       }
     })

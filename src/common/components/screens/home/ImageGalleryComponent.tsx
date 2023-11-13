@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     alignItems: 'center'
+  },
+  productListContainer: {
+    flex: 1
   }
 })
 
@@ -130,7 +133,7 @@ export const ImageGalleryComponent = ({
 
   const renderProductImageListGallery = () => {
     return (
-      <View>
+      <View style={styles.productListContainer}>
         <FlatList
           ref={flatListRef}
           data={imagesList}

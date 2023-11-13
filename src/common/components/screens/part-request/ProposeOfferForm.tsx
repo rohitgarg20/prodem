@@ -7,7 +7,7 @@ import { onChangeUserInputReducer, onSelectDropDowItemReducer } from '../../../.
 import { RootState } from '../../../../store/DataStore'
 import { verticalScale, scale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
-import { ProposeOfferFieldKeys } from '../../../Constant'
+import { ProposeOfferFieldKeys, isIos } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
 import { centerModal } from '../../../GenericStyle'
 import { IDropDownItem, IFormField } from '../../../Interfaces'
@@ -131,7 +131,7 @@ export const ProposeOfferFormComponent = () => {
   const renderDropDownComponent = useCallback((dropdownData, fieldKey) => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(dropdownData, fieldKey),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
   }, [renderCenterDropDown])

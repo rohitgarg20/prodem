@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { filter, get, map } from 'lodash'
 
 import { log } from '../../common/config/log'
-import {  ASK_OFFER_FORM, ReducerName } from '../../common/Constant'
+import {  ASK_OFFER_FORM, InputType, ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IAskPartForm, IPartRequestDropDownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
@@ -52,7 +52,22 @@ const onRemoveImage = (state: IAskPartForm, { payload }) => {
 }
 
 const onAskPartForm = (state: IAskPartForm) => {
-  state.formData = ASK_OFFER_FORM
+  const askOfferFrom = state.formData
+  Object.keys(askOfferFrom).forEach((formKey) => {
+    const formKeyData = askOfferFrom?.[formKey]
+    const { type } = formKeyData
+    if(type === InputType.TEXT_INPUT) {
+      askOfferFrom[formKey].inputValue = ''
+    }
+    if(type === InputType.DROPDOWN) {
+      askOfferFrom[formKey].selectedItem = {}
+    }
+
+    if(type === InputType.IMAGES_SELECTION) {
+      askOfferFrom[formKey].selectedImages = []
+    }
+  })
+  state.formData = askOfferFrom
 }
 
 const onAskPartFormError = (state: IAskPartForm, { payload }) => {

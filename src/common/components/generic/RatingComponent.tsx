@@ -37,7 +37,7 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
 
   const [selectedRating, updateSelectedRating] = useState(-1)
   const [description, updateDescription] = useState('')
-  const containerPosition = useSharedValue(1)
+  const containerPosition = useSharedValue(0)
   const onChangeRadioButton = (key) => {
     updateSelectedRating(key)
   }

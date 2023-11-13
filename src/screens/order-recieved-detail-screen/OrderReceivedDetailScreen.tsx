@@ -12,7 +12,7 @@ import { genericDrawerController } from '../../common/components/ModalComponent/
 import { HeaderComponent } from '../../common/components/screens'
 import { DropDownListComponent } from '../../common/components/screens/dropdown/DropDownListComponent'
 import { log } from '../../common/config/log'
-import { updateOrderStatusOptions } from '../../common/Constant'
+import { isIos, updateOrderStatusOptions } from '../../common/Constant'
 import { ButtonType } from '../../common/Enumerators'
 import { centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
@@ -345,7 +345,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
   const renderDropDownComponent = useCallback((dropdownData, fieldKey) => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(dropdownData, fieldKey),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
   }, [renderCenterDropDown])
@@ -398,7 +398,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
   const showRatingPopup = () => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderRatingModal(),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
     genericDrawerController.openGenericDrawerModal()

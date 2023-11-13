@@ -36,13 +36,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    maxWidth: 150,
+    maxWidth: 200,
     alignSelf: 'center',
     marginBottom: 10,
     marginTop: 10
   },
-  imageItemContainer: {
+  imageItemParentContainer: {
     width: 100,
+    height: 100
+  },
+  imageItemContainer: {
+    width: 95,
     height: 100,
     borderRadius: 10,
     borderColor: colors.ashGrey,
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: colors.white,
     backgroundColor: colors.white,
-    right: -7,
+    right: -6,
     justifyContent: 'center',
     alignItems: 'center',
     top: -10,

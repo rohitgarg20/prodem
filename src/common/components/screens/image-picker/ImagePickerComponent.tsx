@@ -1,18 +1,23 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { map } from 'lodash'
 import ImageCropPicker from 'react-native-image-crop-picker'
 import { launchImageLibrary } from 'react-native-image-picker'
+import { useDispatch } from 'react-redux'
 
+import { hideLoader, showLoader } from '../../../../redux/LoaderDataStore/LoaderSlice'
 import { log } from '../../../config/log'
 import { ICameraComponent, IImageItem } from '../../../Interfaces'
 
 
 export const ImagePickerComponent = (props: ICameraComponent) => {
   const { onSavePicture, onDismiss, maxAllowedImages } = props
+  const isImagePickerLaunched = useRef(false)
+  const dispatch = useDispatch()
 
   const onSaveCropImage = useCallback(async(images) => {
     let imgResult: IImageItem[] = []
+    log('onSaveCropImageonSaveCropImageonSaveCropImage')
     for await (const image of images) {
       try {
         const croppedImgResp = await ImageCropPicker.openCropper({
@@ -27,6 +32,8 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
           enableRotationGesture: true,
           freeStyleCropEnabled: true
         })
+        log('onSaveCropImageonSaveCropImageonSaveCropImage', croppedImgResp)
+
         const { data, mime } = croppedImgResp
         imgResult.push({
           base64: `data:${mime};base64,${data}`,
@@ -39,6 +46,8 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
           })
         }
       } catch(err) {
+        log('onSaveCropImageonSaveCropImageonSaveCropImage, errerr', err)
+
         if(onSavePicture) {
           onDismiss()
           onSavePicture({
@@ -58,6 +67,7 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
       onDismiss()
     } else {
       const imgRespData = selectedImgResp?.assets
+      log('onSaveCropImage called before')
       const imagesList: any[] = map(imgRespData, (imgData: IImageItem) => {
         const { type, uri  } = imgData
         return {
@@ -65,7 +75,7 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
           uri
         }
       })
-      log('imagesListimagesList', imagesList[0], selectedImgResp)
+      log('onSaveCropImage called')
       onSaveCropImage(imagesList)
     }
   }, [onSaveCropImage, onDismiss])
@@ -76,8 +86,25 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
       mediaType: 'photo',
       quality: 0.4
     }
-    launchImageLibrary(options, setSelectedImgResponse)
-  }, [setSelectedImgResponse, maxAllowedImages])
+    dispatch({
+      type: showLoader.type
+    })
+    if(!isImagePickerLaunched.current) {
+      isImagePickerLaunched.current = true
+      launchImageLibrary(options, setSelectedImgResponse).then(() => {
+        dispatch({
+          type: hideLoader.type
+        })
+      }).catch((err) => {
+        log('errerrerrerrerrerrerrerr called', err)
+      })
+    }
+    return () => {
+      dispatch({
+        type: hideLoader.type
+      })
+    }
+  }, [setSelectedImgResponse, maxAllowedImages, dispatch])
 
   return null
 }

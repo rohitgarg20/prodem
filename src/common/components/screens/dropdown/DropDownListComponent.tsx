@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     borderColor: colors.mediumGrey
   },
   dropDownContainer: {
-    paddingVertical: 0.1 * SCREEN_HEIGHT
+    maxHeight: SCREEN_HEIGHT * 0.8
   },
   flatlistContainer: {
     backgroundColor: colors.softPeach,

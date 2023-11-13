@@ -44,7 +44,7 @@ export const ButtonComponent = memo((props: IButtonComponent) => {
       return {
         ...(textStyle as object),
         textDecorationLine: 'underline',
-        textDecorationColor: '#ff963a'
+        // textDecorationColor: '#ff963a'
       } as StyleProp<TextStyle>
     }
     return {

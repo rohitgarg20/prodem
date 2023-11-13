@@ -3,7 +3,7 @@ import { find, get, map } from 'lodash'
 
 import { BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
-import { PROPOSE_OFFER_FORM, ProposeOfferFieldKeys, ReducerName } from '../../common/Constant'
+import { InputType, PROPOSE_OFFER_FORM, ProposeOfferFieldKeys, ReducerName } from '../../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { IBidDetail, ICompanyDetail, IFormField, IPartRequestBasicDetail, IProposeOfferDropdownData } from '../../common/Interfaces'
@@ -47,13 +47,15 @@ const onSelectDropDowItem = (state: IPartRequestDetail, { payload }) => {
 
 const onFetchedBidOptionsSuccess = (state: IPartRequestDetail, { payload }) => {
   log('onFetchedBidOptionsSuccessonFetchedBidOptionsSuccess', payload)
-  const dropDownData: IProposeOfferDropdownData = get(payload, 'data', {})
-  const { offerAvailability, offerCurrency, offerUnit, productType  } = dropDownData
+  const dropDownData: IProposeOfferDropdownData = get(payload, 'data') || get(payload, 'responseData.data', {})
+  const { offerAvailability, offerCurrency, offerUnit, productType  } = dropDownData || {}
 
   state.formData.currency.dropdownData = offerCurrency
   state.formData.unit.dropdownData = offerUnit
   state.formData.offeredBy.dropdownData = productType
   state.formData.availability.dropdownData = offerAvailability
+  log('onFetchedBidOptionsSuccessonFetchedBidOptionsSuccess', state.formData, dropDownData)
+
 
 }
 
@@ -248,8 +250,25 @@ const proposeNewOfferApiFailure = (state: IPartRequestDetail, { payload }) => {
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
 }
 
-const resetData = () => {
-  return initialState
+const resetData = (state: IPartRequestDetail) => {
+  const proposeOfferFrom = state.formData
+  Object.keys(proposeOfferFrom).forEach((formKey) => {
+    const formKeyData = proposeOfferFrom?.[formKey]
+    const { type } = formKeyData
+    if(type === InputType.TEXT_INPUT) {
+      proposeOfferFrom[formKey].inputValue = ''
+    }
+    if(type === InputType.DROPDOWN) {
+      proposeOfferFrom[formKey].selectedItem = {}
+    }
+
+    if(type === InputType.IMAGES_SELECTION) {
+      proposeOfferFrom[formKey].selectedImages = []
+    }
+  })
+  state.partRequestDetail = initialState.partRequestDetail
+  state.activePartRequestId = initialState.activePartRequestId
+  state.formData = proposeOfferFrom
 }
 
 const partRequestDetailSlice = createSlice({

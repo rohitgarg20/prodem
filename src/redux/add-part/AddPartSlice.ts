@@ -20,7 +20,8 @@ const onChangeUserInput = (state: IAddPartForm, { payload }) => {
   if(fieldKey === AddPartFieldKeys.DESCRIPTION) {
     parsedValue = value.replaceAll('\n', '</br>').replaceAll(' ', '&nbsp')
   }
-  state.formData[fieldKey].inputValue = parsedValue
+  state.formData[fieldKey].inputValue = value
+  state.formData[fieldKey].apiValue = parsedValue
   // log('onChangeUserInput', state.formData, value.length, value.replaceAll('\n', '</br>').replaceAll(' ', '&nbsp'), )
 }
 
@@ -144,7 +145,7 @@ const addPartSlice = createSlice({
     onSelectDropDowItemReducer: onSelectDropDowItem,
     onSelectImagesReducer: onSelectImage,
     onRemoveImageReducer: onRemoveImage,
-    onAddPartSuccessReducer: onAddNewPart,
+    resetAddPartSuccessReducer: onAddNewPart,
     onAddPartFailureReducer: onAddNewPartError,
     editFormReducer: prepoulateAddPartFormData
   }
@@ -152,7 +153,7 @@ const addPartSlice = createSlice({
 
 export const {
   onChangeUserInputReducer, onFetchedSellDropDownListSuccess, onSelectDropDowItemReducer, onSelectImagesReducer,
-  onRemoveImageReducer, onAddPartFailureReducer, onAddPartSuccessReducer, editFormReducer
+  onRemoveImageReducer, onAddPartFailureReducer, resetAddPartSuccessReducer, editFormReducer
 } = addPartSlice.actions
 
 export default addPartSlice.reducer

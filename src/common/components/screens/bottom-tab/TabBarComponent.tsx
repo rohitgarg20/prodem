@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { get, map } from 'lodash'
 import { View, TouchableOpacity, StyleSheet, Keyboard } from 'react-native'
-import  Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import  Animated, { Easing, Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import { setParentStackName } from '../../../../utils/navigation-utils'
 import { scale } from '../../../../utils/scaling'
@@ -10,6 +10,7 @@ import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
 import { BOTTOM_TAB_CONFIG, StackNames } from '../../../Screens'
 import { CustomText, IconWrapper } from '../../generic'
+import { isIos } from '../../../Constant'
 
 
 const styles = StyleSheet.create({
@@ -19,7 +20,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.fuscosGrey,
     borderTopWidth: 1,
     alignItems: 'center',
-    elevation: 5
+    elevation: 5,
+    zIndex: 9999
   },
   tabBarContainer: {
     flexDirection: 'row',
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
   },
   tabBarName: {
     paddingTop: scale(10),
-    fontWeight: 'bold'
+    fontWeight: isIos ? '300' : 'bold'
   },
   selectedIconContainer: {
     position: 'absolute',
@@ -148,7 +150,6 @@ export const BottomTabBarComponent = ({ state, navigation }) => {
     </View>
 
   }
-
 
   if(!isTabBarVisible) return null
 

@@ -1,10 +1,10 @@
 import { forEach, isEmpty } from 'lodash'
 
-import { onFetchedSellDropDownListSuccess, onAddPartSuccessReducer, onAddPartFailureReducer, editFormReducer } from './AddPartSlice'
+import { onFetchedSellDropDownListSuccess, resetAddPartSuccessReducer, onAddPartFailureReducer, editFormReducer } from './AddPartSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
 import { AddPartFieldKeys, InputType } from '../../common/Constant'
-import { IFormField, IProductCardComponent } from '../../common/Interfaces'
+import { IFormField } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { apiDispatch } from '../../network/DispatchApiCall'
 import { callPromisesParallel, getBase64FromImageUrl } from '../../utils/app-utils'
@@ -59,9 +59,13 @@ export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) =>
   if(!emptyFieldName) {
     Object.keys(addPartForm).forEach((formKey) => {
       const formKeyData = addPartForm?.[formKey]
-      const { inputValue, type, selectedItem, selectedImages, apiKey } = formKeyData
+      const { inputValue, type, selectedItem, selectedImages, apiKey, apiValue } = formKeyData
       if(type === InputType.TEXT_INPUT) {
-        formData.append(apiKey, inputValue)
+        if(formKey === AddPartFieldKeys.DESCRIPTION) {
+          formData.append(apiKey, apiValue)
+        } else {
+          formData.append(apiKey, inputValue)
+        }
       }
       if(type === InputType.DROPDOWN) {
         formData.append(apiKey, selectedItem.id)
@@ -78,7 +82,7 @@ export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) =>
 
     apiDispatch({
       endPoint: API_END_POINT.CREATE_PRODUCT,
-      onSuccess: onAddPartSuccessReducer.type,
+      onSuccess: resetAddPartSuccessReducer.type,
       showLoaderOnScreen: true,
       method: 'POST',
       body: formData,
@@ -139,7 +143,7 @@ export const editPart = async (addPartForm: Record<AddPartFieldKeys, IFormField>
     return new Promise((resolve, reject) => {
       const apiResponse = apiDispatch({
         endPoint: `${API_END_POINT.UPDATE_PRODUCT}/${productId}`,
-        onSuccess: onAddPartSuccessReducer.type,
+        onSuccess: resetAddPartSuccessReducer.type,
         showLoaderOnScreen: true,
         method: 'POST',
         body: formData,

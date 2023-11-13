@@ -36,9 +36,9 @@ export const onLoginUserReducer = (loginForm: Record<LoginFormKeys, IUserFormIte
       method: 'POST',
       body: formData,
       onStart: onApiFetchStartedReducer.type,
-      onFailure: onLoginApiSuccessReducer.type,
+      onFailure: onLoginApiFailedResponseReducer.type,
       showLoaderOnScreen: true,
-      onSuccess: onLoginApiFailedResponseReducer.type
+      onSuccess: onLoginApiSuccessReducer.type
     })
     try {
       resolve(apiResponse)

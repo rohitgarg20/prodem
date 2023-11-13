@@ -13,6 +13,7 @@ import { HeaderComponent } from '../../../common/components/screens'
 import { DropDownListComponent } from '../../../common/components/screens/dropdown/DropDownListComponent'
 import { centerModal } from '../../../common/GenericStyle'
 import { EDIT_PROFILE_SCREEN } from '../../../common/strings'
+import { isIos } from '../../../common/Constant'
 
 const { HEADER_TITLE } = EDIT_PROFILE_SCREEN
 
@@ -83,7 +84,7 @@ const DropDownBox = ({
   const renderDropDownComponent = useCallback((dropdownData, fieldKey) => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(dropdownData, fieldKey),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: centerModal
     })
   }, [renderCenterDropDown])

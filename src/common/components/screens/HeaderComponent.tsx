@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { verticalScale } from '../../../utils/scaling'
 import { colors, textColor } from '../../Colors'
+import { icons } from '../../Icons'
 import { IHeaderComponent } from '../../Interfaces'
 import { BackButtonComponent, CustomText, IconButtonWrapperComponent } from '../generic'
-import { icons } from '../../Icons'
 
 
 const styles = StyleSheet.create({

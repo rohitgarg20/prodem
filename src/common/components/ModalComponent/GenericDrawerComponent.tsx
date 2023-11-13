@@ -144,6 +144,7 @@ export const GenericDrawerComponent = forwardRef((props, ref) => {
   }), [])
 
   const onPressDrawer = () => {
+    log('renderDrawerComponent onPressDraweronPressDrawer', modalPositionStyling)
     Keyboard.dismiss()
     if (closeDrawerOnOutsideTouch) {
       closeDrawerAnimation()

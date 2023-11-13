@@ -682,3 +682,5 @@ export const sortByFilters = [
     value: 'Price (High to Low)'
   }
 ]
+
+export const isIos = Platform.OS === 'ios'

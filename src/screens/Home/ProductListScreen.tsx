@@ -17,7 +17,7 @@ import { DropDownListComponent } from '../../common/components/screens/dropdown/
 import { ProductItemCardComponent } from '../../common/components/screens/home/ProductItemCardComponent'
 import { SearchBarComponent } from '../../common/components/screens/home/SearchBarComponent'
 import { log } from '../../common/config/log'
-import { SCREEN_HEIGHT, sortByFilters } from '../../common/Constant'
+import { SCREEN_HEIGHT, isIos, sortByFilters } from '../../common/Constant'
 import { ButtonType } from '../../common/Enumerators'
 import { bottomModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
@@ -231,7 +231,7 @@ export const ProductListScreen = ({ navigation  }) => {
   const renderDropDownComponent = useCallback(() => {
     genericDrawerController.showGenericDrawerModal({
       renderingComponent: () => renderCenterDropDown(),
-      closeDrawerOnOutsideTouch: false,
+      closeDrawerOnOutsideTouch: isIos,
       modalPositionStyling: bottomModal
     })
   }, [renderCenterDropDown])

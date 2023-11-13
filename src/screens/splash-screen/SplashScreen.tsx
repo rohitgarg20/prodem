@@ -5,11 +5,11 @@ import { StyleSheet, View } from 'react-native'
 import { colors } from '../../common/Colors'
 import { IconWrapper } from '../../common/components'
 import { icons } from '../../common/Icons'
-import { scale, verticalScale } from '../../utils/scaling'
-import { getAuthToken } from '../../utils/auth-utils'
-import { replaceNavigation } from '../../utils/navigation-utils'
 import { StackNames } from '../../common/Screens'
 import { fetchUserProfileData } from '../../redux/profile/ProfileApi'
+import { getAuthToken } from '../../utils/auth-utils'
+import { replaceNavigation } from '../../utils/navigation-utils'
+import { scale, verticalScale } from '../../utils/scaling'
 
 const styles = StyleSheet.create({
   mainContainer: {

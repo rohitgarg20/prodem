@@ -10,6 +10,7 @@ import { log } from '../common/config/log'
 import { hideLoader, showLoader } from '../redux/LoaderDataStore/LoaderSlice'
 import { LOGOUT_SUCCESS } from '../common/ErrorMessages'
 import { LOGOUT_ACTION } from '../store/DataStore'
+import { showAndroidToastMessage } from '../common/Toast'
 
 export const makeApiRequest = async (store?: MiddlewareAPI, dispatch?: any, action?: IActions) => {
 
@@ -29,11 +30,9 @@ export const makeApiRequest = async (store?: MiddlewareAPI, dispatch?: any, acti
 
   try {
     const resp: AxiosResponse = await axiosRequest.apiRequest(payload) as AxiosResponse
-
-    log('respresprespresp inside 31', resp)
+    log('inside else is called 41', resp)
     const respData = get(resp, 'data', {})
     const statusCode = get(resp, 'data.code')
-    log('respresprespresp 34', resp)
     const authStatus = get(respData, 'authStatus')
     if(typeof authStatus === 'boolean' && authStatus === false) {
       dispatch({ type: LOGOUT_ACTION })
@@ -55,7 +54,6 @@ export const makeApiRequest = async (store?: MiddlewareAPI, dispatch?: any, acti
 
 
   } catch(err) {
-    log('respresprespresp error os', err)
     const authStatus = get(err, 'authStatus')
     if(typeof authStatus === 'boolean' && authStatus === false) {
       dispatch({ type: LOGOUT_ACTION })
