@@ -1,8 +1,7 @@
 import React, { memo, useMemo } from 'react'
 
-import { get } from 'lodash'
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import { View } from 'react-native-reanimated/lib/typescript/Animated'
+import { get, map } from 'lodash'
+import { Pressable, ScrollView, StyleProp, StyleSheet, ViewStyle, View, TouchableOpacity } from 'react-native'
 
 import { CustomText } from './CustomText'
 import { IconWrapper } from './IconWrapper'
@@ -17,12 +16,14 @@ interface ITextDropDownComponent {
   dropdownData?: IDropDownItem[] | []
   defaultValue?: string
   selectedDropDownItem?: IDropDownItem
+  multiSelectDropDownItem?: string[]
   dropDownKey: string
   propsTextColor?: string
   dropDownContainerStyle?: StyleProp<ViewStyle>
   fontSize?: number
   lineHeight?: number
   fontWeight?: string
+  showMultiSelectList?: boolean
 }
 
 
@@ -37,6 +38,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingRight: scale(16)
+  },
+  roundedItemContaier: {
+    borderRadius: 5,
+    borderColor: colors.primary,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginRight: 10
   }
 })
 
@@ -44,13 +52,36 @@ export const LabelWithArrowComponent = memo((props: ITextDropDownComponent) => {
 
   const {
     onPress, dropdownData, defaultValue, selectedDropDownItem, dropDownKey, propsTextColor,
-    dropDownContainerStyle = {}, fontSize, lineHeight, fontWeight
+    dropDownContainerStyle = {}, fontSize, lineHeight, fontWeight, showMultiSelectList = false,
+    multiSelectDropDownItem = []
   } = props
 
 
   const renderTextComponent = () => {
     const selectedItemValue = get(selectedDropDownItem, 'value')
+    log('multiSelectDropDownItem', multiSelectDropDownItem)
+    if(showMultiSelectList && multiSelectDropDownItem?.length > 0) {
+      return (
+        <View>
+          {
+            map(multiSelectDropDownItem, (singleItem) => {
+              return (
+                <View style={styles.roundedItemContaier}>
+                  <CustomText
+                    text={singleItem}
+                    color={propsTextColor || (selectedItemValue ? textColor.black : textColor.stormGrey)}
+                    fontSize={fontSize || 16}
+                    lineHeight={lineHeight || 22}
+                    fontWeight={fontWeight}
+                  />
+                </View>
+              )
+            })
+          }
+        </View>
 
+      )
+    }
 
     return (
       <CustomText

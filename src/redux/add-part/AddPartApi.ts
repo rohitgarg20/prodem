@@ -26,7 +26,7 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
   let emptyField = ''
   Object.keys(formData).forEach((formKey) => {
     const formKeyData = formData?.[formKey]
-    const { inputValue, type, selectedItem } = formKeyData
+    const { inputValue, type, selectedItem, isListMultiSelect, multiSelectedDropDownItem } = formKeyData
     if(emptyField.length) {
       return
     }
@@ -38,7 +38,9 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
     }
 
     if(type === InputType.DROPDOWN) {
-      if(isEmpty(selectedItem)) {
+      if(isListMultiSelect && isEmpty(multiSelectedDropDownItem)) {
+        emptyField = formKey
+      } else if(!isListMultiSelect && isEmpty(selectedItem)) {
         emptyField = formKey
       }
     }
@@ -54,12 +56,11 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
 
 export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) => {
   const formData = new FormData()
-  log('addNewPartaddNewPart', addPartForm)
   const emptyFieldName = isAddPartFormValid(addPartForm)
   if(!emptyFieldName) {
     Object.keys(addPartForm).forEach((formKey) => {
       const formKeyData = addPartForm?.[formKey]
-      const { inputValue, type, selectedItem, selectedImages, apiKey, apiValue } = formKeyData
+      const { inputValue, type, selectedItem, selectedImages, apiKey, apiValue, multiSelectedDropDownItem, isListMultiSelect } = formKeyData
       if(type === InputType.TEXT_INPUT) {
         if(formKey === AddPartFieldKeys.DESCRIPTION) {
           formData.append(apiKey, apiValue)
@@ -68,7 +69,11 @@ export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) =>
         }
       }
       if(type === InputType.DROPDOWN) {
-        formData.append(apiKey, selectedItem.id)
+        if(isListMultiSelect) {
+          formData.append(apiKey, multiSelectedDropDownItem.join(','))
+        } else {
+          formData.append(apiKey, selectedItem.id)
+        }
       }
 
       if(type === InputType.IMAGES_SELECTION) {

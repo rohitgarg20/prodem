@@ -5,6 +5,7 @@ import { BackHandler, FlatList, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { addPartStyle } from './styles'
+import { VehiclesMultiSelectDropDown } from './VehiclesMultiSelectDropdown'
 import { dimissKeyboard } from '../../common/App-Utils'
 import { textColor } from '../../common/Colors'
 import { ButtonComponent, CenterModalPopup, CustomText, IconButtonWrapperComponent, IconWrapper, LabelWithArrowComponent, TextInputComponent } from '../../common/components'
@@ -24,7 +25,7 @@ import { IDropDownItem, IFormField, IImageItem } from '../../common/Interfaces'
 import { ADD_PART_SCREEN, BUTTONS } from '../../common/strings'
 import { addNewPart, editPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
 import { getTotalImagesTakenCountSelector } from '../../redux/add-part/AddPartSelector'
-import { onChangeUserInputReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer, resetAddPartSuccessReducer } from '../../redux/add-part/AddPartSlice'
+import { onChangeUserInputReducer, onMultiSelectDropDowItemReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer, resetAddPartSuccessReducer } from '../../redux/add-part/AddPartSlice'
 import { fetchSellerProductList } from '../../redux/home/SellerAdsApi'
 import { RootState } from '../../store/DataStore'
 import { goBack } from '../../utils/navigation-utils'
@@ -42,7 +43,6 @@ export const AddPartScreen = ({ navigation, route }) => {
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
   const isEditFlow = route?.params?.isEditFlow || false
   const productId = route?.params?.productId
-
   const dispatch = useDispatch()
 
   const onBackPressed = useCallback(() => {
@@ -125,15 +125,35 @@ export const AddPartScreen = ({ navigation, route }) => {
     genericDrawerController.closeGenericDrawerModal()
   }, [dispatch])
 
+  const submitBtnHandler = useCallback((selectedDropdownItem: IDropDownItem[]) => {
+    genericDrawerController.closeGenericDrawerModal()
+    dispatch({
+      type: onMultiSelectDropDowItemReducer.type,
+      payload: {
+        selectedDropdownItem,
+        fieldKey: AddPartFieldKeys.VEHICLES
+      }
+    })
+  }, [dispatch])
+
   const renderDropdownListComponent = useCallback((dropdownData, fieldKey) => {
-    return (
-      <DropDownListComponent
-        dropdownList={dropdownData}
-        onPressDropDownItem={onPressDropDownItem}
-        fieldKey={fieldKey}
-      />
-    )
-  }, [onPressDropDownItem])
+    if(fieldKey === AddPartFieldKeys.VEHICLES) {
+      const multiSelectedDropDownItemIds = addPartForm[fieldKey]?.multiSelectedDropDownItem || []
+      return VehiclesMultiSelectDropDown({
+        dropdownData,
+        updateSelectedVehicleData: submitBtnHandler,
+        initialSelectedData: multiSelectedDropDownItemIds
+      })
+    } else {
+      return (
+        <DropDownListComponent
+          dropdownList={dropdownData}
+          onPressDropDownItem={onPressDropDownItem}
+          fieldKey={fieldKey}
+        />
+      )
+    }
+  }, [onPressDropDownItem, submitBtnHandler, addPartForm])
 
   const renderCenterDropDown = useCallback((dropdownData, fieldKey) => {
     return (
@@ -160,7 +180,7 @@ export const AddPartScreen = ({ navigation, route }) => {
 
 
   const renderLabelWithArrowComponent = (fieldData: IFormField) => {
-    const { title, dropdownData, defaultValue, selectedItem, key } = fieldData
+    const { title, dropdownData, defaultValue, selectedItem, key, multiSelectedDropDownItemNames, isListMultiSelect, multiSelectedDropDownItem } = fieldData
     return (
       <View>
         {renderTitleComponent(title)}
@@ -170,6 +190,8 @@ export const AddPartScreen = ({ navigation, route }) => {
           onPress={showDropDownMenu}
           dropdownData={dropdownData}
           dropDownKey={key}
+          showMultiSelectList={isListMultiSelect}
+          multiSelectDropDownItem={multiSelectedDropDownItemNames}
         />
       </View>
     )
@@ -307,6 +329,8 @@ export const AddPartScreen = ({ navigation, route }) => {
 
       case AddPartFieldKeys.CATEGORY:
       case AddPartFieldKeys.STATUS:
+        viewToRender = renderLabelWithArrowComponent(addPartForm[item])
+        break
       case AddPartFieldKeys.VEHICLES:
         viewToRender = renderLabelWithArrowComponent(addPartForm[item])
         break
@@ -367,6 +391,7 @@ export const AddPartScreen = ({ navigation, route }) => {
         ListFooterComponentStyle={addPartStyle.buttonSeperator}
         automaticallyAdjustKeyboardInsets={true}
         keyboardShouldPersistTaps='handled'
+        nestedScrollEnabled
         // keyboardDismissMode='none'
       />
     )

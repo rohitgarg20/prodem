@@ -30,7 +30,13 @@ const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {
   const { subcategory, models, productType } = dropDownData
   log('onFetchedSellDropDownListonFetchedSellDropDownList', dropDownData)
   state.formData.category.dropdownData = subcategory
-  state.formData.vehicles.dropdownData = models
+  state.formData.vehicles.dropdownData = models.map((model) => {
+    return {
+      id: model.id,
+      name: (model.name || model.value || '').toString(),
+      value: model.value
+    }
+  })
   state.formData.status.dropdownData = productType
   log('onFetchedSellDropDownListonFetchedSellDropDownList', state, payload)
 }
@@ -38,6 +44,23 @@ const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {
 const onSelectDropDowItem = (state: IAddPartForm, { payload }) => {
   const { fieldKey, selectedDropdownItem } = payload
   state.formData[fieldKey].selectedItem = selectedDropdownItem
+}
+
+const onMultiSelectDropDowItem = (state: IAddPartForm, { payload }) => {
+  const { fieldKey, selectedDropdownItem } = payload
+  const selectedVehiclesNames: string[] = []
+  const vehiclesDropDownData = state.formData.vehicles.dropdownData
+  vehiclesDropDownData?.forEach((item) => {
+    selectedDropdownItem?.forEach((selectedItem) => {
+      log('selectedItemselectedItem', selectedItem, item)
+      if(selectedItem === item?.id) {
+        selectedVehiclesNames.push(item?.name || '')
+      }
+    })
+  })
+
+  state.formData[fieldKey].multiSelectedDropDownItem = selectedDropdownItem
+  state.formData[fieldKey].multiSelectedDropDownItemNames = selectedVehiclesNames
 }
 
 const onSelectImage = (state: IAddPartForm, { payload }) => {
@@ -63,6 +86,8 @@ const onAddNewPart = (state: IAddPartForm) => {
     }
     if(type === InputType.DROPDOWN) {
       addPartForm[formKey].selectedItem = {}
+      addPartForm[formKey].multiSelectedDropDownItem = []
+      addPartForm[formKey].multiSelectedDropDownItemNames = []
     }
 
     if(type === InputType.IMAGES_SELECTION) {
@@ -160,14 +185,15 @@ const addPartSlice = createSlice({
     onAddPartFailureReducer: onAddNewPartError,
     editFormReducer: prepoulateAddPartFormData,
     onAddNewPartSuccessReducer: onAddNewPartSuccess,
-    onEditPartSuccessReducer: onEditPartSuccess
+    onEditPartSuccessReducer: onEditPartSuccess,
+    onMultiSelectDropDowItemReducer: onMultiSelectDropDowItem
   }
 })
 
 export const {
   onChangeUserInputReducer, onFetchedSellDropDownListSuccess, onSelectDropDowItemReducer, onSelectImagesReducer,
   onRemoveImageReducer, onAddPartFailureReducer, resetAddPartSuccessReducer, editFormReducer, onAddNewPartSuccessReducer,
-  onEditPartSuccessReducer
+  onEditPartSuccessReducer, onMultiSelectDropDowItemReducer
 } = addPartSlice.actions
 
 export default addPartSlice.reducer

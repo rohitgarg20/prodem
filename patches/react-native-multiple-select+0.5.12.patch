@@ -1,0 +1,137 @@
+diff --git a/node_modules/react-native-multiple-select/index.d.ts b/node_modules/react-native-multiple-select/index.d.ts
+index 07da82c..314f2b5 100644
+--- a/node_modules/react-native-multiple-select/index.d.ts
++++ b/node_modules/react-native-multiple-select/index.d.ts
+@@ -53,6 +53,8 @@ export interface MultiSelectProps {
+     filterMethod?: string;
+     noItemsText?: string;
+     selectedText?: string;
++    crossIcon?: number
++    submitBtnHandler?: () => void
+ }
+ 
+ export default class MultiSelect extends React.Component<MultiSelectProps> {
+diff --git a/node_modules/react-native-multiple-select/lib/react-native-multi-select.js b/node_modules/react-native-multiple-select/lib/react-native-multi-select.js
+index 9b7a0d7..e739f85 100644
+--- a/node_modules/react-native-multiple-select/lib/react-native-multi-select.js
++++ b/node_modules/react-native-multiple-select/lib/react-native-multi-select.js
+@@ -6,7 +6,9 @@ import {
+   TouchableWithoutFeedback,
+   TouchableOpacity,
+   FlatList,
+-  UIManager
++  UIManager,
++  Keyboard,
++  Image
+ } from 'react-native';
+ import {ViewPropTypes, TextPropTypes} from 'deprecated-react-native-prop-types';
+ import PropTypes from 'prop-types';
+@@ -86,7 +88,9 @@ export default class MultiSelect extends Component {
+     onToggleList: PropTypes.func,
+     removeSelected: PropTypes.bool,
+     noItemsText: PropTypes.string,
+-    selectedText: PropTypes.string
++    selectedText: PropTypes.string,
++    crossIcon: PropTypes.number,
++    submitBtnHandler: PropTypes.func
+   };
+ 
+   static defaultProps = {
+@@ -124,13 +128,15 @@ export default class MultiSelect extends Component {
+     onToggleList: () => {},
+     removeSelected: false,
+     noItemsText: 'No items to display.',
+-    selectedText: 'selected'
++    selectedText: 'selected',
++    crossIcon: undefined,
++    submitBtnHandler: () => {}
+   };
+ 
+   constructor(props) {
+     super(props);
+     this.state = {
+-      selector: false,
++      selector: true,
+       searchTerm: ''
+     };
+   }
+@@ -187,9 +193,11 @@ export default class MultiSelect extends Component {
+       tagTextColor,
+       selectedItems,
+       displayKey,
+-      styleTextTag
++      styleTextTag,
++      crossIcon
+     } = this.props;
+     const actualSelectedItems = optionalSelectedItems || selectedItems;
++    console.log('crossIconcrossIconcrossIcon', crossIcon)
+     return actualSelectedItems.map(singleSelectedItem => {
+       const item = this._findItem(singleSelectedItem);
+       if (!item[displayKey]) return null;
+@@ -226,6 +234,18 @@ export default class MultiSelect extends Component {
+               this._removeItem(item);
+             }}
+           >
++            {
++              crossIcon ? (
++            <Image 
++              source={crossIcon}
++              style={{
++                height: 22,
++                width: 22
++              }}
++              resizeMode='contain'
++            />
++              )
++            :
+             <Icon
+               name="close-circle"
+               style={{
+@@ -234,6 +254,7 @@ export default class MultiSelect extends Component {
+                 marginLeft: 10
+               }}
+             />
++    }
+           </TouchableOpacity>
+         </View>
+       );
+@@ -287,9 +308,14 @@ export default class MultiSelect extends Component {
+   };
+ 
+   _submitSelection = () => {
++    const { submitBtnHandler } = this.props
++    if(submitBtnHandler) {
++      submitBtnHandler()
++    }
+     this._toggleSelector();
+     // reset searchTerm
+     this._clearSearchTerm();
++
+   };
+ 
+   _itemSelected = item => {
+@@ -328,6 +354,7 @@ export default class MultiSelect extends Component {
+       selectedItems,
+       onSelectedItemsChange
+     } = this.props;
++    Keyboard.dismiss()
+     if (single) {
+       this._submitSelection();
+       onSelectedItemsChange([item[uniqueKey]]);
+@@ -507,6 +534,7 @@ export default class MultiSelect extends Component {
+     if (renderItems.length) {
+       itemList = (
+         <FlatList
++          keyboardShouldPersistTaps={'always'}
+           data={renderItems}
+           extraData={selectedItems}
+           keyExtractor={(item, index) => index.toString()}
+@@ -601,7 +629,7 @@ export default class MultiSelect extends Component {
+             >
+               {searchIcon}
+               <TextInput
+-                autoFocus
++                autoFocus={false}
+                 onChangeText={this._onChangeInput}
+                 onSubmitEditing={this._addItem}
+                 placeholder={searchInputPlaceholderText}

@@ -167,11 +167,13 @@ export const ADD_PART_FORM = {
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
+    multiSelectedDropDownItem: [],
     defaultValue: 'Not Selected',
     selectedValue: '',
     selectedItem: {},
     key: AddPartFieldKeys.VEHICLES,
-    apiKey: 'product_vehicles'
+    apiKey: 'product_vehicles',
+    isListMultiSelect: true
   },
   [AddPartFieldKeys.STATUS]: {
     title: 'Status',

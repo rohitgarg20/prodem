@@ -101,9 +101,12 @@ export interface IFormField {
   keyboardType?: KeyboardType
   defaultValue?: string
   selectedItem?: IDropDownItem
+  multiSelectedDropDownItem?: string[] | number[]
   selectedImages?: IImageItem[]
   placeholder?: string
   apiValue?: string
+  isListMultiSelect?: boolean
+  multiSelectedDropDownItemNames?: string[]
 }
 
 export interface IAddPartForm {
@@ -160,6 +163,7 @@ export interface IHomeData {
 export interface IDropDownItem {
   id?: number | string
   value?: number | string
+  name?: string
 }
 
 export interface ISellDropDownData {
