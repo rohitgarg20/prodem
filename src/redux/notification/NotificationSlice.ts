@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { get, isEmpty, reduce } from 'lodash'
 
+import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { INotificationDetail } from '../../common/Interfaces'
 import { handleApiFailure } from '../../utils/app-utils'
-import { log } from '../../common/config/log'
 import { onHomeApiSuccessReducer } from '../home/HomeSlice'
 
 interface INotificationState {
@@ -33,7 +33,11 @@ const onFetchedNotificatonListSuccess = (state: INotificationState, { payload })
       description: notification?.notification_msg,
       notificationDate: notification?.notification_created_at,
       isRead: (notification?.notification_read_status || '').toLowerCase() === 'yes',
-      notificationType: notification?.notification_fcm_type
+      notificationType: notification?.notification_fcm_type,
+      data: {
+        orderId: notification?.data?.order_id,
+        productId: notification?.data?.partoffer_bid_parent_id
+      }
     }
     return acc
   }, {})

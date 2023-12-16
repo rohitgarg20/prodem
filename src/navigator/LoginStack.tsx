@@ -9,11 +9,12 @@ import { SetPasswordScreen } from '../screens/ForgetPassword/SetPasswordScreen'
 import { OtpVerificationScreen } from '../screens/otp-verification'
 import { LoginScreen } from '../screens/signin/LoginScreen'
 import { SignUpScreen } from '../screens/signup'
+import { TermsOfConditionScreen } from '../screens/terms-of-condition/TermsOfConditionScreen'
 
 
 const Stack = createStackNavigator()
 
-const { LOGIN_SCREEN, SIGNUP_SCREEN, SET_PASSWORD, FORGET_PASSWORD, EMAIL_VERIFICATION, CHECK_USER_EXISTANCE } = ScreenNames
+const { LOGIN_SCREEN, SIGNUP_SCREEN, SET_PASSWORD, FORGET_PASSWORD, EMAIL_VERIFICATION, CHECK_USER_EXISTANCE, TERMS_OF_CONDITION_SCREEN } = ScreenNames
 
 const LoginStack = () => {
   return (
@@ -33,6 +34,8 @@ const LoginStack = () => {
         component={SetPasswordScreen} />
       <Stack.Screen name = {FORGET_PASSWORD}
         component={EmailVerifyForgetPassword} />
+      <Stack.Screen name = {TERMS_OF_CONDITION_SCREEN}
+        component={TermsOfConditionScreen} />
     </Stack.Navigator>
   )
 }

@@ -15,7 +15,6 @@ import { HOME_SCREEN } from '../../common/strings'
 import { fetchCategoriesAndBrandData } from '../../redux/home/HomeApi'
 import { RootState } from '../../store/DataStore'
 import { navigateSimple } from '../../utils/navigation-utils'
-import { logoutAlert } from '../../common/components/Logout'
 
 
 const { HEADER_TITLE, CATEGORIES, SUBHEADING } = HOME_SCREEN
@@ -27,18 +26,6 @@ export const HomeScreen = ({ navigation }) => {
     fetchCategoriesAndBrandData()
   }, [])
 
-
-  //   return (
-  //     <>
-  //       <CustomText>Hey home screen</CustomText>
-  //       <CartCardComponent
-  //         productImage="https://bms-market.it/imagecache/thumb/uploads__productslides/400x400/"
-  //         displayPrice="33445"
-  //         quantity={23}
-  //         productName="dkdmkdmkdmkdkdmmdmkd"
-  //         productId={0} />
-  //     </>
-  //   )
 
   const dispatch = useDispatch()
   const categoriesList = useSelector((state: RootState) => state.homeReducer.categories)

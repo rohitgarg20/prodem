@@ -13,6 +13,8 @@ import { Router } from './src/navigator/Router'
 import { store } from './src/store/DataStore'
 import { resetNavigator, setNavigator } from './src/utils/navigation-utils'
 import { colors } from './src/common/Colors'
+import { requestTrackingPermission } from 'react-native-tracking-transparency'
+import { isIos } from './src/common/Constant'
 
 
 function App(): JSX.Element {
@@ -25,8 +27,15 @@ function App(): JSX.Element {
     <GenericDrawerComponent ref = {drawerRef}/>
   ]
 
+  const requestPermission = async () => {
+    await requestTrackingPermission()
+  }
+
   useEffect(() => {
     LogBox.ignoreAllLogs(true)
+    if (isIos) {
+      requestPermission()
+    }
     return () => {
       resetNavigator()
     }

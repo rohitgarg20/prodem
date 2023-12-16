@@ -65,8 +65,6 @@ const onAddNewProductInCart = (state: ICartState, { payload }) => {
   log('onAddNewProductInCart', cartData)
   if(!isEmpty(cartData)) {
     const cartDataMapper = cartItemMapper(cartData)
-    log('onAddNewProductInCart', cartDataMapper)
-
     state.cartList = {
       ...state.cartList,
       [productId]: cartDataMapper
@@ -80,6 +78,7 @@ const onRemoveProductFromCart = (state: ICartState, { payload }) => {
   const productId = getProductIdFromPayload(requestData)
   if(state.cartList?.[productId]) {
     delete state.cartList?.[productId]
+    showAndroidToastMessage('Product is successfully removed from cart')
   }
 }
 

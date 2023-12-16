@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 import { map } from 'lodash'
-import ImageCropPicker from 'react-native-image-crop-picker'
-import { launchImageLibrary } from 'react-native-image-picker'
+import ImageCropPicker, { Image } from 'react-native-image-crop-picker'
 import { useDispatch } from 'react-redux'
 
 import { hideLoader, showLoader } from '../../../../redux/LoaderDataStore/LoaderSlice'
@@ -63,40 +62,42 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
 
   const setSelectedImgResponse = useCallback((selectedImgResp) => {
     log('setSelectedImgResponse', selectedImgResp)
-    if(selectedImgResp?.didCancel && onDismiss) {
-      onDismiss()
-    } else {
-      const imgRespData = selectedImgResp?.assets
-      log('onSaveCropImage called before')
-      const imagesList: any[] = map(imgRespData, (imgData: IImageItem) => {
-        const { type, uri  } = imgData
-        return {
-          type,
-          uri
-        }
-      })
-      log('onSaveCropImage called')
-      onSaveCropImage(imagesList)
-    }
-  }, [onSaveCropImage, onDismiss])
+    // if(selectedImgResp?.didCancel && onDismiss) {
+    //   onDismiss()
+    // } else {
+    const imagesList: any[] = map(selectedImgResp, (imgData: Image) => {
+      const { mime, path  } = imgData
+      return {
+        type: mime,
+        uri: path
+      }
+    })
+    log('onSaveCropImage called')
+    onSaveCropImage(imagesList)
+    // }
+  }, [onSaveCropImage])
 
   useEffect(() => {
     const options: any = {
-      selectionLimit: maxAllowedImages,
+      maxFiles: maxAllowedImages,
       mediaType: 'photo',
-      quality: 0.4
+      compressImageQuality: 0.4,
+      multiple: true
     }
     dispatch({
       type: showLoader.type
     })
     if(!isImagePickerLaunched.current) {
       isImagePickerLaunched.current = true
-      launchImageLibrary(options, setSelectedImgResponse).then(() => {
+      ImageCropPicker.openPicker(options).then((imgResp) => {
+        setSelectedImgResponse(imgResp)
+      }).catch((err) => {
+        if(err?.code === 'E_PICKER_CANCELLED' && onDismiss) {
+          onDismiss()
+        }
         dispatch({
           type: hideLoader.type
         })
-      }).catch((err) => {
-        log('errerrerrerrerrerrerrerr called', err)
       })
     }
     return () => {
@@ -104,7 +105,7 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
         type: hideLoader.type
       })
     }
-  }, [setSelectedImgResponse, maxAllowedImages, dispatch])
+  }, [setSelectedImgResponse, maxAllowedImages, dispatch, onDismiss])
 
   return null
 }

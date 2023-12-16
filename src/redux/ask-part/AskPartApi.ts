@@ -69,6 +69,7 @@ export const requestNewPartApi = (addPartForm: Record<PartRequestFieldKeys, IFor
         selectedImages.forEach((image, index) => {
           const base64Img = image?.base64
           const parsedBase64Img = base64Img.split(',')[1]
+          formData.append(`partrequest_thumb[${index}]`, parsedBase64Img)
           formData.append(`${apiKey}[${index}]`, parsedBase64Img)
         })
       }

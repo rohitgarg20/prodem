@@ -6,7 +6,7 @@ import { scale, verticalScale } from '../../../../utils/scaling'
 import { textColor } from '../../../Colors'
 import { SCREEN_WIDTH } from '../../../Constant'
 import { icons } from '../../../Icons'
-import { CustomText, IconWrapper } from '../../generic'
+import { CustomText, IconButtonWrapperComponent, IconWrapper } from '../../generic'
 
 const styles = StyleSheet.create({
 
@@ -44,23 +44,26 @@ export const ProductDetails = ({
   productName,
   displayPrice,
   actualPrice,
-  productViews
+  productViews,
+  onClickImage
 }: {
   productImage: string
   productName: string
   displayPrice: string
   actualPrice: string
   productViews: string
+  onClickImage: () => void
 }) => {
 
   const renderProductImage = () => {
     return (
-      <IconWrapper
+      <IconButtonWrapperComponent
         iconSource={productImage}
         iconHeight={verticalScale(140)}
         iconWidth={scale(120)}
         style={styles.iconContainer}
         resizeMode='cover'
+        onPressIcon={onClickImage}
       />
     )
   }

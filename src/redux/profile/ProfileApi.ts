@@ -1,5 +1,5 @@
 import { onProfileDataApiInitiate, onProfileDataApiSuccess, onProfileDataApiFailure,
-  updateUserName, onProfileUpdateApiFailed, logoutUserFailureReducer, logoutUserSuccessReducer } from './ProfileSlice'
+  updateUserName, onProfileUpdateApiFailed, logoutUserFailureReducer, logoutUserSuccessReducer, onSuccessPasswordUpdatedReducer } from './ProfileSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
 import { showAndroidToastMessage } from '../../common/Toast'
@@ -51,13 +51,12 @@ export const updateUserPasswordApi = ({
       method: 'POST',
       body: formData,
       onStart: '',
-      onSuccess: '',
+      onSuccess: onSuccessPasswordUpdatedReducer.type,
       onFailure: onProfileUpdateApiFailed.type,
       showLoaderOnScreen: true
     })
     try {
       resolve(apiResp)
-      showAndroidToastMessage('Password updated successfully')
     }catch(err) {
       showAndroidToastMessage('Errow while updating password')
       reject(err)

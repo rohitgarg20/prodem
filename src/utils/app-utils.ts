@@ -216,3 +216,9 @@ export const showAlert = (title, heading, onPress, btnTitle) => {
   }
   )
 }
+
+export const getImagesArray = (images: string) => {
+  if(images?.length) {
+    return images.split(',')
+  }
+}

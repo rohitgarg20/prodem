@@ -127,7 +127,9 @@ export const ProfileNameEditScreen = () => {
       showBackBtn
       title={HEADER_TITLE}
     />
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}
+      automaticallyAdjustKeyboardInsets={true}
+    >
       {/** Info Section */}
       <Header header={EDIT_PERSONAL_INFO_HEADER} />
       <TextBox label={NAME_LABEL}

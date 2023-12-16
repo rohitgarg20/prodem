@@ -9,7 +9,6 @@ import { getImgSource } from '../../../utils/app-utils'
 import { colors } from '../../Colors'
 import { icons } from '../../Icons'
 import { IconWrapperComponent } from '../../Interfaces'
-import { log } from '../../config/log'
 
 const styles = StyleSheet.create({
   imageLoading: {
@@ -119,7 +118,7 @@ export class IconWrapper extends PureComponent<IconWrapperComponent, IState> {
           onLoadEnd={this.onImageLoadEnd}
           resizeMode={resizeMode || 'contain'}
           onError={this.onImageLoadEnd}
-          onLoad={(data) => {
+          onLoad={() => {
             // log('on end is called', data)
           }}
           onLoadStart={() => {

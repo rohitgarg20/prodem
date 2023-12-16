@@ -32,7 +32,8 @@ export const ScreenNames = {
   SPLASH_SCREEN: 'splash_screen',
   ORDER_PLACED_DETAIL_SCREEN: 'order_placed_detail_screen',
   NOTIFICATION_LIST_SCREEN: 'notification_list_screen',
-  SELLER_PRODUCT_LIST_SCREEN: 'seller_product_list_screen'
+  SELLER_PRODUCT_LIST_SCREEN: 'seller_product_list_screen',
+  TERMS_OF_CONDITION_SCREEN: 'terms_of_condition_screen'
 }
 
 export const StackNames = {

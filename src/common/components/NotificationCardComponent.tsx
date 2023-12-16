@@ -1,11 +1,10 @@
 import React, { memo } from 'react'
 
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { CustomText, IconWrapper } from './generic'
 import { scale, verticalScale } from '../../utils/scaling'
 import { colors, textColor } from '../Colors'
-import { log } from '../config/log'
 import { icons } from '../Icons'
 import { INotificationDetail } from '../Interfaces'
 
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
 
 interface IProps {
   notificationDetail: INotificationDetail
-  onNotificationClick: (notificationId: number, bookingId: number) => void
+  onNotificationClick: (notificationDetail: INotificationDetail) => void
 }
 
 export const NotificationCardComponent = memo((props: IProps) => {
@@ -122,8 +121,8 @@ export const NotificationCardComponent = memo((props: IProps) => {
   }
 
   const onPress = () => {
-    if(onNotificationClick && !isRead) {
-      onNotificationClick(notificationId, bookingId)
+    if(onNotificationClick) {
+      onNotificationClick(notificationDetail)
     }
   }
 

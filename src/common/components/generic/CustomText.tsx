@@ -8,11 +8,12 @@ import { scale } from '../../../utils/scaling'
 import { isIos } from '../../Constant'
 import { fonts } from '../../fontUtils'
 import { ICustomText } from '../../Interfaces'
+import { textColor } from '../../Colors'
 
 export const CustomText = memo((props: ICustomText) => {
 
   const {
-    text, textStyle, fontSize = 14, lineHeight, color, children,
+    text, textStyle, fontSize = 14, lineHeight, color = textColor.black, children,
     isAnimated = false, fontWeight = isIos ? undefined : '500', ...restProps
   } = props
 

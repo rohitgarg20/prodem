@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { find, get, map } from 'lodash'
+import { filter, find, get, map } from 'lodash'
 
 import { BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
@@ -8,7 +8,7 @@ import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { IBidDetail, ICompanyDetail, IFormField, IPartRequestBasicDetail, IProposeOfferDropdownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getFormattedDateInDetailFormat, getTitleWithSeperator } from '../../utils/app-utils'
+import { getFormattedDateInDetailFormat, getImagesArray, getTitleWithSeperator } from '../../utils/app-utils'
 
 
 interface IPartRequestDetail {
@@ -140,6 +140,14 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
   //   companyAddressStreet: `Address: ${productData?.company_address_street}`
   // }
   const formattedBiddingList = map(biddingList, (bidItem) => {
+    let bidImagesSlides = map(getImagesArray(bidItem?.partoffer_bid_slides), (item) => {
+      if(item.length) {
+        return `${BASE_URL}uploads/productbid/${item}`
+      } else {
+        return icons.DEFAULT_IMAGE
+      }
+    })
+    log('bidItem?.partoffer_bid_slides', bidItem?.partoffer_bid_slides, bidItem?.partoffer_bid_slides?.split(','))
     return {
       partRequestId: bidItem?.partoffer_bid_parent_id,
       companyName: bidItem?.company_name || bidItem?.p_user_name,
@@ -154,6 +162,7 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
       productType:  getProductType(state, bidItem?.partoffer_bid_product_type).toString() || '',
       availability: getProductAvailabilityType(state, bidItem?.partoffer_bid_availavility).toString() || '',
       bidId: bidItem?.partoffer_bid_id,
+      bidImagesSlides,
       messages: map(get(bidItem, 'msgRecords'), (msgItem) => {
         return {
           text: msgItem?.pob_msg_text?.replaceAll('\r', '').replaceAll('\n', ''),
@@ -191,6 +200,7 @@ const addRemoveProductToIgnoreList = (state: IPartRequestDetail, { payload }) =>
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isIgnoredByUser = updatedValue === 'add'
+    showAndroidToastMessage('Request updated successfully')
   }
 }
 
@@ -198,6 +208,7 @@ const addRemoveProductToWishlistList = (state: IPartRequestDetail, { payload }) 
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isAddedInWishlistByUser = updatedValue === 'new'
+    showAndroidToastMessage('Request updated successfully')
   }
 }
 
@@ -271,6 +282,19 @@ const resetData = (state: IPartRequestDetail) => {
   state.formData = proposeOfferFrom
 }
 
+const onSelectImage = (state: IPartRequestDetail, { payload }) => {
+  const { selectedImages } = payload
+  const updatedImages = [ ...state.formData.productSlides.selectedImages || [], ...selectedImages]
+  state.formData.productSlides.selectedImages = updatedImages
+}
+
+const onRemoveImage = (state: IPartRequestDetail, { payload }) => {
+  const { selectedImage } = payload
+  const oldImages = state.formData.productSlides.selectedImages || []
+  // log('oldImagesoldImages', oldImages, imageIndex)
+  state.formData.productSlides.selectedImages = filter(oldImages, (image) => image.base64 !== selectedImage.base64)
+}
+
 const partRequestDetailSlice = createSlice({
   initialState,
   name: ReducerName.PART_REQUEST_DETAIL,
@@ -287,7 +311,9 @@ const partRequestDetailSlice = createSlice({
     selectBidAsWinningApiSuccessReducer: selectBidAsWinningApiSuccess,
     proposeNewOfferApiSuccessReducer: proposeNewOfferApiSuccess,
     proposeNewOfferApiFailureReducer: proposeNewOfferApiFailure,
-    resetReducerData: resetData
+    resetReducerData: resetData,
+    onSelectImagesReducer: onSelectImage,
+    onRemoveImageReducer: onRemoveImage
   }
 })
 
@@ -295,7 +321,7 @@ export const {
   partRequestDetailApiSuccessReducer, onChangeUserInputReducer, onSelectDropDowItemReducer, onFetchedBidOptionsSuccessReducer,
   setActivePartRequestIdReducer, addRemoveProductToIgnoreListReducer, addRemoveProductToWishlistListReducer,
   sendMsgByBuyerSuccessReducer, sendMsgBySellerSuccessReducer, selectBidAsWinningApiSuccessReducer, proposeNewOfferApiSuccessReducer,
-  proposeNewOfferApiFailureReducer, resetReducerData
+  proposeNewOfferApiFailureReducer, resetReducerData, onSelectImagesReducer, onRemoveImageReducer
 } = partRequestDetailSlice.actions
 
 export default partRequestDetailSlice.reducer

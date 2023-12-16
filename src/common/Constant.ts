@@ -38,7 +38,8 @@ export const ReducerName = {
   ORDER_RECEIVED_DETAIL: 'orderReceivedDetail',
   ORDER_PLACED_DETAIL: 'orderPlacedDetail',
   NOTIFICATION_LIST: 'notificationList',
-  SELLER_ADS_REDUCER: 'SellerAdsReducer'
+  SELLER_ADS_REDUCER: 'SellerAdsReducer',
+  BOTTOM_TAB_BAR: 'bottom_tab_bar'
 }
 
 
@@ -97,7 +98,7 @@ export const LOGIN_FORM = {
     secureTextEntry: true
   },
   'device': {
-    label: 'Password',
+    label: 'Device',
     key: 'device',
     apiKey: 'device',
     inputValue: Platform.OS,
@@ -442,7 +443,8 @@ export enum ProposeOfferFieldKeys {
   UNIT = 'unit',
   PRIVATE_REMARKS = 'privateRemarks',
   OFFERED_BY = 'offeredBy',
-  AVAILABILITY = 'availability'
+  AVAILABILITY = 'availability',
+  IMAGES = 'productSlides'
 }
 
 export const PROPOSE_OFFER_FORM = {
@@ -516,7 +518,16 @@ export const PROPOSE_OFFER_FORM = {
     selectedItem: {},
     key: ProposeOfferFieldKeys.AVAILABILITY,
     apiKey: 'availavility'
-  }
+  },
+  [ProposeOfferFieldKeys.IMAGES]: {
+    title: 'Images',
+    required: false,
+    type: InputType.IMAGES_SELECTION,
+    maxPhotos: 5,
+    selectedImages: [],
+    apiKey: 'product_slides',
+    key: ProposeOfferFieldKeys.IMAGES
+  },
 }
 
 export const RATINGS_TOP_BAR = [{

@@ -5,6 +5,7 @@ import { ReducerName } from '../../common/Constant'
 import { IPartRequestBasicDetail } from '../../common/Interfaces'
 import { getFormattedDateInDetailFormat, getTitleWithSeperator } from '../../utils/app-utils'
 import { filter, get, map } from 'lodash'
+import { showAndroidToastMessage } from '../../common/Toast'
 
 interface IMyPartRequestListState {
   partRequestList?: IPartRequestBasicDetail[]
@@ -66,6 +67,7 @@ const onChangeSelectedPartRequestType = (state: IMyPartRequestListState, { paylo
 const onCancelPartRequestSuccess = (state: IMyPartRequestListState, { payload }) => {
   const cancelledPartRequestId = get(payload, 'extraParams.partRequestId', [])
   state.partRequestList = filter(state.partRequestList, (item) => item.partRequestId !== cancelledPartRequestId)
+  showAndroidToastMessage('Part request is cancelled successfully')
 }
 
 const resetData = (state: IMyPartRequestListState) => {

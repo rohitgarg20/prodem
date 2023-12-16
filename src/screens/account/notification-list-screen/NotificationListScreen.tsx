@@ -9,12 +9,15 @@ import { colors } from '../../../common/Colors'
 import EmptyScreenComponent from '../../../common/components/generic/EmptyScreenComponent'
 import { NotificationCardComponent } from '../../../common/components/NotificationCardComponent'
 import { HeaderComponent } from '../../../common/components/screens'
+import { log } from '../../../common/config/log'
 import { INotificationDetail } from '../../../common/Interfaces'
+import { ScreenNames } from '../../../common/Screens'
 import { NOTIFICATION_SCREEN } from '../../../common/strings'
 import { getNotificationList, markNotificationRead } from '../../../redux/notification/NotificationApi'
 import { getNotificationIds, getFetchingStatus } from '../../../redux/notification/NotificationSelector'
 import { onMarkReadNotificationActionReducer } from '../../../redux/notification/NotificationSlice'
 import { RootState } from '../../../store/DataStore'
+import { navigateSimple } from '../../../utils/navigation-utils'
 import { scale, verticalScale } from '../../../utils/scaling'
 
 const styles = StyleSheet.create({
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
 
 const { HEADER_TITLE } = NOTIFICATION_SCREEN
 
-export const NotificationScreen = () => {
+export const NotificationScreen = ({ navigation }) => {
 
   const dispatch = useDispatch()
   const notificationData = useSelector((state: RootState) => state.notificationReducer.notificationData) || {}
@@ -48,15 +51,63 @@ export const NotificationScreen = () => {
     getNotificationList()
   }, [])
 
-  const onNotificationClick = useCallback((notificationId, bookingId) => {
-    dispatch({
-      type: onMarkReadNotificationActionReducer.type,
-      payload: {
-        notificationId
-      }
-    })
-    markNotificationRead(notificationId)
-  }, [dispatch])
+  const onPressNotificationItem = useCallback((notificationDetail: INotificationDetail) => {
+    const { notificationType, data } = notificationDetail
+    log('notificationDetail', notificationDetail)
+    const { productId, orderId } = data || {}
+    switch(notificationType) {
+      case 'bidStatusUpdated':
+      case 'newBidReceived':
+      case 'bidWinnerSelected':
+        if(productId > 0) {
+          navigateSimple({
+            screenToNavigate: ScreenNames.PART_REQUEST_DETAIL_SCREEN,
+            navigator: navigation,
+            params: {
+              partRequestId: productId
+            }
+          })
+        }
+        break
+      case 'newOrderReceived':
+        if(orderId > 0) {
+          navigateSimple({
+            screenToNavigate: ScreenNames.ORDER_RECEIVED_DETAIL,
+            navigator: navigation,
+            params: {
+              orderId: orderId
+            }
+          })
+        }
+        break
+      case 'OrderStatusUpdated':
+        if(orderId > 0) {
+          navigateSimple({
+            screenToNavigate: ScreenNames.ORDER_PLACED_DETAIL_SCREEN,
+            params: {
+              orderId
+            }
+          })
+        }
+        break
+      default:
+    }
+  }, [navigation])
+
+  const onNotificationClick = useCallback((notificationDetail: INotificationDetail) => {
+    const { notificationId, isRead } = notificationDetail
+    if(!isRead) {
+      dispatch({
+        type: onMarkReadNotificationActionReducer.type,
+        payload: {
+          notificationId
+        }
+      })
+      markNotificationRead(notificationId)
+    }
+    onPressNotificationItem(notificationDetail)
+  }, [dispatch, onPressNotificationItem])
+
 
   const renderNotificationItemComponent = ({ item }) => {
     const data: INotificationDetail = notificationData[item]

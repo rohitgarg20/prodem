@@ -4,7 +4,6 @@
 export const BASE_URL = 'https://autozon.pro/'
 
 
-
 export const API_END_POINT = {
   CHECK_USER_EXISTENCE: 'api/user/account-exists',
   CREATE_USER: 'api/user/signup',

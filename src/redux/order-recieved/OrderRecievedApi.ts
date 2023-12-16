@@ -96,7 +96,6 @@ export const changeOrderStatus = ({
       }
     })
     try {
-      showAndroidToastMessage('Status of order updated successfully')
       resolve(apiResponse)
     } catch(err) {
       reject(err)

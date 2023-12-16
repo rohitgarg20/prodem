@@ -384,6 +384,7 @@ export interface IBidDetail {
   availability: string
   bidId: number
   partRequestId: number
+  bidImagesSlides: string[] | number[]
 }
 
 export interface IPartRequestDetail {
@@ -518,5 +519,9 @@ export interface INotificationDetail {
   description: string
   notificationDate: string
   isRead: boolean
-  notificationType: 'bidStatusUpdated' | 'newBidReceived' | 'bidWinnerSelected' | 'newOrderReceived' | 'buySubscriptionPlan'
+  notificationType: 'bidStatusUpdated' | 'newBidReceived' | 'bidWinnerSelected' | 'newOrderReceived' | 'buySubscriptionPlan' | 'OrderStatusUpdated'
+  data: {
+    orderId: number
+    productId: number
+  }
 }

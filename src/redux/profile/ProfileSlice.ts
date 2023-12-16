@@ -71,9 +71,12 @@ const updateUserNameReducer = (state: IUserProfileDetail, { payload }) => {
   state.isFetchingData = false
   state.hasApiError = true
   state.userDetails.p_user_name = userDetails?.p_user_name || ''
-
+  
 }
 
+const onSuccessPasswordUpdated = () => {
+  showAndroidToastMessage('Password updated successfully')
+}
 
 const onUpdateApiFailedReducer = (state: IUserProfileDetail, { payload }) => {
 
@@ -116,7 +119,8 @@ export const ratingSlice = createSlice({
     onProfileUpdateApiFailed: onUpdateApiFailedReducer,
     resetDataReducer: resetData,
     logoutUserSuccessReducer: logoutUser,
-    logoutUserFailureReducer: logoutUserFailure
+    logoutUserFailureReducer: logoutUserFailure,
+    onSuccessPasswordUpdatedReducer: onSuccessPasswordUpdated
   },
   extraReducers: (builder) => {
     builder.addCase(onLoginApiSuccessReducer.type, (state, action) => {
@@ -129,6 +133,7 @@ export const ratingSlice = createSlice({
 
 export const {
   onProfileDataApiInitiate, onProfileDataApiSuccess, onProfileDataApiFailure, resetDataReducer,
-  updateUserName, onProfileUpdateApiFailed, logoutUserSuccessReducer, logoutUserFailureReducer } = ratingSlice.actions
+  updateUserName, onProfileUpdateApiFailed, logoutUserSuccessReducer, logoutUserFailureReducer, 
+  onSuccessPasswordUpdatedReducer } = ratingSlice.actions
 
 export default ratingSlice.reducer

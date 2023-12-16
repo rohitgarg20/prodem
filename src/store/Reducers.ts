@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 
 import addPartReducer from '../redux/add-part/AddPartSlice'
 import askPartSliceReducer from '../redux/ask-part/AskPartSlice'
+import bottomTabBarReducer from '../redux/bottom-tab-bar/BottomTabBarSlice'
 import cartReducer from '../redux/cart/CartSlice'
 import { checkUserExistanceReducer } from '../redux/CheckUserExistance/UserExistanceSlice'
 import homeReducer from '../redux/home/HomeSlice'
@@ -51,7 +52,8 @@ export const reducers = combineReducers({
   OrderReceivedDetailReducer,
   orderPlacedDetailReducer,
   notificationReducer,
-  sellerProductListReducer
+  sellerProductListReducer,
+  bottomTabBarReducer
 })
 
 

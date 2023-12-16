@@ -77,6 +77,16 @@ const onAddNewPartError = (state: IAddPartForm, { payload }) => {
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
 }
 
+const onAddNewPartSuccess = (state: IAddPartForm, { payload }) => {
+  showAndroidToastMessage('Product is successfully added')
+  onAddNewPart(state)
+}
+
+const onEditPartSuccess = (state: IAddPartForm, { payload }) => {
+  showAndroidToastMessage('Product is successfully updated')
+  onAddNewPart(state)
+}
+
 const getProductType = (state: IAddPartForm, productStatus: number) => {
   const statusAvailableList = state.formData.status.dropdownData
   if(!isEmpty(statusAvailableList)) {
@@ -99,7 +109,8 @@ const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
         addPartForm.name.inputValue = productName
         break
       case AddPartFieldKeys.DESCRIPTION:
-        addPartForm.detail.inputValue = productDescription
+        addPartForm.detail.apiValue = productDescription
+        addPartForm.detail.inputValue = productDescription.replaceAll('\r', '').replaceAll('<p>', '').replaceAll('</p>', '').replaceAll('</br>', '\n').replaceAll('&nbsp', ' ')
         break
       case AddPartFieldKeys.CATEGORY:
         addPartForm.category.selectedItem = {
@@ -147,13 +158,16 @@ const addPartSlice = createSlice({
     onRemoveImageReducer: onRemoveImage,
     resetAddPartSuccessReducer: onAddNewPart,
     onAddPartFailureReducer: onAddNewPartError,
-    editFormReducer: prepoulateAddPartFormData
+    editFormReducer: prepoulateAddPartFormData,
+    onAddNewPartSuccessReducer: onAddNewPartSuccess,
+    onEditPartSuccessReducer: onEditPartSuccess
   }
 })
 
 export const {
   onChangeUserInputReducer, onFetchedSellDropDownListSuccess, onSelectDropDowItemReducer, onSelectImagesReducer,
-  onRemoveImageReducer, onAddPartFailureReducer, resetAddPartSuccessReducer, editFormReducer
+  onRemoveImageReducer, onAddPartFailureReducer, resetAddPartSuccessReducer, editFormReducer, onAddNewPartSuccessReducer,
+  onEditPartSuccessReducer
 } = addPartSlice.actions
 
 export default addPartSlice.reducer

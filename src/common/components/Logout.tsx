@@ -1,6 +1,5 @@
-import React from 'react'
-
 import { Alert } from 'react-native'
+
 import { logoutUser } from '../../redux/profile/ProfileApi'
 
 export const logoutAlert = () => {

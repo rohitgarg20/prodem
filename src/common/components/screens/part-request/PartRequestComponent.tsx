@@ -134,6 +134,12 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
     )
   }
 
+  const onPress = useCallback(() => {
+    if(navigateToDetailScreen) {
+      navigateToDetailScreen(partRequestId)
+    }
+  }, [navigateToDetailScreen, partRequestId])
+
   const renderBiddingButton = () => {
     return (
       <ButtonComponent
@@ -142,6 +148,7 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
         fontSize={14}
         color={textColor.white}
         buttonContainerStyle={styles.btnContainer}
+        onPress={onPress}
       />
     )
   }
@@ -167,11 +174,6 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
     )
   }
 
-  const onPress = useCallback(() => {
-    if(navigateToDetailScreen) {
-      navigateToDetailScreen(partRequestId)
-    }
-  }, [navigateToDetailScreen, partRequestId])
 
   return (
     <Pressable style={styles.container}

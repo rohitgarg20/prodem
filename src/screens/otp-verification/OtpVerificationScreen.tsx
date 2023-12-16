@@ -186,6 +186,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
     <KeyboardHandledScrollView
       style={styles.otpContainer}
       contentContainerStyle={styles.scrollViewContainer}
+      automaticallyAdjustKeyboardInsets={true}
     >
       <BackButtonComponent  />
       <SpacerComponent style={styles.backBtnSeperator} />

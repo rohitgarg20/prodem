@@ -11,6 +11,8 @@ import { log } from '../../../config/log'
 import { BOTTOM_TAB_CONFIG, StackNames } from '../../../Screens'
 import { CustomText, IconWrapper } from '../../generic'
 import { isIos } from '../../../Constant'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../store/DataStore'
 
 
 const styles = StyleSheet.create({
@@ -59,6 +61,7 @@ export const BottomTabBarComponent = ({ state, navigation }) => {
 
 
   const [isTabBarVisible, updateTabBarVisibleStatus] = useState(true)
+  const isTabBarReducerVisible = useSelector((rootState: RootState) => rootState.bottomTabBarReducer.isTabBarVisible)
 
   const onPressTabItem = (childStackName, tabName) => {
     setParentStackName(childStackName)
@@ -151,7 +154,7 @@ export const BottomTabBarComponent = ({ state, navigation }) => {
 
   }
 
-  if(!isTabBarVisible) return null
+  if(!isTabBarVisible || !isTabBarReducerVisible) return null
 
   return (
     <View style={styles.mainContainer}>

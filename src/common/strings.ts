@@ -1,5 +1,5 @@
-import { textColor } from "./Colors"
-import { icons } from "./Icons"
+import { textColor } from './Colors'
+import { icons } from './Icons'
 
 export const CHECK_USER_EXISTANCE_SCREEN = {
   Heading: 'Welcome to prodem',
@@ -24,7 +24,7 @@ export const LOGIN_SCREEN = {
 
 export const OTP_VERIFICATION_SCREEN = {
   OTP_VERIFICATION: 'Email Verification',
-  OTP_SEND: 'Enter the 6 digit code that has been sent to ',
+  OTP_SEND: 'Enter the 4 digit code that has been sent to ',
   CLICK_HERE: 'Click here',
   RESEND_OTP: 'Resend Code',
   RESEND_OTP_IN: 'Didn\'t recieve OTP code ?',
@@ -56,7 +56,7 @@ export const FORGET_PASSWORD = {
   TITLE: 'Forget Password',
   DESCRIPTION: 'Enter your email to recover password',
   EMAIL_PLACEHOLDER: 'example@gmail.com',
-  Email: 'Email',
+  Email: 'Email'
 }
 
 export const SET_PASSWORD = {
@@ -138,7 +138,7 @@ export const PROFILE_SCREEN = {
 }
 
 export const EDIT_PROFILE_SCREEN = {
-  HEADER_TITLE: 'Edit Profile',
+  HEADER_TITLE: 'Edit Profile'
 }
 
 export const EDIT_NAME_PROFILE_SCREEN = {
@@ -154,11 +154,11 @@ export const EDIT_NAME_PROFILE_SCREEN = {
 }
 
 export const BID_REQUEST_SCREEN = {
-  HEADER_TITLE: 'My Bid Request',
+  HEADER_TITLE: 'My Bid Request'
 }
 
 export const WINNING_BID_SCREEN = {
-  HEADER_TITLE: 'Winning Bid',
+  HEADER_TITLE: 'Winning Bid'
 }
 
 export const BID_COMPONENT_LABEL = {
@@ -181,7 +181,7 @@ export const BID_COMPONENT_LABEL = {
 
 export const PART_REQUEST_SCREEN = {
   HEADER_TITLE: 'Car Parts Request',
-  IAM_LOOING: `I'm just looking for car parts `,
+  IAM_LOOING: 'I\'m just looking for car parts ',
   COMPANY_DETAILS: 'Company Details',
   OFFER_FROM: 'Offer from',
   SELECT_WINNING: 'Select as Winning Bid',
@@ -258,7 +258,7 @@ export const ORDER_PLACED_DETAIL_SCREEN = {
   DELIVERY_ADDRESS: 'Delivery Address',
   ESTIMATED_DELIVERY: '* Estimated Delivery Amount : ',
   FINAL_AMOUNT: 'Final Amount',
-  CUSTOMER_REMARKS: `Customer's Remark`,
+  CUSTOMER_REMARKS: 'Customer\'s Remark',
   SELLER_DETAILS: 'Seller Details',
   BUYER_DETAILS: 'Buyer Details',
   INFO: '* The delivery cost shown is that of your general settings taken at the time of placing the order.'

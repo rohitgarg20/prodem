@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 
 import { colors } from '../../common/Colors'
 import { scale, verticalScale } from '../../utils/scaling'
+import { isIos } from '../../common/Constant'
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center'
+    // alignSelf: 'center'
   },
   addMoreImagesBtn: {
     justifyContent: 'center',
@@ -93,6 +94,9 @@ const styles = StyleSheet.create({
   },
   buttonSeperator: {
     paddingTop: 30
+  },
+  addBtnText: {
+    marginTop: isIos ? 7 : 5
   }
 })
 

@@ -99,6 +99,7 @@ const onSuccessOrderStatusApi = (state: IOrderReceivedDetailState, { payload }) 
       value: getOrderStatusLabel(status)
     }
     state.orderDetails = orderDetails
+    showAndroidToastMessage('Status of order updated successfully')
   }
 }
 

@@ -18,6 +18,7 @@ import { ICameraComponent } from '../../../Interfaces'
 import { showAndroidToastMessage } from '../../../Toast'
 import { ButtonComponent, IconWrapper } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
+import { updateTabBarStateReducer } from '../../../../redux/bottom-tab-bar/BottomTabBarSlice'
 
 const styles = StyleSheet.create({
   captureBtn: {
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
   },
   cameraContainer: {
     height: SCREEN_HEIGHT,
-    width: '100%',
-    backgroundColor: 'red'
+    width: '100%'
+    // backgroundColor: 'red'
   },
   captureBtnContainer: {
     position: 'absolute',
@@ -51,10 +52,12 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    columnGap: 40,
+    // columnGap: 20,
     position: 'absolute',
-    bottom: 80,
-    width: '100%'
+    bottom: 50,
+    width: '100%',
+    left: 0,
+    right: 0
   },
   btnContainer: {
     minWidth: 150,
@@ -98,6 +101,23 @@ export const CameraComponent = (props: ICameraComponent) => {
       }
     })
   }, [])
+
+  useEffect(() => {
+    dispatch({
+      type: updateTabBarStateReducer.type,
+      payload: {
+        isTabBarVisible: false
+      }
+    })
+    return  () => {
+      dispatch({
+        type: updateTabBarStateReducer.type,
+        payload: {
+          isTabBarVisible: true
+        }
+      })
+    }
+  }, [dispatch])
 
   const onBackPressed = useCallback(() => {
     log('onn back pressed is called')
@@ -239,6 +259,7 @@ export const CameraComponent = (props: ICameraComponent) => {
           iconSource={path}
           iconHeight={'100%'}
           iconWidth={'100%'}
+          resizeMode='contain'
         />
         {renderBottomButtonComponent()}
       </View>

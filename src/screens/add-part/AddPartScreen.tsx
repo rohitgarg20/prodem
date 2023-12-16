@@ -249,8 +249,9 @@ export const AddPartScreen = ({ navigation, route }) => {
         buttonContainerStyle={addPartStyle.addMoreImages}
         text='+'
         fontSize={30}
-        lineHeight={35}
+        lineHeight={30}
         fontWeight='700'
+        textStyle={addPartStyle.addBtnText}
         color={textColor.darkOrange}
         onPress={showImagesSelectPopup}
       />
@@ -364,6 +365,7 @@ export const AddPartScreen = ({ navigation, route }) => {
         removeClippedSubviews={false}
         ListFooterComponent={renderAddPartButton}
         ListFooterComponentStyle={addPartStyle.buttonSeperator}
+        automaticallyAdjustKeyboardInsets={true}
         keyboardShouldPersistTaps='handled'
         // keyboardDismissMode='none'
       />

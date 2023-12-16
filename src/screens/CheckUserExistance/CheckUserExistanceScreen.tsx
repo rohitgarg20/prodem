@@ -38,12 +38,26 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
   }
 
   const navigateToTermsAndCondition = useCallback(() => {
-
-  }, [])
+    navigateSimple({
+      navigator: navigation,
+      screenToNavigate: ScreenNames.TERMS_OF_CONDITION_SCREEN,
+      params: {
+        url: 'pages/terms-and-conditions',
+        headerTitle: 'Terms of condition'
+      }
+    })
+  }, [navigation])
 
   const navigateToPrivacyPolicy = useCallback(() => {
-
-  }, [])
+    navigateSimple({
+      navigator: navigation,
+      screenToNavigate: ScreenNames.TERMS_OF_CONDITION_SCREEN,
+      params: {
+        url: 'pages/privacy-policy',
+        headerTitle: 'Privacy Policy'
+      }
+    })
+  }, [navigation])
 
   const renderTermsAndConditionButtton = () => {
     return (

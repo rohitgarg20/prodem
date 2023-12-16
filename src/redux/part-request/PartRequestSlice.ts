@@ -5,6 +5,7 @@ import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { IPartRequestCardComponent, ITopTabBarItem } from '../../common/Interfaces'
 import { getFormattedDateInDetailFormat } from '../../utils/app-utils'
+import { showAndroidToastMessage } from '../../common/Toast'
 
 
 interface IPartRequestState {
@@ -102,6 +103,7 @@ export const removePartRequestOnLaterOrWishlist = (state: IPartRequestState, { p
       }
     }
   }
+  showAndroidToastMessage('Request updated successfully')
 }
 
 

@@ -126,6 +126,7 @@ export const SignUpScreen = ({ navigation }) => {
   return (
     <KeyboardHandledScrollView style={styles.mainContainer}
       contentContainerStyle = {styles.contentContainer}
+      automaticallyAdjustKeyboardInsets={true}
     >
       <FormTopSectionComponent subHeading={SubHeading} />
       <SpacerComponent style={styles.formTopSeperator} />

@@ -242,10 +242,11 @@ export const AskOfferScreen = () => {
         buttonContainerStyle={askPartStyle.addMoreImages}
         text='+'
         fontSize={30}
-        lineHeight={35}
+        lineHeight={30}
         fontWeight='700'
         color={textColor.darkOrange}
         onPress={showImagesSelectPopup}
+        textStyle={askPartStyle.addBtnText}
       />
     )
   }
@@ -353,6 +354,7 @@ export const AskOfferScreen = () => {
         ListFooterComponent={renderAddPartButton}
         ListFooterComponentStyle={askPartStyle.buttonSeperator}
         keyboardShouldPersistTaps='handled'
+        automaticallyAdjustKeyboardInsets={true}
         // keyboardDismissMode='none'
       />
     )

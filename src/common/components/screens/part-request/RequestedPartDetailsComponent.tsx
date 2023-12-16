@@ -7,14 +7,15 @@ import { selectWinningBid, sendMsgByBuyer, sendMsgBySeller } from '../../../../r
 import { isPartRequestCancelled, isPartRequestResolved } from '../../../../utils/app-utils'
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
+import { log } from '../../../config/log'
 import { PART_REQUEST_STR_VALUE } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
 import { icons } from '../../../Icons'
 import { IBidDetail, ICompanyDetail, IPartRequestBasicDetail } from '../../../Interfaces'
 import { BUTTONS, PART_REQUEST_BUTTONS, PART_REQUEST_SCREEN, PartTypesButton } from '../../../strings'
-import { ButtonComponent, CustomText, IconWrapper, TextInputComponent } from '../../generic'
+import { ButtonComponent, CustomText, IconButtonWrapperComponent, IconWrapper, TextInputComponent } from '../../generic'
+import { ImageZoomViewerComponent } from '../../generic/ImageZoomViewerComponent'
 import { ImageGalleryComponent } from '../home/ImageGalleryComponent'
-import { log } from '../../../config/log'
 
 const { IAM_LOOING } = PART_REQUEST_SCREEN
 
@@ -119,6 +120,8 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
     isPartAddedInWishlist,  isPartAddedInIgnoreList } = props
   const { heading, addressInfo, description, uploadedDate, partRequestStatus, isPostByLoggedInUser } = basicDetail
   const [selectedImageIndex, updateImageIndex] = useState(0)
+  const [ isImageZoomViewerVisible, updateState ] = useState(false)
+
 
   const onChangeImageIndex = (imgIndex) => {
     updateImageIndex(imgIndex)
@@ -253,18 +256,24 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
     )
   }
 
+  const showImageZoomViewer = () => {
+    updateState(true)
+  }
+
   const renderPartImage = () => {
     const { imageGallery } = basicDetail as IPartRequestBasicDetail
     return (
-      <IconWrapper
+      <IconButtonWrapperComponent
         iconSource={imageGallery?.[selectedImageIndex]}
         iconHeight={verticalScale(140)}
         iconWidth={scale(250)}
         style={styles.iconContainer}
         resizeMode='cover'
+        onPressIcon={showImageZoomViewer}
       />
     )
   }
+
 
   const renderProductGallery = () => {
     const { imageGallery } = basicDetail as IPartRequestBasicDetail
@@ -287,6 +296,22 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
     )
   }
 
+  const closeImageZoomViewer = () => {
+    updateState(false)
+  }
+
+  const openImageZoomViewerComponent = () => {
+    const { imageGallery } = basicDetail as IPartRequestBasicDetail
+
+    return (
+      <ImageZoomViewerComponent
+        imageUrls={imageGallery}
+        isVisible={isImageZoomViewerVisible}
+        closeImageZoomViewer={closeImageZoomViewer}
+      />
+    )
+  }
+
   return (
     <View style={styles.cardContainer}>
       {renderPartImage()}
@@ -294,6 +319,7 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
       {renderDetails()}
       {renderButtons()}
       {renderUploadedDate()}
+      {openImageZoomViewerComponent()}
     </View>
   )
 
@@ -526,8 +552,11 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
   isPostByLoggedInUser: boolean
 }) => {
 
-  const { companyName, description, isWinningBid, messages, productType, displayPrice, availability, bidId, partRequestId } = biddingDetail
+  const { companyName, description, isWinningBid, messages, productType, displayPrice, availability, bidId, partRequestId, bidImagesSlides } = biddingDetail
   const [message, updateMsgText] = useState('')
+  const [selectedImageIndex, updateImageIndex] = useState(0)
+  const [ isImageZoomViewerVisible, updateState ] = useState(false)
+
 
   const renderBiddingDescription = () => {
     return (
@@ -768,17 +797,56 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
     )
   }
 
+  const onChangeImageIndex = useCallback((imageIndex) => {
+    updateImageIndex(imageIndex)
+  }, [])
+
+  const closeImageZoomViewer = useCallback(() => {
+    updateState(false)
+  }, [])
+
+  const onClickImage = useCallback(() => {
+    updateState(true)
+  }, [])
+
+
+  const openImageZoomViewerComponent = () => {
+    return (
+      <ImageZoomViewerComponent
+        imageUrls={bidImagesSlides}
+        isVisible={isImageZoomViewerVisible}
+        closeImageZoomViewer={closeImageZoomViewer}
+        initialIndex={selectedImageIndex}
+      />
+    )
+  }
+
+
+  const renderBidGalleryComponent = () => {
+    if(!bidImagesSlides.length) return null
+    return (
+      <ImageGalleryComponent
+        imagesList={bidImagesSlides}
+        selectedImageIndex={selectedImageIndex}
+        onChangeImageIndex={onChangeImageIndex}
+        callZoomImageViewerModal={onClickImage}
+      />
+    )
+  }
+
   return (
     <View>
       <View style={biddingStyles.cardContainer}>
         {renderBiddingByComponent()}
         {renderBiddingDescription()}
+        {renderBidGalleryComponent()}
         {renderOtherDetailComponent()}
         {renderBiddingDetailsComponent()}
         {renderMessagesList()}
         {renderSendMsgWithButton()}
         {isWinningBid && renderBidWinContainer()}
         {isWinningBid && renderTrophyBid()}
+        {openImageZoomViewerComponent()}
       </View>
     </View>
   )

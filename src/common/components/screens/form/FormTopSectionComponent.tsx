@@ -9,6 +9,8 @@ import { HeadingComponent } from '../HeadingComponent'
 
 const styles = StyleSheet.create({
   subDetailContainer: {
+    width: '100%',
+    flex: 1
   },
   infoContainer: {
     flexDirection: 'row',

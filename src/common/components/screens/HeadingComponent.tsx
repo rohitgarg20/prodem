@@ -6,7 +6,7 @@ import { CustomText } from '../generic/CustomText'
 
 export const HeadingComponent = (props: ICustomText) => {
 
-  const {  fontSize = 24, color = textColor.white, fontWeight = '700', ...restProps  } = props
+  const {  fontSize = 21, color = textColor.white, fontWeight = '700', ...restProps  } = props
   return (
     <CustomText
       color={color}

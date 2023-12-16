@@ -158,20 +158,28 @@ export const isProposeNewFormValid = (formData: Record<ProposeOfferFieldKeys, IF
 export const proposeNewOfferApiRequest = (addPartForm: Record<ProposeOfferFieldKeys, IFormField>, partRequestId: number) => {
   const formData = new FormData()
   const emptyFieldName = isProposeNewFormValid(addPartForm)
+  log('proposeNewOfferApiRequestproposeNewOfferApiRequest', addPartForm)
   if(!emptyFieldName) {
     Object.keys(addPartForm).forEach((formKey) => {
       const formKeyData = addPartForm?.[formKey]
-      const { inputValue, type, selectedItem, apiKey } = formKeyData
+      const { inputValue, type, selectedItem, apiKey, selectedImages } = formKeyData
       if(type === InputType.TEXT_INPUT) {
         formData.append(apiKey, inputValue)
       }
       if(type === InputType.DROPDOWN) {
         formData.append(apiKey, selectedItem.id)
       }
+      if(type === InputType.IMAGES_SELECTION) {
+        selectedImages.forEach((image, index) => {
+          const base64Img = image?.base64
+          const parsedBase64Img = base64Img.split(',')[1]
+          formData.append(`${apiKey}[${index}]`, parsedBase64Img)
+        })
+      }
     })
     formData.append('product_id', partRequestId)
-    return new Promise((resolve, reject) => {
-      const apiRespData = apiDispatch({
+    return new Promise(async (resolve, reject) => {
+      const apiRespData = await apiDispatch({
         endPoint: API_END_POINT.PROPOSE_NEW_OFFER,
         onSuccess: proposeNewOfferApiSuccessReducer.type,
         showLoaderOnScreen: true,
@@ -180,9 +188,12 @@ export const proposeNewOfferApiRequest = (addPartForm: Record<ProposeOfferFieldK
         onFailure: proposeNewOfferApiFailureReducer.type
       })
       try {
+        showAndroidToastMessage('New offer is proposed successfully')
         fetchPartRequestDetail({ productId: partRequestId })
         resolve(apiRespData)
       } catch(err) {
+        log('resolveresolveresolveresolve error ', err)
+
         reject(err)
       }
     })

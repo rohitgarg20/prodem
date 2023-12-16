@@ -52,6 +52,7 @@ const onRemoveImage = (state: IAskPartForm, { payload }) => {
 }
 
 const onAskPartForm = (state: IAskPartForm) => {
+  showAndroidToastMessage('Request is added successfully')
   const askOfferFrom = state.formData
   Object.keys(askOfferFrom).forEach((formKey) => {
     const formKeyData = askOfferFrom?.[formKey]

@@ -1,6 +1,6 @@
 import { forEach, isEmpty } from 'lodash'
 
-import { onFetchedSellDropDownListSuccess, resetAddPartSuccessReducer, onAddPartFailureReducer, editFormReducer } from './AddPartSlice'
+import { onFetchedSellDropDownListSuccess, onEditPartSuccessReducer, onAddPartFailureReducer, onAddNewPartSuccessReducer } from './AddPartSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
 import { AddPartFieldKeys, InputType } from '../../common/Constant'
@@ -26,7 +26,7 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
   let emptyField = ''
   Object.keys(formData).forEach((formKey) => {
     const formKeyData = formData?.[formKey]
-    const { inputValue, type, selectedItem, selectedImages } = formKeyData
+    const { inputValue, type, selectedItem } = formKeyData
     if(emptyField.length) {
       return
     }
@@ -82,7 +82,7 @@ export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) =>
 
     apiDispatch({
       endPoint: API_END_POINT.CREATE_PRODUCT,
-      onSuccess: resetAddPartSuccessReducer.type,
+      onSuccess: onAddNewPartSuccessReducer.type,
       showLoaderOnScreen: true,
       method: 'POST',
       body: formData,
@@ -124,9 +124,13 @@ export const editPart = async (addPartForm: Record<AddPartFieldKeys, IFormField>
     })
     Object.keys(addPartForm).forEach((formKey) => {
       const formKeyData = addPartForm?.[formKey]
-      const { inputValue, type, selectedItem, selectedImages, apiKey } = formKeyData
+      const { inputValue, type, selectedItem, apiKey, apiValue } = formKeyData
       if(type === InputType.TEXT_INPUT) {
-        formData.append(apiKey, inputValue)
+        if(formKey === AddPartFieldKeys.DESCRIPTION) {
+          formData.append(apiKey, apiValue)
+        } else {
+          formData.append(apiKey, inputValue)
+        }
       }
       if(type === InputType.DROPDOWN) {
         formData.append(apiKey, selectedItem.id)
@@ -143,7 +147,7 @@ export const editPart = async (addPartForm: Record<AddPartFieldKeys, IFormField>
     return new Promise((resolve, reject) => {
       const apiResponse = apiDispatch({
         endPoint: `${API_END_POINT.UPDATE_PRODUCT}/${productId}`,
-        onSuccess: resetAddPartSuccessReducer.type,
+        onSuccess: onEditPartSuccessReducer.type,
         showLoaderOnScreen: true,
         method: 'POST',
         body: formData,

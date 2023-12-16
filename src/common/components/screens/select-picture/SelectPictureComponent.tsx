@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     position: 'absolute',
-    top: 0, height: SCREEN_HEIGHT,
-    backgroundColor: 'red'
+    top: 0, height: SCREEN_HEIGHT
+    // backgroundColor: 'red'
   },
   imageSelectionOptions: {
     padding: 15,

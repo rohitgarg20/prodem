@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { productDetailStyles as styles } from './styles'
 import { colors } from '../../common/Colors'
 import { ButtonComponent, IconButtonWrapperComponent } from '../../common/components'
+import { ImageZoomViewerComponent } from '../../common/components/generic/ImageZoomViewerComponent'
 import { OptionIconWithLabelComponent } from '../../common/components/generic/OptionsIconWithLabelComponent'
 import { HeaderComponent } from '../../common/components/screens'
 import { ImageGalleryComponent } from '../../common/components/screens/home/ImageGalleryComponent'
@@ -43,6 +44,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
   const { productDetail, isProductInCart, isProductInWishlist } = productDetailReducer
   const productId = get(routeParams, 'params.productId', 0)
   let sourceRef = useRef(axios.CancelToken.source()).current
+  const [ isImageZoomViewerVisible, updateState ] = useState(false)
 
   useEffect(() => {
     let source = axios.CancelToken.source()
@@ -65,6 +67,26 @@ export const ProductDetailScreen = (props: IPDScreen) => {
     goBack(navigation)
   }
 
+  const closeImageZoomViewer = () => {
+    updateState(false)
+  }
+
+  const openImageZoomViewerComponent = () => {
+    const { imageGallery } = productDetail as IProductDetailScreen
+
+    return (
+      <ImageZoomViewerComponent
+        imageUrls={imageGallery}
+        isVisible={isImageZoomViewerVisible}
+        closeImageZoomViewer={closeImageZoomViewer}
+      />
+    )
+  }
+
+  const onClickImage = () => {
+    updateState(true)
+  }
+
   const renderProductDetailContainer = () => {
     const { productImage, productName, displayPrice, actualPrice, productViews, imageGallery } = productDetail as IProductDetailScreen
     return (
@@ -74,6 +96,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
         displayPrice={displayPrice}
         actualPrice={actualPrice}
         productViews={productViews}
+        onClickImage={onClickImage}
       />
     )
   }
@@ -227,6 +250,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
       />
       { !isEmpty(productDetail) && renderContentContainer()}
       {!isEmpty(productDetail) && renderFooterButtons()}
+      {!isEmpty(productDetail) && openImageZoomViewerComponent()}
     </View>
   )
 }

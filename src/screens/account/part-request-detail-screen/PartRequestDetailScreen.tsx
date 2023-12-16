@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 
 import { isEmpty, map } from 'lodash'
 import { ScrollView, View } from 'react-native'
@@ -31,6 +31,7 @@ export const PartRequestDetailScreen = (props: IProps) => {
   const { navigation, route } = props
 
   const dispatch = useDispatch()
+  const scrollviewRef: any = useRef(null)
   const basicDetail = useSelector(getBasicDetail) || {}
   const companyDetail = useSelector(getCompanyDetail) || {}
   const biddingList = useSelector(getBiddingList)
@@ -84,7 +85,9 @@ export const PartRequestDetailScreen = (props: IProps) => {
   }, [navigation])
 
   const scrollToProposeOfferSection = useCallback(() => {
-
+    if(scrollviewRef && scrollviewRef.current) {
+      scrollviewRef.current.scrollToEnd({ animated: true })
+    }
   }, [])
 
   const onPressIgnoreButton = useCallback(() => {
@@ -96,6 +99,7 @@ export const PartRequestDetailScreen = (props: IProps) => {
     const partRequestId = route?.params?.partRequestId
     addPartRequestToWishlistApi(partRequestId)
   }, [route])
+
 
   const renderBasicDetailComponent = () => {
     return (
@@ -149,6 +153,7 @@ export const PartRequestDetailScreen = (props: IProps) => {
     )
   }
 
+
   const renderContentContainer = () => {
     if(isEmpty(basicDetail)) {
       return null
@@ -156,6 +161,8 @@ export const PartRequestDetailScreen = (props: IProps) => {
     return (
       <ScrollView contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps={'never'}
+        ref={scrollviewRef}
+        automaticallyAdjustKeyboardInsets={true}
       >
         {renderBasicDetailComponent()}
         {renderCompanyDetailComponent()}

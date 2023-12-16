@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightWhite,
     padding: 5,
     borderRadius: 15,
-    maxWidth: 100
+    maxWidth: 150
   },
   headerContainer: {
     backgroundColor: colors.lightBlue,

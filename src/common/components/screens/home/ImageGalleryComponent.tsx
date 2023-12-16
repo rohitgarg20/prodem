@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors } from '../../../Colors'
@@ -61,21 +61,34 @@ const styles = StyleSheet.create({
 })
 
 export const ImageGalleryComponent = ({
-  imagesList, selectedImageIndex, onChangeImageIndex
-}: { imagesList: string[]; selectedImageIndex: number; onChangeImageIndex: (imgIndex: number) => void }) => {
+  imagesList, selectedImageIndex, onChangeImageIndex, callZoomImageViewerModal
+}: { imagesList: string[] | number[]; selectedImageIndex: number; onChangeImageIndex: (imgIndex: number) => void;  callZoomImageViewerModal?: () => void } ) => {
 
   const flatListRef: any = useRef(null)
 
+  const onPressImage = useCallback((index) => () => {
+    if(onChangeImageIndex) {
+      onChangeImageIndex(index)
+    }
+    if(callZoomImageViewerModal) {
+      callZoomImageViewerModal()
+    }
+
+  }, [onChangeImageIndex, callZoomImageViewerModal])
+
   const renderProductImage = ({ item, index }) => {
     return (
-      <View style={selectedImageIndex === index ? styles.iconContainer : {} }>
+      <TouchableOpacity
+        style={selectedImageIndex === index ? styles.iconContainer : {} }
+        onPress={onPressImage(index)}
+      >
         <IconWrapper
           iconSource={item}
           iconHeight={verticalScale(70)}
           iconWidth={scale(70)}
           resizeMode='cover'
         />
-      </View>
+      </TouchableOpacity>
     )
   }
 

@@ -195,6 +195,7 @@ const NewInsuranceTrackScreen = ({ navigation }) => {
           contentContainerStyle={styles.scrollViewContainerStyle}
           contentInsetAdjustmentBehavior="scrollableAxes"
           showsVerticalScrollIndicator={false}
+          automaticallyAdjustKeyboardInsets={true}
         />
         <SubmitButton />
       </View>
