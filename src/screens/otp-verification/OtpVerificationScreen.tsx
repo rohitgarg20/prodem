@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 
 import { useRoute } from '@react-navigation/native'
 import { get } from 'lodash'
-import { View } from 'react-native'
+import { ToastAndroid, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { OtpVerificationStyles as styles } from './styles'
@@ -12,21 +12,17 @@ import { BackButtonComponent, ButtonComponent, CustomText, IconWrapper, OtpInput
 import { KeyboardHandledScrollView } from '../../common/components/generic/KeyboardHandledScrollView'
 import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { ScreenNames } from '../../common/Screens'
-import { BUTTONS, OTP_VERIFICATION_SCREEN } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { isOTPValid } from '../../common/validators/validation-utils'
 import { resendOtp, verifyOtp } from '../../redux/OtpVerification/OtpVerificationApi'
 import { onChangeOtpReducer, resetOtpReducer } from '../../redux/OtpVerification/OtpVerificationSlice'
 import { resetFormDataReducer } from '../../redux/Signup/SignupSlice'
 import { Dispatch, RootState } from '../../store/DataStore'
+import { tString } from '../../utils/app-utils'
 import { goBack, replaceNavigation } from '../../utils/navigation-utils'
 
-
-const { OTP_VERIFICATION, OTP_SEND, RESEND_OTP_IN, RESEND_OTP, EDIT }  = OTP_VERIFICATION_SCREEN
-const { VERIFY_OTP } = BUTTONS
 
 export const OtpVerificationScreen = ({ navigation }) => {
 
@@ -68,7 +64,8 @@ export const OtpVerificationScreen = ({ navigation }) => {
     verifyOtp(otp, emailId, fromForgetPswdScreen)?.then(() => {
       navigateOnOtpVerify()
     }).catch((err) => {
-      showAndroidToastMessage(get(err, 'message', SOMETHING_WENT_WRONG))
+      showAndroidToastMessage(get(err, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
     })
   }
 
@@ -86,14 +83,14 @@ export const OtpVerificationScreen = ({ navigation }) => {
 
   const renderHeadingComponent = () => (
     <CustomText
-      text={OTP_VERIFICATION}
+      text={'OTP_VERIFICATION_SCREEN.OTP_VERIFICATION'}
       color={textColor.white}
       textStyle={styles.heading}
     />
   )
 
   const renderSubHeading = () => {
-    const heading = `${OTP_SEND} ${emailId}`
+    const heading = `${tString('OTP_VERIFICATION_SCREEN.OTP_SEND')} ${emailId}`
     return (<CustomText
       text={heading}
       color={textColor.primary}
@@ -118,7 +115,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
 
   const renderDescription = () => (
     <CustomText
-      text={RESEND_OTP_IN}
+      text={'OTP_VERIFICATION_SCREEN.RESEND_OTP_IN'}
       color={textColor.white}
       fontSize={18}
       textStyle={styles.description}
@@ -137,7 +134,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={RESEND_OTP}
+        text={'OTP_VERIFICATION_SCREEN.RESEND_OTP'}
         onPress={onResendOtp}
       />
     )
@@ -147,7 +144,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={EDIT}
+        text={'OTP_VERIFICATION_SCREEN.EDIT'}
         onPress={onEditOtpBtn}
       />
     )
@@ -164,7 +161,7 @@ export const OtpVerificationScreen = ({ navigation }) => {
       <View style={styles.otpMarginContainer}>
         <ButtonComponent
           buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-          text={VERIFY_OTP}
+          text={'BUTTONS.VERIFY_OTP'}
           onPress={verifyEmailOtp}
           disabled={isOtpBtnDisabled}
           buttonContainerStyle={styles.verifyOtpBtnStyle}

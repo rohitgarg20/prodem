@@ -30,7 +30,7 @@ export const ProductDescriptionComponent = memo(({ description }: { description:
   const renderHeading = () => {
     return (
       <CustomText
-        text={'Product Description'}
+        text={'MultiLanguageString.PRODUCT_DESCRIPTION'}
         fontSize={16}
         color = {textColor.black}
         fontWeight='bold'

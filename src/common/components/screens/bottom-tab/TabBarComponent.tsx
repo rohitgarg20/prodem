@@ -31,13 +31,16 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   tabBarItemContainer: {
-    width: '20%',
+    width: '18%',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: 2
   },
   tabBarName: {
     paddingTop: scale(10),
-    fontWeight: isIos ? '300' : 'bold'
+    fontWeight: isIos ? '300' : 'bold',
+    flexWrap: 'wrap',
+    textAlign: 'center'
   },
   selectedIconContainer: {
     position: 'absolute',
@@ -136,9 +139,8 @@ export const BottomTabBarComponent = ({ state, navigation }) => {
           lineHeight={16}
           color={textColor.white}
           textStyle={styles.tabBarName}
-        >
-          {displayName}
-        </CustomText>
+          text={displayName}
+        />
       </TouchableOpacity>
     )
   }

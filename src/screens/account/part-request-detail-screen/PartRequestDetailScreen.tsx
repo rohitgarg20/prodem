@@ -10,7 +10,6 @@ import { ProposeOfferFormComponent } from '../../../common/components/screens/pa
 import { BiddingDetailComponent, CompanyDetailComponent, RequestedPartBasicDetailsComponent } from '../../../common/components/screens/part-request/RequestedPartDetailsComponent'
 import { log } from '../../../common/config/log'
 import { IBidDetail, ICompanyDetail, IPartRequestBasicDetail } from '../../../common/Interfaces'
-import { PART_REQUEST_DETAIL_SCREEN } from '../../../common/strings'
 import { getSelectedPartRequestType } from '../../../redux/part-request/PartRequestSelector'
 import { removePartRequestOnLaterOrWishlistReducer } from '../../../redux/part-request/PartRequestSlice'
 import { addPartRequestToWishlistApi, fetchPartRequestDetail, ignorePartRequestApi } from '../../../redux/part-request-detail/PartRequestDetailApi'
@@ -24,8 +23,6 @@ interface IProps {
   navigation?: any
   route?: any
 }
-
-const { HEADER_TITLE } = PART_REQUEST_DETAIL_SCREEN
 
 export const PartRequestDetailScreen = (props: IProps) => {
   const { navigation, route } = props
@@ -41,10 +38,8 @@ export const PartRequestDetailScreen = (props: IProps) => {
   const isPartAddedInWishlist = useSelector(isAddedInWishlist) || false
   const isPartAddedInIgnoreList = useSelector(isPartRequestIgnored) || false
 
-  log('selectedPartRequestType selectedPartRequestType', selectedPartRequestType)
 
   useEffect(() => {
-    log('useEffectuseEffectuseEffect')
     const partRequestId = route?.params?.partRequestId
     dispatch({
       type: setActivePartRequestIdReducer.type,
@@ -64,9 +59,7 @@ export const PartRequestDetailScreen = (props: IProps) => {
 
   useEffect(() => {
     return () => {
-      log('selectedPartRequestType unmounting called')
       if((selectedPartRequestType === 'wishlist' && isWishlistChanged) || (selectedPartRequestType === 'ignored' && isRequestIgnoreListChnaged)) {
-        log('inside if is called selectedPartRequestType unmounting called')
         dispatch({
           type: removePartRequestOnLaterOrWishlistReducer.type,
           payload: {
@@ -174,7 +167,7 @@ export const PartRequestDetailScreen = (props: IProps) => {
 
   return (
     <View style={styles.mainContainer}>
-      <HeaderComponent title={HEADER_TITLE}
+      <HeaderComponent title={'PART_REQUEST_SCREEN.HEADER_TITLE'}
         showBackBtn
         onPress={onPressBackButton}
       />

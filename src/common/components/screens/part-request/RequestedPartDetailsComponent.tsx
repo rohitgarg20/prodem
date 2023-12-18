@@ -1,23 +1,21 @@
 import React, { memo, useCallback, useState } from 'react'
 
 import { map } from 'lodash'
+import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View } from 'react-native'
 
 import { selectWinningBid, sendMsgByBuyer, sendMsgBySeller } from '../../../../redux/part-request-detail/PartRequestDetailApi'
 import { isPartRequestCancelled, isPartRequestResolved } from '../../../../utils/app-utils'
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
-import { log } from '../../../config/log'
-import { PART_REQUEST_STR_VALUE } from '../../../Constant'
+import { PART_REQUEST_BUTTONS, PART_REQUEST_STR_VALUE, PartTypesButton } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
 import { icons } from '../../../Icons'
 import { IBidDetail, ICompanyDetail, IPartRequestBasicDetail } from '../../../Interfaces'
-import { BUTTONS, PART_REQUEST_BUTTONS, PART_REQUEST_SCREEN, PartTypesButton } from '../../../strings'
 import { ButtonComponent, CustomText, IconButtonWrapperComponent, IconWrapper, TextInputComponent } from '../../generic'
 import { ImageZoomViewerComponent } from '../../generic/ImageZoomViewerComponent'
 import { ImageGalleryComponent } from '../home/ImageGalleryComponent'
-
-const { IAM_LOOING } = PART_REQUEST_SCREEN
+import { log } from '../../../config/log'
 
 interface IProps {
   basicDetail: IPartRequestBasicDetail
@@ -110,9 +108,6 @@ export const companyDetailStyles = StyleSheet.create({
   }
 })
 
-const { COMPANY_DETAILS, OFFER_FROM, STARE, DELIVERY_COST, DELIVERY_COST_VALUE, OFFERED_BY, COMPANY, COMPLIANCE,
-  COMPLIANCE_DURATION, RETURN, RETURN_DURATION, WARRANTY, SELECT_WINNING, REQUEST_STATUS_IS
-} = PART_REQUEST_SCREEN
 
 export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
 
@@ -121,7 +116,7 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
   const { heading, addressInfo, description, uploadedDate, partRequestStatus, isPostByLoggedInUser } = basicDetail
   const [selectedImageIndex, updateImageIndex] = useState(0)
   const [ isImageZoomViewerVisible, updateState ] = useState(false)
-
+  const { t } = useTranslation()
 
   const onChangeImageIndex = (imgIndex) => {
     updateImageIndex(imgIndex)
@@ -141,7 +136,7 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
   }
 
   const renderAddressComponent = () => {
-    const addressStr = `${IAM_LOOING} > ${addressInfo}`
+    const addressStr = `${t('PART_REQUEST_SCREEN.IAM_LOOING')} > ${addressInfo}`
     return (
       <CustomText
         text={addressStr}
@@ -217,9 +212,10 @@ export const RequestedPartBasicDetailsComponent = memo((props: IProps) => {
   }
 
   const renderPartRequestStatus = () => {
+    const status = PART_REQUEST_STR_VALUE[partRequestStatus]
     return (
       <CustomText
-        text={`${REQUEST_STATUS_IS} ${PART_REQUEST_STR_VALUE[partRequestStatus]}`}
+        text={`${t('PART_REQUEST_SCREEN.REQUEST_STATUS_IS')} ${t(status)}`}
         fontSize={16}
         color={textColor.black}
         fontWeight='bold'
@@ -377,7 +373,7 @@ export const CompanyDetailComponent = memo(({ companyDetail }: { companyDetail: 
 
   const renderHeading = () => (
     <CustomText
-      text={COMPANY_DETAILS}
+      text={'PART_REQUEST_SCREEN.COMPANY_DETAILS'}
       fontSize={16}
       color={textColor.black}
       textStyle={companyDetailStyles.heading}
@@ -602,7 +598,7 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
       <Pressable style={biddingStyles.selectWinningBidContainer}
         onPress={selectBidAsWinning}
       >
-        {renderIconWithLabelComponent({ icon: icons.TROPHY, label: SELECT_WINNING, tintColor: colors.primary, colorText: colors.primary })}
+        {renderIconWithLabelComponent({ icon: icons.TROPHY, label: 'PART_REQUEST_SCREEN.SELECT_WINNING', tintColor: colors.primary, colorText: colors.primary })}
       </Pressable>
     )
   }
@@ -611,7 +607,7 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
     return (
       <View style={biddingStyles.biddingByContainer} >
         <CustomText
-          text={OFFER_FROM}
+          text={'PART_REQUEST_SCREEN.OFFER_FROM'}
           fontSize={14}
           color={textColor.black}
         />
@@ -636,8 +632,8 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
     return (
       <View style={biddingStyles.otherDetailContainer}>
         {renderIconWithLabelComponent({ icon: icons.RECYCLE_ICON, label: productType })}
-        {renderIconWithLabelComponent({ icon: icons.CIRCLE_CHECKBOX, label: COMPANY })}
-        {renderIconWithLabelComponent({ icon: icons.CIRCLE_CHECKBOX, label: WARRANTY })}
+        {renderIconWithLabelComponent({ icon: icons.CIRCLE_CHECKBOX, label: 'PART_REQUEST_SCREEN.COMPANY' })}
+        {renderIconWithLabelComponent({ icon: icons.CIRCLE_CHECKBOX, label: 'PART_REQUEST_SCREEN.WARRANTY' })}
         {renderIconWithLabelComponent({icon: icons.PASSWORD_INVISIBLE, label: displayPrice })}
       </View>
     )
@@ -666,11 +662,11 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
   const renderBiddingDetailsComponent = () => {
     return (
       <View style={biddingStyles.biddingDetailContainer}>
-        {renderBiddingDetailTextComponent(STARE, availability)}
-        {renderBiddingDetailTextComponent(DELIVERY_COST, DELIVERY_COST_VALUE)}
-        {renderBiddingDetailTextComponent(OFFERED_BY, COMPANY)}
-        {renderBiddingDetailTextComponent(COMPLIANCE, COMPLIANCE_DURATION)}
-        {renderBiddingDetailTextComponent(RETURN, RETURN_DURATION)}
+        {renderBiddingDetailTextComponent('PART_REQUEST_SCREEN.STARE', availability)}
+        {renderBiddingDetailTextComponent('PART_REQUEST_SCREEN.DELIVERY_COST', 'PART_REQUEST_SCREEN.DELIVERY_COST_VALUE')}
+        {renderBiddingDetailTextComponent('PART_REQUEST_SCREEN.OFFERED_BY', 'PART_REQUEST_SCREEN.COMPANY')}
+        {renderBiddingDetailTextComponent('PART_REQUEST_SCREEN.COMPLIANCE', 'PART_REQUEST_SCREEN.COMPLIANCE_DURATION')}
+        {renderBiddingDetailTextComponent('PART_REQUEST_SCREEN.RETURN', 'PART_REQUEST_SCREEN.RETURN_DURATION')}
       </View>
     )
   }
@@ -716,7 +712,7 @@ export const BiddingDetailComponent = memo(({ biddingDetail, partRequestStatus, 
       <View style={biddingStyles.sendMsgContainer}>
         {renderSendMsgTextInput()}
         <ButtonComponent
-          text={BUTTONS.SEND}
+          text={'BUTTONS.SEND'}
           buttonType={ButtonType.ROUNDED_BTN}
           buttonContainerStyle={biddingStyles.sendMsgButton}
           onPress={sendMessage}

@@ -3,22 +3,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { isEmpty } from 'lodash'
 import { BackHandler, StyleSheet, TouchableOpacity, View } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker'
-import { Camera, CameraPermissionStatus, CameraPermissionRequestResult, useCameraDevice } from 'react-native-vision-camera'
+import { Camera, CameraPermissionStatus, CameraPermissionRequestResult,
+  useCameraDevice } from 'react-native-vision-camera'
 
 // import { blobToBase64, getBlob } from '../../../../utils/app-utils'
 import { useDispatch } from 'react-redux'
 
+import { updateTabBarStateReducer } from '../../../../redux/bottom-tab-bar/BottomTabBarSlice'
 import { hideLoader, showLoader } from '../../../../redux/LoaderDataStore/LoaderSlice'
 import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
-import { NOT_HAVE_PERMISSION } from '../../../ErrorMessages'
 import { ICameraComponent } from '../../../Interfaces'
 import { showAndroidToastMessage } from '../../../Toast'
 import { ButtonComponent, IconWrapper } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
-import { updateTabBarStateReducer } from '../../../../redux/bottom-tab-bar/BottomTabBarSlice'
 
 const styles = StyleSheet.create({
   captureBtn: {
@@ -65,10 +65,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const strings = {
-  RETRY_PHOTO: 'Retry',
-  SAVE_PHOTO: 'Ok'
-}
 
 export const CameraComponent = (props: ICameraComponent) => {
   const [ isCameraShown, updateCameraShown ] = useState(false)
@@ -87,7 +83,6 @@ export const CameraComponent = (props: ICameraComponent) => {
 
   useEffect(() => {
     Camera.getCameraPermissionStatus().then((permissionStatus: CameraPermissionStatus) => {
-      log('permissionStatus', permissionStatus)
       if(permissionStatus === 'granted') {
         updateCameraShown(true)
       } else {
@@ -95,7 +90,7 @@ export const CameraComponent = (props: ICameraComponent) => {
           if(updatedPermissionStatus === 'granted') {
             updateCameraShown(true)
           } else {
-            showAndroidToastMessage(NOT_HAVE_PERMISSION)
+            showAndroidToastMessage('NOT_HAVE_PERMISSION')
           }
         })
       }
@@ -145,11 +140,9 @@ export const CameraComponent = (props: ICameraComponent) => {
   }, [isCameraShown])
 
   const takePhoto = () => {
-    log('takePhoto called')
     cameraRef.current.takePhoto({
       flash: 'off'
     }).then((clickedPhotoObj) => {
-      log('takePhoto called', clickedPhotoObj)
       const { path: photoPath, height: photoHt, width: photoWidth } = clickedPhotoObj
       setPhoto({
         path: `file://${photoPath}`,
@@ -215,7 +208,7 @@ export const CameraComponent = (props: ICameraComponent) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={strings.SAVE_PHOTO}
+        text={'CAMERA_STRINGS.SAVE_PHOTO'}
         onPress={onSaveCropImage}
         color={textColor.white}
         buttonContainerStyle={styles.btnContainer}
@@ -235,7 +228,7 @@ export const CameraComponent = (props: ICameraComponent) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={strings.RETRY_PHOTO}
+        text={'CAMERA_STRINGS.RETRY_PHOTO'}
         onPress={onRetryPhoto}
         color={textColor.white}
         buttonContainerStyle={styles.btnContainer}
@@ -281,11 +274,8 @@ export const CameraComponent = (props: ICameraComponent) => {
     )
   }
 
-  log('before renderCamerarenderCameram ', isCameraShown, device)
-
 
   if(!isCameraShown || isEmpty(device)) return null
-  log('renderCamerarenderCamera')
 
   return (
     <>

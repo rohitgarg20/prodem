@@ -6,7 +6,6 @@ import { isPartRequestCancelled, isPartRequestResolved } from '../../../../utils
 import { colors, textColor } from '../../../Colors'
 import { ButtonType } from '../../../Enumerators'
 import { IPartRequestBasicDetail } from '../../../Interfaces'
-import { BUTTONS } from '../../../strings'
 import { ButtonComponent, CustomText, SpacerComponent } from '../../generic'
 
 interface IProps {
@@ -81,7 +80,7 @@ export const MyPartRequestCardComponent = memo((props: IProps) => {
     return (
       <View style={styles.orderRowContainer}>
         <CustomText
-          text={'Deals:'}
+          text={'MultiLanguageString.DEALS'}
           fontSize={14}
           color={textColor.lightBlack}
         />
@@ -112,7 +111,7 @@ export const MyPartRequestCardComponent = memo((props: IProps) => {
   const renderOrderDetailButton = () => {
     return (
       <ButtonComponent
-        text={BUTTONS.VIEW_DETAILS}
+        text={'BUTTONS.VIEW_DETAILS'}
         buttonType={ButtonType.ROUNDED_BTN}
         buttonContainerStyle={styles.sendMsgButton}
         onPress={onPressButton}
@@ -130,7 +129,7 @@ export const MyPartRequestCardComponent = memo((props: IProps) => {
     return (
       <View>
         <ButtonComponent
-          text={BUTTONS.CANCEL}
+          text={'BUTTONS.CANCEL'}
           buttonType={ButtonType.ROUNDED_BTN}
           buttonContainerStyle={styles.cancelBtn}
           onPress={onCancelButtonPress}

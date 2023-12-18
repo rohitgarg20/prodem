@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { filter, find, get, isEmpty } from 'lodash'
+import { ToastAndroid } from 'react-native'
 
 import { log } from '../../common/config/log'
 import { ADD_PART_FORM, AddPartFieldKeys, InputType, ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IAddPartForm, ISellDropDownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { tString } from '../../utils/app-utils'
 
 
 const initialState: IAddPartForm = {
@@ -15,7 +16,6 @@ const initialState: IAddPartForm = {
 
 const onChangeUserInput = (state: IAddPartForm, { payload }) => {
   const { fieldKey, value } = payload
-  log('onChangeUserInput', value)
   let parsedValue = value
   if(fieldKey === AddPartFieldKeys.DESCRIPTION) {
     parsedValue = value.replaceAll('\n', '</br>').replaceAll(' ', '&nbsp')
@@ -28,7 +28,6 @@ const onChangeUserInput = (state: IAddPartForm, { payload }) => {
 const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {
   const dropDownData: ISellDropDownData = get(payload, 'responseData.data', {})
   const { subcategory, models, productType } = dropDownData
-  log('onFetchedSellDropDownListonFetchedSellDropDownList', dropDownData)
   state.formData.category.dropdownData = subcategory
   state.formData.vehicles.dropdownData = models.map((model) => {
     return {
@@ -38,7 +37,6 @@ const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {
     }
   })
   state.formData.status.dropdownData = productType
-  log('onFetchedSellDropDownListonFetchedSellDropDownList', state, payload)
 }
 
 const onSelectDropDowItem = (state: IAddPartForm, { payload }) => {
@@ -52,7 +50,6 @@ const onMultiSelectDropDowItem = (state: IAddPartForm, { payload }) => {
   const vehiclesDropDownData = state.formData.vehicles.dropdownData
   vehiclesDropDownData?.forEach((item) => {
     selectedDropdownItem?.forEach((selectedItem) => {
-      log('selectedItemselectedItem', selectedItem, item)
       if(selectedItem === item?.id) {
         selectedVehiclesNames.push(item?.name || '')
       }
@@ -99,16 +96,16 @@ const onAddNewPart = (state: IAddPartForm) => {
 
 const onAddNewPartError = (state: IAddPartForm, { payload }) => {
   const { error } = payload
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
 }
 
 const onAddNewPartSuccess = (state: IAddPartForm, { payload }) => {
-  showAndroidToastMessage('Product is successfully added')
+  showAndroidToastMessage('MultiLanguageString.PRODUCT_ADDED')
   onAddNewPart(state)
 }
 
 const onEditPartSuccess = (state: IAddPartForm, { payload }) => {
-  showAndroidToastMessage('Product is successfully updated')
+  showAndroidToastMessage('MultiLanguageString.PUPDATED')
   onAddNewPart(state)
 }
 
@@ -119,14 +116,17 @@ const getProductType = (state: IAddPartForm, productStatus: number) => {
   } else {
     return {
       id: productStatus,
-      value: productStatus === 1 ? 'New' : 'Old'
+      value: productStatus === 1 ? tString('MultiLanguageString.NEW') : tString('MultiLanguageString.OLD')
     }
   }
 }
 
 const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
   log('payloadpayload', payload)
-  const { productId, productName, productDescription, displayPrice, quantity, categoryName,  subcategoryName, subCategoryId, productType, productSlides } = payload
+  const {
+    productId, productName, productDescription, displayPrice, quantity, categoryName,  subcategoryName, subCategoryId, productType, productSlides,
+    multiSelectedDropDownItemNames = [], multiSelectedDropDownItem = []
+  } = payload
   const addPartForm = state.formData
   Object.keys(addPartForm).forEach((formKey) => {
     switch(formKey) {
@@ -154,9 +154,9 @@ const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
         addPartForm.status.selectedItem = getProductType(state, productType)
         break
       case AddPartFieldKeys.VEHICLES:
-        addPartForm.vehicles.selectedItem = {
-
-        }
+        addPartForm.vehicles.selectedItem = {}
+        addPartForm.vehicles.multiSelectedDropDownItemNames = multiSelectedDropDownItemNames
+        addPartForm.vehicles.multiSelectedDropDownItem = multiSelectedDropDownItem
         break
       case AddPartFieldKeys.PRICE:
         addPartForm.price.inputValue = displayPrice

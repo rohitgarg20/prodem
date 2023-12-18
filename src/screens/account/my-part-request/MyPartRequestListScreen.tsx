@@ -12,13 +12,11 @@ import { ScrollableTopBarComponent } from '../../../common/components/screens/ra
 import { log } from '../../../common/config/log'
 import { partRequestStatusTypeList } from '../../../common/Constant'
 import { ScreenNames } from '../../../common/Screens'
-import { MY_PART_REQUEST_LIST_SCREEN } from '../../../common/strings'
 import { cancelMyPartRequest, fetchMyPartRequestList, fetchBiddingOptions } from '../../../redux/my-part-request/MyPartRequestApi'
 import { onChangeSelectedPartRequestTypeReducer, resetReducerData } from '../../../redux/my-part-request/MyPartRequestListSlice'
 import { RootState } from '../../../store/DataStore'
 import { navigateSimple } from '../../../utils/navigation-utils'
 
-const { HEADER_TITLE } = MY_PART_REQUEST_LIST_SCREEN
 
 export const MyPartRequestListScreen = () => {
 
@@ -110,7 +108,7 @@ export const MyPartRequestListScreen = () => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'MY_PART_REQUEST_LIST_SCREEN.HEADER_TITLE'}
       />
       {renderPartRequestStatusTypeListComponent()}
       <View style={styles.mainContainer}>

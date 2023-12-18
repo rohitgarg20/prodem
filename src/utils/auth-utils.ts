@@ -20,3 +20,11 @@ export const clearAll = () => {
 export const getToken = () => {
   return authToken
 }
+
+export const setLanguage = (language: string) => {
+  storage.set('language', language)
+}
+
+export const getLanguage = () => {
+  return storage.getString('language') || 'en'
+}

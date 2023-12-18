@@ -2,6 +2,7 @@ import React from 'react'
 
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 
+import { LanguagesDropdownComponent } from '../../../screens/Home/LanguagesDropDownComponent'
 import { verticalScale } from '../../../utils/scaling'
 import { colors, textColor } from '../../Colors'
 import { icons } from '../../Icons'
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightOrange,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   textContainer: {
 
@@ -32,14 +33,19 @@ const styles = StyleSheet.create({
   endContainer: {
     width: 30
   },
-  refreshButtonContainer: { padding: 6, backgroundColor: colors.white, borderRadius: 20 }
+  refreshButtonContainer: { padding: 6, backgroundColor: colors.white, borderRadius: 20 },
+  languageSelector: {
+    position: 'absolute',
+    top: 0,
+    right: 10
+  }
 })
 
 
 export const HeaderComponent = (props: IHeaderComponent) => {
   const {
     title, showRefreshButton = false, onPressRefreshButton = () => { }, customHeaderStyle = {}, onPress, showBackBtn = false,
-    showEndContainer = true
+    showEndContainer = true, showLanguageDropDown = false
   } = props
   return (
     <SafeAreaView style={[styles.headerContainer, customHeaderStyle]}>
@@ -64,6 +70,12 @@ export const HeaderComponent = (props: IHeaderComponent) => {
         resizeMode='cover'
       />
         : null}
+
+      {
+        showLanguageDropDown && <View style={styles.languageSelector}>
+          <LanguagesDropdownComponent />
+        </View>
+      }
     </SafeAreaView>
   )
 }

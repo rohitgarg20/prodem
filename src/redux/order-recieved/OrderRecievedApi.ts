@@ -62,7 +62,7 @@ export const addRemarks = ({
   formData.append('order_id', orderId)
   formData.append('remark', remark)
   if(!remark.length) {
-    showAndroidToastMessage('Remarks cannot be empty')
+    showAndroidToastMessage('MultiLanguageString.REMARKS_EMPTY')
   } else {
     apiDispatch({
       endPoint: API_END_POINT.ADD_REMARKS,

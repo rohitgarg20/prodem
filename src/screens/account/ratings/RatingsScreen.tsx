@@ -13,13 +13,11 @@ import { log } from '../../../common/config/log'
 import { RATINGS_TOP_BAR } from '../../../common/Constant'
 import { IRatingCard, RatingTypes } from '../../../common/Interfaces'
 import { ScreenNames } from '../../../common/Screens'
-import { RATINGS_SCREEN } from '../../../common/strings'
 import { getRatingListData } from '../../../redux/ratings/RatingApi'
 import { onChangeRatingTypeReducer, resetDataReducer } from '../../../redux/ratings/RatingsSlice'
 import { RootState } from '../../../store/DataStore'
 import { navigateSimple } from '../../../utils/navigation-utils'
 
-const { HEADER_TITLE } = RATINGS_SCREEN
 
 export const RatingsScreen = () => {
 
@@ -37,7 +35,6 @@ export const RatingsScreen = () => {
 
 
   const onPressTab = (updatedRating: RatingTypes) => {
-    log('onPressTabonPressTabonPressTab', updatedRating)
     if(isEmpty(ratingData?.[updatedRating])) {
       getRatingListData(updatedRating)
     }
@@ -111,7 +108,7 @@ export const RatingsScreen = () => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'RATINGS_SCREEN.HEADER_TITLE'}
       />
       {renderRatingsTypeListComponent()}
       <View style={styles.mainContainer}>

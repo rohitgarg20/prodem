@@ -16,11 +16,9 @@ import { ImageGalleryComponent } from '../../common/components/screens/home/Imag
 import { ProductDescriptionComponent } from '../../common/components/screens/home/ProductDescriptionComponent'
 import { ProductDetails } from '../../common/components/screens/home/ProductDetails'
 import { ProductOtherDetailsComponent } from '../../common/components/screens/home/ProductOtherDetailsComponent'
-import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
 import { icons } from '../../common/Icons'
 import { IProductDetailScreen } from '../../common/Interfaces'
-import { PRODUCT_DETAIL_SCREEN } from '../../common/strings'
 import { addProductToCart, removeProductFromCart } from '../../redux/cart/CartApi'
 import { fetchProductDetail } from '../../redux/home/HomeApi'
 import { resetProductDetailReducer } from '../../redux/home/ProductDetailSlice'
@@ -31,8 +29,6 @@ import { goBack } from '../../utils/navigation-utils'
 interface IPDScreen {
   navigation?: any
 }
-
-const { HEADER_TITLE, ADD_TO_CART, REMOVE_FROM_CART } = PRODUCT_DETAIL_SCREEN
 
 export const ProductDetailScreen = (props: IPDScreen) => {
 
@@ -107,7 +103,6 @@ export const ProductDetailScreen = (props: IPDScreen) => {
 
   const renderProductGallery = () => {
     const { imageGallery } = productDetail as IProductDetailScreen
-    log('imageGalleryimageGalleryimageGallery', imageGallery)
     return (
       <ImageGalleryComponent
         imagesList={imageGallery}
@@ -178,7 +173,6 @@ export const ProductDetailScreen = (props: IPDScreen) => {
   }
 
   const onPressWishlist = () => {
-    log('isProductInWishlistisProductInWishlist', isProductInWishlist)
     if(!isProductInWishlist) {
       addProductWishlist({
         productId,
@@ -224,7 +218,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={isProductInCart ? REMOVE_FROM_CART : ADD_TO_CART}
+        text={isProductInCart ? 'PRODUCT_DETAIL_SCREEN.REMOVE_FROM_CART' : 'PRODUCT_DETAIL_SCREEN.ADD_TO_CART'}
         onPress={onPressAddToCartButton}
         buttonContainerStyle={styles.addToCartBtnContainer}
       />
@@ -244,7 +238,7 @@ export const ProductDetailScreen = (props: IPDScreen) => {
 
   return (
     <View style={styles.mainContainer}>
-      <HeaderComponent title={HEADER_TITLE}
+      <HeaderComponent title={'PRODUCT_DETAIL_SCREEN.HEADER_TITLE'}
         showBackBtn
         onPress={onPressBackButton}
       />

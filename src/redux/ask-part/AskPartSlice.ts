@@ -3,9 +3,10 @@ import { filter, get, map } from 'lodash'
 
 import { log } from '../../common/config/log'
 import {  ASK_OFFER_FORM, InputType, ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IAskPartForm, IPartRequestDropDownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { ToastAndroid } from 'react-native'
+import { tString } from '../../utils/app-utils'
 
 
 const initialState: IAskPartForm = {
@@ -52,7 +53,7 @@ const onRemoveImage = (state: IAskPartForm, { payload }) => {
 }
 
 const onAskPartForm = (state: IAskPartForm) => {
-  showAndroidToastMessage('Request is added successfully')
+  showAndroidToastMessage('MultiLanguageString.REQUEST')
   const askOfferFrom = state.formData
   Object.keys(askOfferFrom).forEach((formKey) => {
     const formKeyData = askOfferFrom?.[formKey]
@@ -73,7 +74,8 @@ const onAskPartForm = (state: IAskPartForm) => {
 
 const onAskPartFormError = (state: IAskPartForm, { payload }) => {
   const { error } = payload
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
 }
 
 const askPartRequestSlice = createSlice({

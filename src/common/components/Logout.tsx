@@ -1,15 +1,16 @@
 import { Alert } from 'react-native'
 
 import { logoutUser } from '../../redux/profile/ProfileApi'
+import { tString } from '../../utils/app-utils'
 
 export const logoutAlert = () => {
-  Alert.alert('Logout', 'Are you sure you want to logout', [
+  Alert.alert(tString('MultiLanguageString.LOGOUT'), tString('MultiLanguageString.ARE_YOU_SURE'), [
     {
-      text: 'Cancel'
+      text: tString('MultiLanguageString.CANCEL')
 
     },
     {
-      text: 'Logout',
+      text: tString('MultiLanguageString.LOGOUT'),
       onPress: () => {
         logoutUser()
       }

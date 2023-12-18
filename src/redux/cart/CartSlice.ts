@@ -2,13 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import { find, get, isEmpty, reduce } from 'lodash'
 
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
-import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { ICartItemComponent } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getProductIdFromPayload } from '../../utils/app-utils'
+import { currencyCoverter, getProductIdFromPayload, tString } from '../../utils/app-utils'
 
 
 interface ICartState {
@@ -25,7 +23,7 @@ const cartItemMapper = (cartItem) => {
   return {
     productId: cartItem?.product_id,
     productName: cartItem?.product_name,
-    displayPrice: cartItem?.product_offer_price,
+    displayPrice: currencyCoverter(cartItem?.product_offer_price),
     productImage: cartItem?.product_image || icons.DEFAULT_IMAGE,
     quantity: cartItem?.user_cart_qty,
     cartId: cartItem?.user_cart_id,
@@ -36,10 +34,8 @@ const cartItemMapper = (cartItem) => {
 const onFetchedCartListSuccess = (state: ICartState, { payload }) => {
   const { responseData } = payload
   const cartList = get(responseData, 'data.items', [])
-  log('cartListcartList', cartList)
   const cartListData = reduce(cartList, (accumulator: any, cartItem: any) => {
     const productId = cartItem?.product_id
-    log('productIdproductId', productId)
     if(isEmpty(accumulator?.[productId])) {
       accumulator = {
         ...accumulator,
@@ -48,8 +44,6 @@ const onFetchedCartListSuccess = (state: ICartState, { payload }) => {
     }
     return accumulator
   }, {})
-
-  log('cartListDatacartListData', cartListData)
 
   state.cartList = cartListData
   state.isFetching = false
@@ -60,9 +54,7 @@ const onAddNewProductInCart = (state: ICartState, { payload }) => {
   const { responseData, requestData } = payload
   const productId = getProductIdFromPayload(requestData)
   const updatedCartList = get(responseData, 'data.cartDetails.items', [])
-  log('onAddNewProductInCart', updatedCartList)
   const cartData = find(updatedCartList, (cartItem) => cartItem?.product_id === productId)
-  log('onAddNewProductInCart', cartData)
   if(!isEmpty(cartData)) {
     const cartDataMapper = cartItemMapper(cartData)
     state.cartList = {
@@ -74,18 +66,17 @@ const onAddNewProductInCart = (state: ICartState, { payload }) => {
 }
 
 const onRemoveProductFromCart = (state: ICartState, { payload }) => {
-  const { responseData, requestData } = payload
+  const { requestData } = payload
   const productId = getProductIdFromPayload(requestData)
   if(state.cartList?.[productId]) {
     delete state.cartList?.[productId]
-    showAndroidToastMessage('Product is successfully removed from cart')
+    showAndroidToastMessage('MultiLanguageString.PRODUCT_REMOVED')
   }
 }
 
 const onRemoveProductFailureFromCart = (state: ICartState, { payload }) => {
   const { error } = payload
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
-  log('payloadpayload', payload)
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
 }
 
 

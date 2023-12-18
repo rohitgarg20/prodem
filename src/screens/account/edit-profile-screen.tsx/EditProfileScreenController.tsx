@@ -1,16 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-empty */
 import { useCallback, useEffect, useReducer } from 'react'
 
 import { Keyboard, ToastAndroid } from 'react-native'
 
-import { ACTION_NAME, FIELD_TYPE, INITIAL_DATA_STATE, USER_INFO_KEYS } from './EditProfileConstant'
+import { ACTION_NAME, INITIAL_DATA_STATE, USER_INFO_KEYS } from './EditProfileConstant'
 import { genericDrawerController } from '../../../common/components/ModalComponent/GenericModalController'
-import { log } from '../../../common/config/log'
 import { IDropDownItem } from '../../../common/Interfaces'
+import { showAndroidToastMessage } from '../../../common/Toast'
 import { fetchCityApi, fetchCountryApi, updateUserDetailsApi, updateUserNameApi } from '../../../redux/profile/ProfileApi'
 import { getUserDetailsSelector } from '../../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../../store/DataStore'
+import { tString } from '../../../utils/app-utils'
 import { goBack } from '../../../utils/navigation-utils'
-import { showAndroidToastMessage } from '../../../common/Toast'
 
 const initialState: State = {
   dataList: [...INITIAL_DATA_STATE]
@@ -50,8 +52,6 @@ const useNewInsuranceTrackScreenViewController = (navigation) => {
         return item
       })
 
-      log('newState  1 : ', newState)
-
       updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     }
   }, [])
@@ -83,7 +83,6 @@ const useNewInsuranceTrackScreenViewController = (navigation) => {
         }
         return item
       })
-      log('newState  2 : ', newState)
       updateState({ type: ACTION_NAME.UPDATE_LIST, payload: newState })
     })
 
@@ -103,7 +102,7 @@ const useNewInsuranceTrackScreenViewController = (navigation) => {
 
       } else {
         hasIssue = true
-        item.error = 'Please enter valid value'
+        item.error = tString('MultiLanguageString.PLEASE_ENTER_VALID')
       }
     })
 
@@ -130,16 +129,15 @@ const useNewInsuranceTrackScreenViewController = (navigation) => {
     const isValidForm = validateForm()
     if (isValidForm) {
       const userDetailsForApi: any = getUserDataForApi()
-      log('userDetailsuserDetailsuserDetails is = ', userDetailsForApi)
       updateUserNameApi((userDetailsForApi?.p_user_name || ''))
-      updateUserDetailsApi(userDetailsForApi).then((resp) => {
-        showAndroidToastMessage('User profile updated successfully')
+      updateUserDetailsApi(userDetailsForApi).then(() => {
+        showAndroidToastMessage('MultiLanguageString.PROFILE_UPDATED')
         goBack(navigation)
       }).catch(() => {
-        showAndroidToastMessage('Error while updating profile')
+        showAndroidToastMessage('MultiLanguageString.ERROR_IN_UPDATING')
       })
     } else {
-      ToastAndroid.show('Please Fill Form Correctly', ToastAndroid.SHORT)
+      showAndroidToastMessage('MultiLanguageString.PLEASE_FILL_CORRECTLY', ToastAndroid.SHORT)
 
     }
   }

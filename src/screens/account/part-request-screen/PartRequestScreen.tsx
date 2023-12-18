@@ -14,7 +14,6 @@ import { log } from '../../../common/config/log'
 import { SCREEN_HEIGHT } from '../../../common/Constant'
 import { IPartRequestCardComponent } from '../../../common/Interfaces'
 import { ScreenNames } from '../../../common/Screens'
-import { PART_REQUEST_SCREEN } from '../../../common/strings'
 import { addPartRequestToWishlistApi, dispatchPartRequestApi, fetchPartRequestInitialData, ignorePartRequestApi } from '../../../redux/part-request/PartRequestApi'
 import {
   getPartRequestTypeListSelector, getSelectedPartRequestType, getPartRequestListDataSelector,
@@ -23,8 +22,6 @@ import { resetDataReducer, updateSelectedPartRequestTypeReducer } from '../../..
 import { navigateSimple } from '../../../utils/navigation-utils'
 import { scale } from '../../../utils/scaling'
 
-
-const { HEADER_TITLE } = PART_REQUEST_SCREEN
 
 
 export const PartRequestScreen = () => {
@@ -35,7 +32,6 @@ export const PartRequestScreen = () => {
   const partRequestListData = useSelector(getPartRequestListDataSelector)
   const currentPageNumber = useSelector(getCurrentPageSelector) || 0
   const totalPages = useSelector(getTotalPageSelector) || 0
-  log('partRequestListDatapartRequestListData', partRequestListData)
 
   useEffect(() => {
     fetchPartRequestInitialData(dispatch)
@@ -156,7 +152,7 @@ export const PartRequestScreen = () => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'PART_REQUEST_SCREEN.HEADER_TITLE'}
       />
       {renderPartRequestTypeListComponent()}
       <View style={styles.mainContainer}>

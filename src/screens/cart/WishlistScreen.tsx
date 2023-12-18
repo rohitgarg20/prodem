@@ -9,13 +9,10 @@ import { CartCardComponent } from '../../common/components/screens/cart'
 import { cartStyles } from '../../common/components/screens/cart/styles'
 import { SCREEN_HEIGHT } from '../../common/Constant'
 import { ICartItemComponent } from '../../common/Interfaces'
-import { WISHLIST_SCREEN } from '../../common/strings'
 import { addProductWishlist, getWishlistDetails, removeProductFromWishlist } from '../../redux/wishlist/WishlistApi'
 import { getWishListSelector, getWishlistData } from '../../redux/wishlist/WishlistSelector'
 import { verticalScale } from '../../utils/scaling'
 
-
-const { HEADER_TITLE } = WISHLIST_SCREEN
 
 export const WishlistScreen = () => {
 
@@ -88,7 +85,7 @@ export const WishlistScreen = () => {
   const renderWishListHeaderComponent = () => {
     return (
       <HeaderComponent
-        title={HEADER_TITLE}
+        title={'WISHLIST_SCREEN.HEADER_TITLE'}
         showBackBtn
         showRefreshButton
         showEndContainer={false}

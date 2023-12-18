@@ -5,6 +5,7 @@ import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { ICategoryCardComponent, IProductCardComponent } from '../../common/Interfaces'
+import { currencyCoverter } from '../../utils/app-utils'
 
 interface IHomeData {
   categories: ICategoryCardComponent[]
@@ -51,7 +52,7 @@ const onProductApiSuccessResponse = (state: IHomeData, { payload }) => {
       productId: productItem?.product_id,
       productName: productItem?.product_name,
       productSubCategory: productItem?.product_subcategory,
-      displayPrice: productItem?.product_offer_price,
+      displayPrice: currencyCoverter(productItem?.product_offer_price),
       quantity: productItem?.product_qty,
       productImage: productItem?.product_image,
       productViews: productItem?.product_views || 0,

@@ -11,14 +11,11 @@ import { CartCardComponent } from '../../common/components/screens/cart'
 import { cartStyles } from '../../common/components/screens/cart/styles'
 import { SCREEN_HEIGHT } from '../../common/Constant'
 import { ICartItemComponent } from '../../common/Interfaces'
-import { CART_SCREEN } from '../../common/strings'
 import { addProductToCart, getCartDetails, removeProductFromCart } from '../../redux/cart/CartApi'
 import { getCartListSelector, getCartData } from '../../redux/cart/CartSelector'
 import { RootState } from '../../store/DataStore'
 import { verticalScale } from '../../utils/scaling'
 
-
-const { HEADER_TITLE } = CART_SCREEN
 
 export const CartScreen = () => {
 
@@ -91,10 +88,11 @@ export const CartScreen = () => {
   const renderCartHeaderComponent = () => {
     return (
       <HeaderComponent
-        title={HEADER_TITLE}
+        title={'CART_SCREEN.HEADER_TITLE'}
         showRefreshButton
         showEndContainer={false}
         onPressRefreshButton={getCartDetails}
+        showLanguageDropDown
       />
     )
   }

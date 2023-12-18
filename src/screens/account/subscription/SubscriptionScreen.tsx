@@ -10,13 +10,11 @@ import { HeaderComponent } from '../../../common/components/screens'
 import { ScrollableTopBarComponent } from '../../../common/components/screens/ratings'
 import { SubscriptionCardComponent } from '../../../common/components/screens/subscription/SubscriptionCardComponent'
 import { ISubscriptionCard } from '../../../common/Interfaces'
-import { SUBSCRIPTION_SCREEN } from '../../../common/strings'
 import { getSubscriptionPlans } from '../../../redux/subscription/SubscriptionApi'
 import { onChangeSubscriptionTypeReducer } from '../../../redux/subscription/SubscriptionSlice'
 import { RootState } from '../../../store/DataStore'
 
 
-const { HEADER_TITLE }  = SUBSCRIPTION_SCREEN
 
 export const SubscriptionScreen = () => {
 
@@ -94,7 +92,7 @@ export const SubscriptionScreen = () => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'SUBSCRIPTION_SCREEN.HEADER_TITLE'}
       />
       {renderSubscriptionTypeList()}
       <View style={styles.mainContainer}>

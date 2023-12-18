@@ -1,26 +1,28 @@
 
 import 'react-native-gesture-handler'
+import './LanguageDetector'
 import React, { useEffect, useRef } from 'react'
 
 import { NavigationContainer } from '@react-navigation/native'
+import i18next from 'i18next'
 import { map } from 'lodash'
-import { LogBox, SafeAreaView, StatusBar, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { LogBox, SafeAreaView, Text, View } from 'react-native'
+import { requestTrackingPermission } from 'react-native-tracking-transparency'
 import { Provider } from 'react-redux'
 
+import { colors } from './src/common/Colors'
 import { ScreenLoader } from './src/common/components/generic/ScreenLoader'
 import { GenericDrawerComponent } from './src/common/components/ModalComponent/GenericDrawerComponent'
+import { isIos } from './src/common/Constant'
 import { Router } from './src/navigator/Router'
 import { store } from './src/store/DataStore'
 import { resetNavigator, setNavigator } from './src/utils/navigation-utils'
-import { colors } from './src/common/Colors'
-import { requestTrackingPermission } from 'react-native-tracking-transparency'
-import { isIos } from './src/common/Constant'
 
 
 function App(): JSX.Element {
 
   const drawerRef = useRef(null)
-
 
   const servicesContainer = [
     <ScreenLoader />,

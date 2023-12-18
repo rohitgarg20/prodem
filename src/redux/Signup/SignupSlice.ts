@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isEmpty } from 'lodash'
+import { get, isEmpty } from 'lodash'
+import { ToastAndroid } from 'react-native'
 
 import { ISignupState } from './SignupInterface'
 import { dimissKeyboard } from '../../common/App-Utils'
 import { log } from '../../common/config/log'
 import { ReducerName, SIGN_UP_FORM } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { IAPIError, IAPIResponse, IActions } from '../../network/NetworkUtil'
+import { tString } from '../../utils/app-utils'
 
 
 const initialState: ISignupState = {
@@ -33,8 +34,8 @@ const onApiSuccessResponse = (state: ISignupState, { payload  }: { payload: IAPI
 
 const onApiFailedResponse = (state: ISignupState, { payload }: { payload: IAPIError  }) => {
   const { error = {}  } = payload || {}
-  const { message = SOMETHING_WENT_WRONG } = error
-  showAndroidToastMessage(message)
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
 }
 
 const resetFormData = (state: ISignupState) => {

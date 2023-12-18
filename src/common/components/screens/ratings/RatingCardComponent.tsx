@@ -3,12 +3,11 @@ import React, { memo } from 'react'
 import { map } from 'lodash'
 import { Pressable, StyleSheet, View } from 'react-native'
 
+import { tString } from '../../../../utils/app-utils'
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
-import { log } from '../../../config/log'
 import { icons } from '../../../Icons'
 import { IRatingCard } from '../../../Interfaces'
-import { RATINGS_SCREEN } from '../../../strings'
 import { CustomText, IconWrapper } from '../../generic'
 
 export const styles = StyleSheet.create({
@@ -31,13 +30,12 @@ export const styles = StyleSheet.create({
   }
 })
 
-const { ORDER_NO } = RATINGS_SCREEN
 
 export const RatingCardComponent = memo((props: IRatingCard) => {
   const { orderNo, ratingDesc, userName, isRatingPending, ratingType, ratingStar, orderDate, navigateToOrderReceivedScreen, orderId } = props
 
   const renderOrderNo = () => {
-    const displayLabel = `${ORDER_NO}  ${orderNo}`
+    const displayLabel = `${tString('RATINGS_SCREEN.ORDER_NO')}  ${orderNo}`
     return (
       <CustomText
         text={displayLabel}
@@ -107,7 +105,6 @@ export const RatingCardComponent = memo((props: IRatingCard) => {
   }
 
   const renderBottomContainer = () => {
-    log('renderBottomContainerrenderBottomContainer', isRatingPending)
     return (
       <View style={styles.rowContainer}>
         {

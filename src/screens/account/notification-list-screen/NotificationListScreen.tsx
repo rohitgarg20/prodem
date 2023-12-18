@@ -12,7 +12,6 @@ import { HeaderComponent } from '../../../common/components/screens'
 import { log } from '../../../common/config/log'
 import { INotificationDetail } from '../../../common/Interfaces'
 import { ScreenNames } from '../../../common/Screens'
-import { NOTIFICATION_SCREEN } from '../../../common/strings'
 import { getNotificationList, markNotificationRead } from '../../../redux/notification/NotificationApi'
 import { getNotificationIds, getFetchingStatus } from '../../../redux/notification/NotificationSelector'
 import { onMarkReadNotificationActionReducer } from '../../../redux/notification/NotificationSlice'
@@ -37,8 +36,6 @@ const styles = StyleSheet.create({
     paddingVertical: verticalScale(10)
   }
 })
-
-const { HEADER_TITLE } = NOTIFICATION_SCREEN
 
 export const NotificationScreen = ({ navigation }) => {
 
@@ -153,7 +150,7 @@ export const NotificationScreen = ({ navigation }) => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'NOTIFICATION_SCREEN.HEADER_TITLE'}
       />
       <View style={styles.mainContainer}>
         {renderNotificaionListComponent()}

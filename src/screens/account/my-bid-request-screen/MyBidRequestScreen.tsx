@@ -8,7 +8,6 @@ import SingleSelectMenuBarComponent from '../../../common/components/generic/Sin
 import { HeaderComponent } from '../../../common/components/screens'
 import BidItemContainer from '../../../common/components/screens/bids-screen/BidComponent'
 import { MY_BIDS_REQUEST_TOP_BAR_KEYS, SCREEN_HEIGHT } from '../../../common/Constant'
-import { BID_REQUEST_SCREEN } from '../../../common/strings'
 import { fetchMyBidRequestApiData } from '../../../redux/my-bid-request/MyBidRequestApi'
 import { getMyBidRequestDataFetchingStatusSelector, getMyBidRequestDataListSelector } from '../../../redux/my-bid-request/MyBidRequestSelector'
 import { resetMyBidRequestDataReducer } from '../../../redux/my-bid-request/MyBidRequestSlice'
@@ -16,7 +15,6 @@ import { store, useAppDispatch, useAppSelector } from '../../../store/DataStore'
 import { FlashList } from '@shopify/flash-list'
 import { verticalScale } from '../../../utils/scaling'
 
-const { HEADER_TITLE } = BID_REQUEST_SCREEN
 
 const MyBidRequestScreen = () => {
   const [selectedType, updateSelectedType] = useState(MY_BIDS_REQUEST_TOP_BAR_KEYS[0].key)
@@ -50,7 +48,7 @@ const MyBidRequestScreen = () => {
   return <View style={styles.container}>
     <HeaderComponent
       showBackBtn
-      title={HEADER_TITLE}
+      title={'BID_REQUEST_SCREEN.HEADER_TITLE'}
     />
     <SingleSelectMenuBarComponent
       dataList={MY_BIDS_REQUEST_TOP_BAR_KEYS}

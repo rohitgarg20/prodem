@@ -2,7 +2,6 @@ import { onOtpApiFailureReducer, onOtpRequestInitiatedReducer, onOtpSuccessApiRe
   onResendOtpInitiatedReducer, onResendOtpApiSuccessReducer, onResendOtpApiFailureReducer
 } from './OtpVerificationSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
-import { INVALID_OTP } from '../../common/ErrorMessages'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { isOTPValid } from '../../common/validators/validation-utils'
 import { apiDispatch } from '../../network/DispatchApiCall'
@@ -33,7 +32,7 @@ export const verifyOtp = (otp: string[], email: string, isForgetPassword = false
       }
     })
   } else {
-    showAndroidToastMessage(INVALID_OTP)
+    showAndroidToastMessage('INVALID_OTP')
   }
 
 }

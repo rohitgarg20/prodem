@@ -20,6 +20,7 @@ import { IDropDownItem } from '../../common/Interfaces'
 import { onSelectDropDowItemReducer, resetFetchedOrderDetailReducer } from '../../redux/order-recieved/OrderReceivedDetailSlice'
 import { addRemarks, changeOrderStatus, fetchOrderDetails, submitRating } from '../../redux/order-recieved/OrderRecievedApi'
 import { RootState } from '../../store/DataStore'
+import { tString } from '../../utils/app-utils'
 import { scale, verticalScale } from '../../utils/scaling'
 
 interface IProps {
@@ -47,7 +48,8 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
 
   const {
     orderDate, orderNo, orderPrice, itemPrice, quantity, deliveryCost, productName,
-    productImage = '', address, buyerEmail, buyerMobile, buyerName, orderId, vendorRemarks
+    productImage = '', address, buyerEmail, buyerMobile, buyerName, orderId, vendorRemarks,
+    ratingGiven, ratingDescription
   } = orderDetails || {}
   const [sellerNote, updateSellerNotes] = useState(vendorRemarks)
 
@@ -69,7 +71,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
   }
 
   const renderOrderNo = () => {
-    const displayLabel = `Order no.. ${orderNo}`
+    const displayLabel = `${tString('MultiLanguageString.ORDER_NO')} ${orderNo}`
     return (
       <CustomText
         text={displayLabel}
@@ -85,7 +87,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.orderDateContainer}>
         <CustomText
-          text={'Order Date: '}
+          text={'MultiLanguageString.ORDER_DATE'}
           fontSize={17}
           fontWeight="bold"
           color={textColor.black}
@@ -148,7 +150,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainerFlexEnd}>
         <CustomText
-          text={'Final Amount:'}
+          text={'MultiLanguageString.FINAL_AMT'}
           fontSize={15}
           fontWeight="bold"
           color={textColor.black}
@@ -169,7 +171,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainerFlexEnd}>
         <CustomText
-          text={'* Estimated Delivery cost:'}
+          text={'MultiLanguageString.ESTIMATED_DELIVERY'}
           fontSize={15}
           color={textColor.black}
         />
@@ -186,7 +188,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.topPadding}>
         <CustomText
-          text={'The car for which parts were offered'}
+          text={'MultiLanguageString.CAR_P_OFFERED'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -224,7 +226,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View>
         <CustomText
-          text={'Delivery Address'}
+          text={'MultiLanguageString.DELIVERY_ADDRESS'}
           fontSize={16}
           color={textColor.black}
           fontWeight='bold'
@@ -242,7 +244,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.topPadding}>
         <CustomText
-          text={'Delivery Information'}
+          text={'MultiLanguageString.DELIVERY_INFO'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -281,7 +283,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.topPadding}>
         <CustomText
-          text={'Seller Notes'}
+          text={'MultiLanguageString.SELLER_NOTES'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -289,7 +291,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         />
         <SpacerComponent style={styles.titleBoldSeperator} />
         <CustomText
-          text={'Only you can see these comments for order management'}
+          text={'MultiLanguageString.ONLY_YOU_CAN_SEE'}
           fontSize={14}
           color={textColor.mediumGrey}
         />
@@ -297,7 +299,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         {renderTextInputField()}
         <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
-          text={'Save Observation'}
+          text={'MultiLanguageString.SAVE_OBSERVATION'}
           onPress={addRemarksButton}
           buttonContainerStyle={styles.simpleBtnBorder}
         />
@@ -361,7 +363,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.topPadding}>
         <CustomText
-          text={'Change order status'}
+          text={'MultiLanguageString.CHANGE_STATUS'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -369,7 +371,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         />
         <SpacerComponent style={styles.titleBoldSeperator} />
         <LabelWithArrowComponent
-          defaultValue = {'Select'}
+          defaultValue = {'MultiLanguageString.SELECT'}
           selectedDropDownItem = {selectedDropDownItem}
           onPress={showDropDownMenu}
           dropdownData={updateOrderStatusOptions}
@@ -391,6 +393,8 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <SubmitRatingComponent
         submitRating={submitRatingApi}
+        defaultRating={ratingGiven}
+        defaultDescription={ratingDescription}
       />
     )
   }
@@ -408,7 +412,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.topPadding}>
         <CustomText
-          text={'Choice'}
+          text={'MultiLanguageString.CHOICE'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -416,7 +420,7 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
         />
         <SpacerComponent style={styles.titleBoldSeperator} />
         <ButtonComponent
-          text={'Give a rating'}
+          text={'MultiLanguageString.GIVE_RATING'}
           buttonType={ButtonType.ROUNDED_BTN}
           buttonContainerStyle={styles.sendMsgButton}
           onPress={showRatingPopup}
@@ -451,13 +455,12 @@ export const OrderReceivedDetailScreen = (props: IProps) => {
       </ScrollView>
     )
   }
-  log('isEmpty(orderDetails) && !isFetching', isEmpty(orderDetails), !isFetching)
 
   return (
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={'Order Detail'}
+        title={'MultiLanguageString.ORDER_DETAIL'}
       />
       { !isEmpty(orderDetails) && renderContentContainer()}
       { isEmpty(orderDetails) && !isFetching && ( <EmptyScreenComponent /> ) }

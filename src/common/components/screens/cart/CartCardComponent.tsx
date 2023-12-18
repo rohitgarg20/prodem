@@ -10,6 +10,7 @@ import { icons } from '../../../Icons'
 import { ICartItemComponent } from '../../../Interfaces'
 import { CenterModalPopup, CustomText, IconButtonWrapperComponent, IconWrapper, LabelWithArrowComponent } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
+import { tString } from '../../../../utils/app-utils'
 
 const styles = StyleSheet.create({
   cardImage: {
@@ -75,7 +76,7 @@ export const CartCardComponent = (props: ICartItemComponent) => {
   }
 
   const renderProductPrice = () => {
-    const price = `Price: ${displayPrice}`
+    const price = `${tString('MultiLanguageString.PRICE')}${displayPrice}`
     return (
       <CustomText
         text={price}
@@ -105,7 +106,7 @@ export const CartCardComponent = (props: ICartItemComponent) => {
   }
 
   const renderNonEditableQuantity = () => {
-    const displayQty = `Qty: ${quantity}`
+    const displayQty = `${tString('MultiLanguageString.Qty')}${quantity}`
     return (
       <CustomText
         text={displayQty}

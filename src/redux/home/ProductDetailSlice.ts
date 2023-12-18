@@ -5,9 +5,8 @@ import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { IProductDetailScreen } from '../../common/Interfaces'
-import { CART_MESSAGES, WISHLIT_MESSAGES } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getFormattedDate, getProductIdFromPayload, getProductType } from '../../utils/app-utils'
+import { currencyCoverter, getFormattedDate, getProductType } from '../../utils/app-utils'
 import { onAddNewProductInCartReducer, onRemoveProductFromCartReducer } from '../cart/CartSlice'
 import { onAddNewProductInWishListReducer, onRemoveProductFromWishListReducer } from '../wishlist/WishlistSlice'
 
@@ -37,8 +36,8 @@ const onProductDetailApiSuccessResponse = (state: IProductDetail, { payload }) =
     productId,
     productImage: imageGallery?.[0] || icons.DEFAULT_IMAGE,
     productName: productDetails?.product_name,
-    displayPrice: productDetails?.product_offer_price,
-    actualPrice: productDetails?.product_price,
+    displayPrice: currencyCoverter(productDetails?.product_offer_price),
+    actualPrice: currencyCoverter(productDetails?.product_price),
     productViews: (productDetails?.product_views || 0).toString(),
     imageGallery: imageGallery,
     color: productDetails?.color_name || 'N/A',
@@ -79,15 +78,15 @@ export const productDetailSlice = createSlice({
         log('addedProductDetailaddedProductDetail', addedProductDetail)
         if(!isEmpty(addedProductDetail)) {
           state.isProductInCart = true
-          showAndroidToastMessage(CART_MESSAGES.ITEM_SUCCESS)
+          showAndroidToastMessage('CART_MESSAGES.ITEM_SUCCESS')
         } else {
-          showAndroidToastMessage(CART_MESSAGES.FAILURE)
+          showAndroidToastMessage('CART_MESSAGES.FAILURE')
         }
       }
     })
     builder.addCase(onRemoveProductFromCartReducer, (state, action: any) => {
       log('extraReducersextraReducers from onRemoveProductFromCartReducer', state, action)
-      const { requestData, responseData } = action?.payload || {}
+      const { responseData } = action?.payload || {}
       const productRemovedFromCart = find(get(responseData, 'data.cartDetails.items', []), (cartItem) => cartItem.product_id === state?.productDetail?.productId) || {}
       log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart, get(responseData, 'data.cartDetails.items', []))
       if(state?.productDetail?.productId) {
@@ -96,10 +95,10 @@ export const productDetailSlice = createSlice({
         if(isEmpty(productRemovedFromCart)) {
           log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart)
           state.isProductInCart = false
-          showAndroidToastMessage(CART_MESSAGES.REMOVE_SUCCESS)
+          showAndroidToastMessage('CART_MESSAGES.REMOVE_SUCCESS')
         } else {
           log('extraReducersextraReducers from onRemoveProductFromCartReducer', productRemovedFromCart)
-          showAndroidToastMessage(CART_MESSAGES.FAILURE_REMOVE)
+          showAndroidToastMessage('CART_MESSAGES.FAILURE_REMOVE')
         }
       }
     })
@@ -109,15 +108,15 @@ export const productDetailSlice = createSlice({
       const isAddedInWishlist = get(responseData, 'data.wishlistDetails.user_wishlist_product_id', '').toString() === (state?.productDetail?.productId || '')?.toString()
       if(isAddedInWishlist) {
         state.isProductInWishlist = true
-        showAndroidToastMessage(WISHLIT_MESSAGES.ITEM_SUCCESS)
+        showAndroidToastMessage('WISHLIT_MESSAGES.ITEM_SUCCESS')
       } else {
-        showAndroidToastMessage(WISHLIT_MESSAGES.FAILURE)
+        showAndroidToastMessage('WISHLIT_MESSAGES.FAILURE')
       }
     })
     builder.addCase(onRemoveProductFromWishListReducer, (state, action: any) => {
       const { responseData } = action?.payload || {}
       state.isProductInWishlist = false
-      showAndroidToastMessage(WISHLIT_MESSAGES.REMOVE_SUCCESS)
+      showAndroidToastMessage('WISHLIT_MESSAGES.REMOVE_SUCCESS')
       // const isRemovedFromWishlist = get(responseData, 'data.wishlistDetails.user_wishlist_product_id', '').toString() === (state?.productDetail?.productId || '')?.toString()
       // if(isRemovedFromWishlist) {
       //   state.isProductInWishlist = false

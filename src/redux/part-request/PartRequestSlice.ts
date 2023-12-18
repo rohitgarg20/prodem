@@ -4,8 +4,8 @@ import { filter, get, map } from 'lodash'
 import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
 import { IPartRequestCardComponent, ITopTabBarItem } from '../../common/Interfaces'
-import { getFormattedDateInDetailFormat } from '../../utils/app-utils'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { getFormattedDateInDetailFormat } from '../../utils/app-utils'
 
 
 interface IPartRequestState {
@@ -103,7 +103,7 @@ export const removePartRequestOnLaterOrWishlist = (state: IPartRequestState, { p
       }
     }
   }
-  showAndroidToastMessage('Request updated successfully')
+  showAndroidToastMessage('MultiLanguageString.REQUEST_UPDATED')
 }
 
 

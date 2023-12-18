@@ -10,6 +10,7 @@ import { log } from '../../config/log'
 import { RETURN_KEY_LABEL } from '../../Constant'
 import { icons } from '../../Icons'
 import { ITextInputComponent } from '../../Interfaces'
+import { useTranslation } from 'react-i18next'
 
 const styles = StyleSheet.create({
   inputField: {
@@ -61,7 +62,7 @@ export const TextInputComponent = memo((props: ITextInputComponent) => {
   } = props
 
   const [isPasswordVisible, updatePasswordVisibleStatus] = useState(secureTextEntry)
-
+  const { t } = useTranslation()
   const renderLabel = useCallback(() => {
     return (
       <CustomText
@@ -111,10 +112,14 @@ export const TextInputComponent = memo((props: ITextInputComponent) => {
   }
 
   const renderTextInput = (textFieldStyle) => {
+    let tranlated = placeholder
+    if(tranlated?.length > 0) {
+      tranlated = t(placeholder)
+    }
     return (
       <TextInput
         underlineColorAndroid={colors.transparent}
-        placeholder={placeholder}
+        placeholder={tranlated}
         returnKeyType={returnKeyType}
         returnKeyLabel={returnKeyLabel}
         value={value}

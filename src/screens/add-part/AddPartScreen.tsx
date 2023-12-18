@@ -22,7 +22,6 @@ import { ButtonType } from '../../common/Enumerators'
 import { bottomModal, centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
 import { IDropDownItem, IFormField, IImageItem } from '../../common/Interfaces'
-import { ADD_PART_SCREEN, BUTTONS } from '../../common/strings'
 import { addNewPart, editPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
 import { getTotalImagesTakenCountSelector } from '../../redux/add-part/AddPartSelector'
 import { onChangeUserInputReducer, onMultiSelectDropDowItemReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer, resetAddPartSuccessReducer } from '../../redux/add-part/AddPartSlice'
@@ -31,7 +30,6 @@ import { RootState } from '../../store/DataStore'
 import { goBack } from '../../utils/navigation-utils'
 
 
-const { headerTitle, EditPart } = ADD_PART_SCREEN
 const MAX_IMAGES_ALLOWED = 5
 
 export const AddPartScreen = ({ navigation, route }) => {
@@ -180,7 +178,7 @@ export const AddPartScreen = ({ navigation, route }) => {
 
 
   const renderLabelWithArrowComponent = (fieldData: IFormField) => {
-    const { title, dropdownData, defaultValue, selectedItem, key, multiSelectedDropDownItemNames, isListMultiSelect, multiSelectedDropDownItem } = fieldData
+    const { title, dropdownData, defaultValue, selectedItem, key, multiSelectedDropDownItemNames, isListMultiSelect } = fieldData
     return (
       <View>
         {renderTitleComponent(title)}
@@ -198,7 +196,6 @@ export const AddPartScreen = ({ navigation, route }) => {
   }
 
   const onPressItem = useCallback((optionData) => {
-    log('onPressItem', optionData)
     const { key } = optionData
     switch(key) {
       case PICTURE_OPTIONS_KEY.CAMERA:
@@ -306,7 +303,7 @@ export const AddPartScreen = ({ navigation, route }) => {
         {!selectedImages?.length ? <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
           buttonContainerStyle={addPartStyle.choosePhotoBtnContainer}
-          text='Choose Photo'
+          text={'MultiLanguageString.CHOOSE_PHOTO'}
           color={textColor.black}
           fontSize={18}
           onPress={showImagesSelectPopup}
@@ -372,7 +369,7 @@ export const AddPartScreen = ({ navigation, route }) => {
   const renderAddPartButton = () => {
     return (
       <ButtonComponent
-        text={isEditFlow ? BUTTONS.EDIT_YOUR_AD : BUTTONS.POST_YOUR_AD}
+        text={isEditFlow ? 'BUTTONS.EDIT_YOUR_AD' : 'BUTTONS.POST_YOUR_AD'}
         onPress={postAd}
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
       />
@@ -419,8 +416,9 @@ export const AddPartScreen = ({ navigation, route }) => {
   return (
     <View style={addPartStyle.mainContainer}>
       <HeaderComponent
-        title={ isEditFlow ? EditPart : headerTitle}
+        title={ isEditFlow ? 'ADD_PART_SCREEN.EditPart' : 'ADD_PART_SCREEN.headerTitle'}
         showBackBtn={isEditFlow}
+        showLanguageDropDown={!isEditFlow}
       />
       {renderAddPartForm()}
       { showCameraComponent && <CameraComponent

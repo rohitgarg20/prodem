@@ -26,6 +26,7 @@ import { ScreenNames } from '../../common/Screens'
 import { fetchProductListData } from '../../redux/home/HomeApi'
 import { resetProductListReducer } from '../../redux/home/HomeSlice'
 import { RootState } from '../../store/DataStore'
+import { tString } from '../../utils/app-utils'
 import { goBack, navigateSimple } from '../../utils/navigation-utils'
 import { verticalScale } from '../../utils/scaling'
 
@@ -173,7 +174,6 @@ export const ProductListScreen = ({ navigation  }) => {
   }
 
   const renderFooterComponent = () => {
-    log('renderFooterComponent',productListPageNumber,  productListTotalPage)
     if(productListPageNumber > productListTotalPage || (productListTotalPage === 0)) return null
     return (
       <ActivityIndicator
@@ -244,7 +244,7 @@ export const ProductListScreen = ({ navigation  }) => {
   }, [renderDropDownComponent])
 
   const renderFiltersOption = () => {
-    let displayLabel = 'Sort By' + (selectedFilter?.value?.length ? ` - ${selectedFilter?.value}` : '')
+    let displayLabel = tString('MultiLanguageString.SORT_BY') + (selectedFilter?.value?.length ? ` - ${selectedFilter?.value}` : '')
     return (
       <ButtonComponent
         text={displayLabel}

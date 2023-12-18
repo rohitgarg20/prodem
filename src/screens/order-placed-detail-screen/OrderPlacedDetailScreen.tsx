@@ -8,10 +8,10 @@ import { colors, textColor } from '../../common/Colors'
 import { CustomText, IconWrapper, SpacerComponent } from '../../common/components'
 import { HeaderComponent } from '../../common/components/screens'
 import { icons } from '../../common/Icons'
-import { ORDER_PLACED_DETAIL_SCREEN } from '../../common/strings'
 import { fetchOrderPlacedDetail } from '../../redux/order-placed/OrderPlacedApi'
 import { resetFetchedOrderDetailReducer } from '../../redux/order-recieved/OrderReceivedDetailSlice'
 import { RootState } from '../../store/DataStore'
+import { tString } from '../../utils/app-utils'
 import { scale, verticalScale } from '../../utils/scaling'
 
 const styles = StyleSheet.create({
@@ -78,11 +78,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const {
-  HEADER_TITLE, ORDERT_STATUS, CUSTOMER_NAME, DATE, EMAIL, PHONE, ESTIMATED_DELIVERY, FINAL_AMOUNT, BUYER_DETAILS,
-  SELLER_DETAILS, INFO, DELIVERY_ADDRESS, CUSTOMER_REMARKS
-} = ORDER_PLACED_DETAIL_SCREEN
-
 interface IProps {
   route?: any
 }
@@ -108,7 +103,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
   }, [route, dispatch])
 
   const renderOrderNo = () => {
-    const displayLabel = `Order no.. ${orderNo}`
+    const displayLabel = `${tString('MultiLanguageString.ORDER_NO')} ${orderNo}`
     return (
       <CustomText
         text={displayLabel}
@@ -124,7 +119,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainer}>
         <CustomText
-          text={`${heading}:`}
+          text={heading + ':'}
           fontSize={14}
           color={textColor.mediumGrey}
         />
@@ -142,12 +137,12 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.orderBasicDetail}>
         {renderOrderNo()}
-        {renderHeadingWithDescriptionComponent(ORDERT_STATUS, displayStatus)}
-        {renderHeadingWithDescriptionComponent(CUSTOMER_NAME, customerName)}
-        {renderHeadingWithDescriptionComponent(DATE, orderDate)}
-        {renderHeadingWithDescriptionComponent(EMAIL, email)}
-        {renderHeadingWithDescriptionComponent(PHONE, phone)}
-        {renderHeadingWithDescriptionComponent(DELIVERY_ADDRESS, address)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.ORDERT_STATUS', displayStatus)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.CUSTOMER_NAME', customerName)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.DATE', orderDate)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.EMAIL', email)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.PHONE', phone)}
+        {renderHeadingWithDescriptionComponent('ORDER_PLACED_DETAIL_SCREEN.DELIVERY_ADDRESS', address)}
       </View>
     )
   }
@@ -202,7 +197,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainerFlexEnd}>
         <CustomText
-          text={ESTIMATED_DELIVERY}
+          text={'ORDER_PLACED_DETAIL_SCREEN.ESTIMATED_DELIVERY'}
           fontSize={15}
           color={textColor.black}
         />
@@ -219,7 +214,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.rowContainerFlexEnd}>
         <CustomText
-          text={FINAL_AMOUNT}
+          text={'ORDER_PLACED_DETAIL_SCREEN.FINAL_AMOUNT'}
           fontSize={15}
           fontWeight="bold"
           color={textColor.black}
@@ -260,7 +255,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View >
         <CustomText
-          text={SELLER_DETAILS}
+          text={'ORDER_PLACED_DETAIL_SCREEN.SELLER_DETAILS'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -278,7 +273,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View >
         <CustomText
-          text={BUYER_DETAILS}
+          text={'ORDER_PLACED_DETAIL_SCREEN.BUYER_DETAILS'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
@@ -295,7 +290,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
   const renderGeneralInfo = () => {
     return (
       <CustomText
-        text={INFO}
+        text={'ORDER_PLACED_DETAIL_SCREEN.INFO'}
         fontSize={14}
         color={textColor.lightBlack}
         textStyle={styles.deliveryCostInfo}
@@ -307,7 +302,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     return (
       <View style={styles.customerRemarksContainer}>
         <CustomText
-          text={CUSTOMER_REMARKS}
+          text={'ORDER_PLACED_DETAIL_SCREEN.CUSTOMER_REMARKS'}
           fontSize={14}
           fontWeight="bold"
           color={textColor.black}
@@ -354,7 +349,7 @@ export const OrderPlacedDetailScreen = (props: IProps) => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'ORDER_PLACED_DETAIL_SCREEN.HEADER_TITLE'}
       />
       { !isEmpty(orderDetails) && renderContentContainer()}
     </View>

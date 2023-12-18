@@ -1,14 +1,15 @@
 import React, { memo } from 'react'
 
 import { isEmpty } from 'lodash'
+import { useTranslation } from 'react-i18next'
 import { Text } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { scale } from '../../../utils/scaling'
+import { textColor } from '../../Colors'
 import { isIos } from '../../Constant'
 import { fonts } from '../../fontUtils'
 import { ICustomText } from '../../Interfaces'
-import { textColor } from '../../Colors'
 
 export const CustomText = memo((props: ICustomText) => {
 
@@ -16,6 +17,7 @@ export const CustomText = memo((props: ICustomText) => {
     text, textStyle, fontSize = 14, lineHeight, color = textColor.black, children,
     isAnimated = false, fontWeight = isIos ? undefined : '500', ...restProps
   } = props
+  const { t } = useTranslation()
 
   const TextComponent: typeof React.Component = isAnimated ? Animated.Text : Text
 
@@ -48,7 +50,7 @@ export const CustomText = memo((props: ICustomText) => {
         allowFontScaling = {false}
         style = {getTextStyle()}
         {...restProps} >
-        {text}
+        {t(text)}
       </TextComponent>
     )
   }

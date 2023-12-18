@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { memo, useCallback } from 'react'
 
 import { FlatList, Pressable, View } from 'react-native'
@@ -11,11 +12,8 @@ import RadioButtonComponent from '../../../common/components/generic/RadioButton
 import { genericDrawerController } from '../../../common/components/ModalComponent/GenericModalController'
 import { HeaderComponent } from '../../../common/components/screens'
 import { DropDownListComponent } from '../../../common/components/screens/dropdown/DropDownListComponent'
-import { centerModal } from '../../../common/GenericStyle'
-import { EDIT_PROFILE_SCREEN } from '../../../common/strings'
 import { isIos } from '../../../common/Constant'
-
-const { HEADER_TITLE } = EDIT_PROFILE_SCREEN
+import { centerModal } from '../../../common/GenericStyle'
 
 
 const TextFieldBox = ({
@@ -135,7 +133,7 @@ const NewInsuranceTrackScreen = ({ navigation }) => {
         style={styles.loginBtnElementWrapper}
       >
         <CustomText
-          text={'Submit'}
+          text={'MultiLanguageString.SUBMIT'}
           color={colors.white}
 
         />
@@ -185,7 +183,7 @@ const NewInsuranceTrackScreen = ({ navigation }) => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'EDIT_PROFILE_SCREEN.HEADER_TITLE'}
       />
       <View style={styles.mainContainer}>
         <FlatList

@@ -5,6 +5,9 @@ import { Pressable, StyleSheet, TextInput } from 'react-native'
 import { colors, textColor } from '../../../Colors'
 import { icons } from '../../../Icons'
 import { IconWrapper } from '../../generic'
+import { tString } from '../../../../utils/app-utils'
+import { useTranslation } from 'react-i18next'
+
 
 interface IProps {
   onPressSearchBar?: () => void
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
 export const SearchBarComponent = (props: IProps) => {
 
   const { onPressSearchBar, onChangeText, inputValue, editable = false } = props
-
+  const { t } = useTranslation()
 
   const renderSearchIcon = () => {
     return (
@@ -53,7 +56,7 @@ export const SearchBarComponent = (props: IProps) => {
     return (
       <TextInput
         underlineColorAndroid={colors.transparent}
-        placeholder={'Search by item, part number'}
+        placeholder={t('MultiLanguageString.SEARCH_P')}
         value={inputValue}
         onChangeText={onChangeText}
         placeholderTextColor={textColor.stormGrey}

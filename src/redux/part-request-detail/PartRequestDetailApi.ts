@@ -12,6 +12,8 @@ import { IFormField } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { apiDispatch } from '../../network/DispatchApiCall'
 import { store } from '../../store/DataStore'
+import { tString } from '../../utils/app-utils'
+import { ToastAndroid } from 'react-native'
 
 export const fetchPartRequestDetail = ({
   productId
@@ -63,7 +65,7 @@ export const addPartRequestToWishlistApi = (partRequestId) => {
 
 export const sendMsgByBuyer = ({ bidId, msg, partRequestId }) => {
   if(!msg.length) {
-    showAndroidToastMessage('Message cannot be empty')
+    showAndroidToastMessage('MultiLanguageString.MESSAGE_EMPTY')
     return
   }
   const formData = new FormData()
@@ -88,7 +90,7 @@ export const sendMsgByBuyer = ({ bidId, msg, partRequestId }) => {
 
 export const sendMsgBySeller = ({ bidId, msg, partRequestId }) => {
   if(!msg.length) {
-    showAndroidToastMessage('Message cannot be empty')
+    showAndroidToastMessage('MultiLanguageString.MESSAGE_EMPTY')
     return
   }
   const formData = new FormData()
@@ -135,6 +137,7 @@ export const isProposeNewFormValid = (formData: Record<ProposeOfferFieldKeys, IF
   let emptyField = ''
   Object.keys(formData).forEach((formKey) => {
     const formKeyData = formData?.[formKey]
+    log('isProposeNewFormValid', formKey)
     const { inputValue, type, selectedItem, required } = formKeyData
     if(emptyField.length || !required) {
       return
@@ -158,7 +161,6 @@ export const isProposeNewFormValid = (formData: Record<ProposeOfferFieldKeys, IF
 export const proposeNewOfferApiRequest = (addPartForm: Record<ProposeOfferFieldKeys, IFormField>, partRequestId: number) => {
   const formData = new FormData()
   const emptyFieldName = isProposeNewFormValid(addPartForm)
-  log('proposeNewOfferApiRequestproposeNewOfferApiRequest', addPartForm)
   if(!emptyFieldName) {
     Object.keys(addPartForm).forEach((formKey) => {
       const formKeyData = addPartForm?.[formKey]
@@ -188,19 +190,16 @@ export const proposeNewOfferApiRequest = (addPartForm: Record<ProposeOfferFieldK
         onFailure: proposeNewOfferApiFailureReducer.type
       })
       try {
-        showAndroidToastMessage('New offer is proposed successfully')
+        showAndroidToastMessage('MultiLanguageString.NEW_OFFER')
         fetchPartRequestDetail({ productId: partRequestId })
         resolve(apiRespData)
       } catch(err) {
-        log('resolveresolveresolveresolve error ', err)
-
         reject(err)
       }
     })
 
   } else {
-    showAndroidToastMessage(`${emptyFieldName} cannot be empty`)
+    showAndroidToastMessage(`${tString(emptyFieldName)} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`, ToastAndroid.SHORT, false)
   }
 
-  log('formDataformDataformData', formData, addPartForm)
 }

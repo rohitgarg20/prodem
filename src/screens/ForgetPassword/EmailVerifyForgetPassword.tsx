@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import { get } from 'lodash'
-import { View } from 'react-native'
+import { ToastAndroid, View } from 'react-native'
 
 import { forgetPswdStyles as styles } from './styles'
 import { dimissKeyboard } from '../../common/App-Utils'
@@ -10,16 +10,12 @@ import { SubHeadingComponent, ButtonComponent, TextInputComponent } from '../../
 import { CrossButtonComponent, HeadingComponent } from '../../common/components/screens'
 import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { ScreenNames } from '../../common/Screens'
-import { FORGET_PASSWORD, BUTTONS } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { callForgetPasswordApi } from '../../redux/forget-password/ForgetPasswordApi'
 import { goBack, navigateSimple } from '../../utils/navigation-utils'
+import { tString } from '../../utils/app-utils'
 
-
-const { TITLE, DESCRIPTION, EMAIL_PLACEHOLDER, Email } = FORGET_PASSWORD
-const { SEND } = BUTTONS
 
 export const EmailVerifyForgetPassword = ({ navigation }) => {
   const [emailId, updateEmailId] = useState('')
@@ -32,7 +28,7 @@ export const EmailVerifyForgetPassword = ({ navigation }) => {
     return (
       <View style={styles.headingContainer}>
         <CrossButtonComponent onPressIcon={onCrossBtnClicked} />
-        <HeadingComponent text={ TITLE }
+        <HeadingComponent text={ 'FORGET_PASSWORD.TITLE' }
           fontWeight = {'bold'} />
         <View />
       </View>
@@ -42,7 +38,7 @@ export const EmailVerifyForgetPassword = ({ navigation }) => {
   const renderDescriptionComponent = () => {
     return (
       <SubHeadingComponent
-        text={DESCRIPTION}
+        text={'FORGET_PASSWORD.DESCRIPTION'}
         color={textColor.white}
         textStyle={styles.subHeading}
       />
@@ -57,10 +53,10 @@ export const EmailVerifyForgetPassword = ({ navigation }) => {
   const renderEmailTextField = () => {
     return (
       <TextInputComponent
-        label={Email}
+        label={'FORGET_PASSWORD.Email'}
         value={emailId}
         onChangeText={onChangeEmailId}
-        placeholder={EMAIL_PLACEHOLDER}
+        placeholder={'FORGET_PASSWORD.EMAIL_PLACEHOLDER'}
         placeholderTextColor={textColor.lightGrey}
       />
     )
@@ -74,7 +70,8 @@ export const EmailVerifyForgetPassword = ({ navigation }) => {
       } })
     }).catch(err => {
       log('sendOtpOnEmail', err)
-      showAndroidToastMessage(get(err, 'message', SOMETHING_WENT_WRONG))
+      showAndroidToastMessage(get(err, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
     })
   }, [emailId, navigation])
 
@@ -82,7 +79,7 @@ export const EmailVerifyForgetPassword = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={SEND}
+        text={'BUTTONS.SEND'}
         onPress={sendOtpOnEmail}
       />
     )

@@ -1,8 +1,9 @@
+/* eslint-disable guard-for-in */
 import { onProfileDataApiInitiate, onProfileDataApiSuccess, onProfileDataApiFailure,
   updateUserName, onProfileUpdateApiFailed, logoutUserFailureReducer, logoutUserSuccessReducer, onSuccessPasswordUpdatedReducer } from './ProfileSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
-import { apiDispatch } from '../../network/DispatchApiCall'
 import { showAndroidToastMessage } from '../../common/Toast'
+import { apiDispatch } from '../../network/DispatchApiCall'
 
 export const fetchUserProfileData = (showLoaderOnScreen = true) => {
 
@@ -58,7 +59,7 @@ export const updateUserPasswordApi = ({
     try {
       resolve(apiResp)
     }catch(err) {
-      showAndroidToastMessage('Errow while updating password')
+      showAndroidToastMessage('MultiLanguageString.ERROR_PASSWORD')
       reject(err)
     }
   })

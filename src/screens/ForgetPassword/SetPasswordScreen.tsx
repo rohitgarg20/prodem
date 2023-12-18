@@ -2,29 +2,25 @@ import React, { useState, useCallback } from 'react'
 
 import { useRoute } from '@react-navigation/native'
 import { get } from 'lodash'
-import { View } from 'react-native'
+import { View, ToastAndroid } from 'react-native'
 import { batch, useDispatch } from 'react-redux'
 
 import { forgetPswdStyles as styles } from './styles'
+import { dimissKeyboard } from '../../common/App-Utils'
 import { textColor } from '../../common/Colors'
 import { SubHeadingComponent, ButtonComponent, TextInputComponent, SpacerComponent } from '../../common/components'
 import { HeadingComponent } from '../../common/components/screens'
 import { CrossButtonComponent } from '../../common/components/screens/CrossButtonComponent'
 import { ButtonType } from '../../common/Enumerators'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { ScreenNames } from '../../common/Screens'
-import { SET_PASSWORD, BUTTONS } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { getCreatePasswordErrorMsg } from '../../common/validators/validation-utils'
 import { dispatchSetPasswordApi } from '../../redux/forget-password/ForgetPasswordApi'
 import { resetFormDataReducer as resetLoginFormReducer } from '../../redux/login/LoginSlice'
 import { resetFormDataReducer } from '../../redux/Signup/SignupSlice'
+import { tString } from '../../utils/app-utils'
 import { navigateSimple } from '../../utils/navigation-utils'
-import { dimissKeyboard } from '../../common/App-Utils'
 
-
-const { TITLE, CREATE_PASSWORD, PASSWORD_LABEL, CONFIRM_PASSWORD_LABEL } = SET_PASSWORD
-const { SEND } = BUTTONS
 
 export const SetPasswordScreen = ({ navigation  }) => {
 
@@ -41,7 +37,7 @@ export const SetPasswordScreen = ({ navigation  }) => {
     return (
       <View style={styles.headingContainer}>
         <CrossButtonComponent onPressIcon={onCrossBtnClicked} />
-        <HeadingComponent text={ TITLE }
+        <HeadingComponent text={ 'SET_PASSWORD.TITLE' }
           fontWeight = {'bold'} />
         <View />
       </View>
@@ -51,7 +47,7 @@ export const SetPasswordScreen = ({ navigation  }) => {
   const renderDescriptionComponent = () => {
     return (
       <SubHeadingComponent
-        text={CREATE_PASSWORD}
+        text={'SET_PASSWORD.CREATE_PASSWORD'}
         color={textColor.white}
         textStyle={styles.subHeading}
       />
@@ -61,7 +57,7 @@ export const SetPasswordScreen = ({ navigation  }) => {
   const renderPasswordTextField = () => {
     return (
       <TextInputComponent
-        label={PASSWORD_LABEL}
+        label={'SET_PASSWORD.PASSWORD_LABEL'}
         value={password}
         onChangeText={setPassword}
         secureTextEntry={true}
@@ -72,7 +68,7 @@ export const SetPasswordScreen = ({ navigation  }) => {
   const renderConfirmPasswordTextField = () => {
     return (
       <TextInputComponent
-        label={CONFIRM_PASSWORD_LABEL}
+        label={'SET_PASSWORD.CONFIRM_PASSWORD_LABEL'}
         value={confmPswd}
         onChangeText={setConfirmPassword}
         secureTextEntry={true}
@@ -95,7 +91,8 @@ export const SetPasswordScreen = ({ navigation  }) => {
           dispatch({ type: resetLoginFormReducer.type })
         })
       }).catch((err) => {
-        showAndroidToastMessage(get(err, 'message', SOMETHING_WENT_WRONG))
+        showAndroidToastMessage(get(err, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
       })
     }
   }, [password, confmPswd, routeParams, dispatch])
@@ -104,7 +101,7 @@ export const SetPasswordScreen = ({ navigation  }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={SEND}
+        text={'BUTTONS.SEND'}
         onPress={resetPassword}
       />
     )

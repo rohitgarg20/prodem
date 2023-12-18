@@ -7,7 +7,6 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 import { CustomText } from './CustomText'
 import { IconWrapper } from './IconWrapper'
 import { colors, textColor } from '../../Colors'
-import { log } from '../../config/log'
 import { icons } from '../../Icons'
 import { CrossButtonComponent } from '../screens'
 
@@ -51,7 +50,6 @@ export const ImageZoomViewerComponent = memo((props: IProps) => {
         images.push( { url: '', props: { source: image } })
       }
     })
-    log('imagesimagesimages', images, imageUrls)
     return images
   }, [imageUrls])
 
@@ -86,7 +84,6 @@ export const ImageZoomViewerComponent = memo((props: IProps) => {
   }
 
   const renderImage = (propsImg) => {
-    log('renderImagerenderImagerenderImage', propsImg)
     const imgSource = get(propsImg, 'source.uri') || get(propsImg, 'source')
     return (
       <IconWrapper

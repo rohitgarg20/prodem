@@ -3,6 +3,7 @@ import React, { memo, useCallback, useEffect } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 
+import { tString } from '../../../../utils/app-utils'
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
 import { icons } from '../../../Icons'
@@ -138,7 +139,7 @@ export const SellerProductItemCardComponent = memo((props: IProps) => {
   const renderProductViewsIcon = () => {
     return (
       <CustomText
-        text={'Views: '}
+        text={tString('MultiLanguageString.Views') + ': '}
         fontSize={16}
         color = {textColor.stormGrey}
         fontWeight="400"
@@ -213,7 +214,7 @@ export const SellerProductItemCardComponent = memo((props: IProps) => {
   const renderProductQtyLabel = () => {
     return (
       <CustomText
-        text={'Quantity: '}
+        text={'MultiLanguageString.Quantity'}
         fontSize={16}
         color = {textColor.stormGrey}
         fontWeight="400"

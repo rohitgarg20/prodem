@@ -1,29 +1,26 @@
 import React, { useCallback, useEffect } from 'react'
 
 import { get, map } from 'lodash'
-import { View } from 'react-native'
+import { ToastAndroid, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { loginStyles as styles } from './styles'
 import { ButtonComponent, SpacerComponent, TextInputComponent } from '../../common/components'
 import { KeyboardHandledScrollView } from '../../common/components/generic/KeyboardHandledScrollView'
+import { CrossButtonComponent } from '../../common/components/screens'
 import { FormTopSectionComponent } from '../../common/components/screens/form/FormTopSectionComponent'
 import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IUserFormItem } from '../../common/Interfaces'
 import { ScreenNames, StackNames } from '../../common/Screens'
-import { BUTTONS, LOGIN_SCREEN } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { onLoginUserReducer } from '../../redux/login/LoginApi'
 import { onChangeUserInput, resetFormDataReducer } from '../../redux/login/LoginSlice'
 import { Dispatch, RootState } from '../../store/DataStore'
-import { navigateSimple, replaceNavigation } from '../../utils/navigation-utils'
+import { tString } from '../../utils/app-utils'
 import { setAuthToken } from '../../utils/auth-utils'
+import { navigateSimple, replaceNavigation } from '../../utils/navigation-utils'
 
-
-const { SubHeading, ForgetPassword } = LOGIN_SCREEN
-const { Login } = BUTTONS
 
 export const LoginScreen = ({ navigation }) => {
   log('LoginScreenLoginScreen is called')
@@ -85,13 +82,14 @@ export const LoginScreen = ({ navigation }) => {
         setAuthToken(data?.token)
         replaceNavigation({
           navigator: navigation,
-          screenToNavigate: StackNames.PARENT_STACK,
+          screenToNavigate: StackNames.PARENT_STACK
         })
       } else {
         navigateSimple({ navigator: navigation, screenToNavigate: ScreenNames.EMAIL_VERIFICATION, params: { emailId: formData?.userName?.inputValue } })
       }
     }).catch(err => {
-      showAndroidToastMessage(get(err, 'message', SOMETHING_WENT_WRONG))
+      showAndroidToastMessage(get(err, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
     })
   }, [formData, navigation])
 
@@ -103,7 +101,7 @@ export const LoginScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={Login}
+        text={'BUTTONS.Login'}
         onPress={onLoginBtnClicked}
       />
     )
@@ -114,7 +112,7 @@ export const LoginScreen = ({ navigation }) => {
       <View style={styles.loginContainer}>
         <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
-          text={ForgetPassword}
+          text={'LOGIN_SCREEN.ForgetPassword'}
           onPress={onForgetPswdBtnClicked}
         />
       </View>
@@ -126,7 +124,11 @@ export const LoginScreen = ({ navigation }) => {
       contentContainerStyle = {styles.contentContainer}
       automaticallyAdjustKeyboardInsets={true}
     >
-      <FormTopSectionComponent subHeading={SubHeading} />
+      <CrossButtonComponent
+        showCrossButton={false}
+        showLanguageDropDown
+      />
+      <FormTopSectionComponent subHeading={'LOGIN_SCREEN.SubHeading'} />
       <SpacerComponent style={styles.formTopSeperator} />
       {renderFormComponent()}
       <SpacerComponent style={styles.formBottomSeperator} />

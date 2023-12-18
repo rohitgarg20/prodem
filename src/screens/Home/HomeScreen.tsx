@@ -11,13 +11,10 @@ import { CategoryCardComponent } from '../../common/components/screens/home/Cate
 import { SearchBarComponent } from '../../common/components/screens/home/SearchBarComponent'
 import { ICategoryCardComponent } from '../../common/Interfaces'
 import { ScreenNames } from '../../common/Screens'
-import { HOME_SCREEN } from '../../common/strings'
 import { fetchCategoriesAndBrandData } from '../../redux/home/HomeApi'
 import { RootState } from '../../store/DataStore'
 import { navigateSimple } from '../../utils/navigation-utils'
 
-
-const { HEADER_TITLE, CATEGORIES, SUBHEADING } = HOME_SCREEN
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -35,7 +32,7 @@ export const HomeScreen = ({ navigation }) => {
     return (
       <View>
         <CustomText
-          text={CATEGORIES}
+          text={'HOME_SCREEN.CATEGORIES'}
           fontSize={16}
           lineHeight={20}
           color={textColor.black}
@@ -43,7 +40,7 @@ export const HomeScreen = ({ navigation }) => {
           textStyle={homeStyles.titleSeperator}
         />
         <CustomText
-          text={SUBHEADING}
+          text={'HOME_SCREEN.SUBHEADING'}
           fontSize={12}
           color={textColor.midnightMoss}
         />
@@ -102,7 +99,10 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={homeStyles.mainContainer}>
-      <HeaderComponent title={HEADER_TITLE} />
+      <HeaderComponent 
+        title={'HOME_SCREEN.HEADER_TITLE'}
+        showLanguageDropDown
+      />
       {renderContentContainer()}
     </View>
   )

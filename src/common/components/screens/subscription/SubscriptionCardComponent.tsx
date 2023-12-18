@@ -7,7 +7,6 @@ import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
 import { ButtonType } from '../../../Enumerators'
 import { ISubscriptionCard } from '../../../Interfaces'
-import { SUBSCRIPTION_SCREEN } from '../../../strings'
 import { ButtonComponent, CustomText, SpacerComponent } from '../../generic'
 
 const ITEMS_SPACING = verticalScale(5)
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const { PRICE, QUANTITY, VALIDITY } = SUBSCRIPTION_SCREEN
 
 export const SubscriptionCardComponent = memo((props: ISubscriptionCard) => {
   const { price, quantity, validity, multiSubscription, name, btnBackgroundColor } = props
@@ -64,9 +62,9 @@ export const SubscriptionCardComponent = memo((props: ISubscriptionCard) => {
   const renderPlanBasicDetails = () => {
     return (
       <View style={styles.basicPlanDetailContainer}>
-        {renderBasicDetailTextComponent(PRICE, price)}
-        {renderBasicDetailTextComponent(QUANTITY, quantity)}
-        {renderBasicDetailTextComponent(VALIDITY, validity)}
+        {renderBasicDetailTextComponent('SUBSCRIPTION_SCREEN.PRICE', price)}
+        {renderBasicDetailTextComponent('SUBSCRIPTION_SCREEN.QUANTITY', quantity)}
+        {renderBasicDetailTextComponent('SUBSCRIPTION_SCREEN.VALIDITY', validity)}
       </View>
     )
   }

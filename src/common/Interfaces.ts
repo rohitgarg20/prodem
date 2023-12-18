@@ -87,6 +87,7 @@ export interface IHeaderComponent {
   onPress?: () => void
   showInCenter?: boolean
   showEndContainer?: boolean
+  showLanguageDropDown?: boolean
 }
 
 export interface IFormField {
@@ -257,6 +258,8 @@ export interface IProductCardComponent {
   subCategoryId?: number
   productType?: number
   productSlides?: string[]
+  multiSelectedDropDownItemNames: string[]
+  multiSelectedDropDownItem?: string[] | number[]
 }
 
 export interface IProductDetailScreen {
@@ -484,7 +487,7 @@ export interface IOrderReceivedDetail {
   buyerMobile?: string
   address?: string
   ratingGiven?: number
-  sellerNotes?: string
+  ratingDescription?: string
   productImage: number | string
   vendorRemarks: string
 }

@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { ScrollView, StyleSheet, View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
-import  Animated, { Easing, Extrapolation, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { StyleSheet, View, Keyboard } from 'react-native'
+import  Animated, {  Extrapolation, interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 
 import { ButtonComponent } from './ButtonComponent'
 import { CustomText } from './CustomText'
 import RadioButtonComponent from './RadioButtonComponent'
 import { TextInputComponent } from './TextInputComponent'
+import { tString } from '../../../utils/app-utils'
 import { scale, verticalScale } from '../../../utils/scaling'
+import { dimissKeyboard } from '../../App-Utils'
 import { colors, textColor } from '../../Colors'
-import { log } from '../../config/log'
 import { ratingsData } from '../../Constant'
 import { ButtonType } from '../../Enumerators'
 import { showAndroidToastMessage } from '../../Toast'
-import { dimissKeyboard } from '../../App-Utils'
 
 const styles = StyleSheet.create({
   textInputMultine: {
@@ -33,10 +33,18 @@ const styles = StyleSheet.create({
 
 const SCROLL_TO = verticalScale(130)
 
-export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating: number, description: string) => void }) => {
+export const SubmitRatingComponent = ({
+  submitRating,
+  defaultRating = -1,
+  defaultDescription = ''
+}: {
+  submitRating: (rating: number, description: string) => void
+  defaultRating?: number
+  defaultDescription?: string
+}) => {
 
-  const [selectedRating, updateSelectedRating] = useState(-1)
-  const [description, updateDescription] = useState('')
+  const [selectedRating, updateSelectedRating] = useState(defaultRating)
+  const [description, updateDescription] = useState(defaultDescription)
   const containerPosition = useSharedValue(0)
   const onChangeRadioButton = (key) => {
     updateSelectedRating(key)
@@ -47,7 +55,6 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
   }, [containerPosition])
 
   const keyboardDidShow = useCallback(() => {
-    log('keyboardDidShowkeyboardDidShow')
     containerPosition.value = 1
   }, [containerPosition])
 
@@ -74,7 +81,7 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
 
   const onSibmitRating = () => {
     if(!description.length) {
-      showAndroidToastMessage('Description cannot be empty')
+      showAndroidToastMessage(tString('MultiLanguageString.RATING_ERROR'))
     } else {
       dimissKeyboard()
       submitRating(selectedRating, description)
@@ -98,14 +105,14 @@ export const SubmitRatingComponent = ({ submitRating }: { submitRating: (rating:
     return (
       <View style={styles.ratingDescription}>
         <CustomText
-          text={'How did this buyer feel about you?'}
+          text={'MultiLanguageString.HEADING'}
           fontSize={16}
           fontWeight="bold"
           color={textColor.black}
           lineHeight={18}
         />
         <CustomText
-          text={'Please describe it in few words'}
+          text={'MultiLanguageString.DESCRIPTION'}
           fontSize={14}
           color={textColor.mediumGrey}
         />

@@ -4,9 +4,9 @@ import { Pressable, StyleSheet, View } from 'react-native'
 
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
+import { log } from '../../../config/log'
 import { ICategoryCardComponent } from '../../../Interfaces'
 import { CustomText, IconWrapper } from '../../generic'
-import { log } from '../../../config/log'
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -54,7 +54,6 @@ export const CategoryCardComponent = memo((props: ICategoryCardComponent) => {
   }
 
   const onPressCard = useCallback(() => {
-    log('onPressCard')
     if (onPress) {
       onPress(categoryId)
     }

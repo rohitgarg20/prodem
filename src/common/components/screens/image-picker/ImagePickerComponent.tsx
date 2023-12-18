@@ -16,7 +16,6 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
 
   const onSaveCropImage = useCallback(async(images) => {
     let imgResult: IImageItem[] = []
-    log('onSaveCropImageonSaveCropImageonSaveCropImage')
     for await (const image of images) {
       try {
         const croppedImgResp = await ImageCropPicker.openCropper({
@@ -31,7 +30,6 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
           enableRotationGesture: true,
           freeStyleCropEnabled: true
         })
-        log('onSaveCropImageonSaveCropImageonSaveCropImage', croppedImgResp)
 
         const { data, mime } = croppedImgResp
         imgResult.push({
@@ -45,7 +43,6 @@ export const ImagePickerComponent = (props: ICameraComponent) => {
           })
         }
       } catch(err) {
-        log('onSaveCropImageonSaveCropImageonSaveCropImage, errerr', err)
 
         if(onSavePicture) {
           onDismiss()

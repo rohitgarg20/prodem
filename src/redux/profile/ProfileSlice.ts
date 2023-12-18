@@ -5,7 +5,6 @@ import { get } from 'lodash'
 import { API_STATUS_CODE, BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
 import {  ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { onLoginApiSuccessReducer } from '../login/LoginSlice'
 
@@ -71,18 +70,16 @@ const updateUserNameReducer = (state: IUserProfileDetail, { payload }) => {
   state.isFetchingData = false
   state.hasApiError = true
   state.userDetails.p_user_name = userDetails?.p_user_name || ''
-  
 }
 
 const onSuccessPasswordUpdated = () => {
-  showAndroidToastMessage('Password updated successfully')
+  showAndroidToastMessage('MultiLanguageString.PSWD_UPDATED')
 }
 
 const onUpdateApiFailedReducer = (state: IUserProfileDetail, { payload }) => {
 
-  const message = payload?.error?.message  || 'Something Went Wrong!!'
+  const message = payload?.error?.message  || SOMETHING_WENT_WRONG
 
-  log('!!!! payload errror ', payload)
   showAndroidToastMessage(message)
 
 }
@@ -99,11 +96,10 @@ const logoutUser = (state: IUserProfileDetail, { payload }) => {
 }
 
 const logoutUserFailure = (state: IUserProfileDetail, { payload }) => {
-  log('logoutUserFailure', payload)
   const errorCode = get(payload, 'error.code')
   const authStatus = get(payload, 'error.authStatus')
   if(errorCode !== API_STATUS_CODE.LOGOUT && authStatus !== false) {
-    showAndroidToastMessage(SOMETHING_WENT_WRONG)
+    showAndroidToastMessage('SOMETHING_WENT_WRONG')
   }
 }
 
@@ -125,7 +121,6 @@ export const ratingSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(onLoginApiSuccessReducer.type, (state, action) => {
       const payload = get(action, 'payload', {})
-      log('payloadpayloadpayloadpayloadpayload', payload, action)
       state.userDetails = getUserDetails(payload)
     })
   }
@@ -133,7 +128,7 @@ export const ratingSlice = createSlice({
 
 export const {
   onProfileDataApiInitiate, onProfileDataApiSuccess, onProfileDataApiFailure, resetDataReducer,
-  updateUserName, onProfileUpdateApiFailed, logoutUserSuccessReducer, logoutUserFailureReducer, 
+  updateUserName, onProfileUpdateApiFailed, logoutUserSuccessReducer, logoutUserFailureReducer,
   onSuccessPasswordUpdatedReducer } = ratingSlice.actions
 
 export default ratingSlice.reducer

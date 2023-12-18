@@ -7,6 +7,8 @@ import { InputType, PartRequestFieldKeys } from '../../common/Constant'
 import { IFormField } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { apiDispatch } from '../../network/DispatchApiCall'
+import { tString } from '../../utils/app-utils'
+import { ToastAndroid } from 'react-native'
 
 
 export const getRequestPartDropDownData = () => {
@@ -25,6 +27,7 @@ export const isAskPartFormValid = (formData: Record<PartRequestFieldKeys, IFormF
   let emptyField = ''
   Object.keys(formData).forEach((formKey) => {
     const formKeyData = formData?.[formKey]
+    log('requestNewPartApi is = ', formKey)
     const { inputValue, type, selectedItem, selectedImages } = formKeyData
     if(emptyField.length) {
       return
@@ -85,7 +88,7 @@ export const requestNewPartApi = (addPartForm: Record<PartRequestFieldKeys, IFor
     })
 
   } else {
-    showAndroidToastMessage(`${emptyFieldName} cannot be empty`)
+    showAndroidToastMessage(`${tString(emptyFieldName)} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`, ToastAndroid.SHORT, false)
   }
 
   log('formDataformDataformData', formData, addPartForm)

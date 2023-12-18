@@ -6,7 +6,6 @@ import { scale, verticalScale } from '../../../../utils/scaling'
 import { colors, textColor } from '../../../Colors'
 import { ButtonType } from '../../../Enumerators'
 import { IPartRequestCardComponent } from '../../../Interfaces'
-import { BUTTONS } from '../../../strings'
 import { ButtonComponent, CustomText } from '../../generic'
 
 const styles = StyleSheet.create({
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const { IGNORE, LATER, BIDDING } = BUTTONS
 export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
 
   const { title, description, uploadedDate, partRequestId, navigateToDetailScreen, onPressWishlistButton, onPressIgnoreButton } = props
@@ -104,7 +102,7 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={IGNORE}
+        text={'BUTTONS.IGNORE'}
         fontSize={14}
         color={textColor.black}
         textStyle={styles.underline}
@@ -125,7 +123,7 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
         textStyle={styles.underline}
-        text={LATER}
+        text={'BUTTONS.LATER'}
         fontSize={14}
         color={textColor.black}
         buttonContainerStyle={styles.laterBtn}
@@ -144,7 +142,7 @@ export const PartRequestComponent = memo((props: IPartRequestCardComponent) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={BIDDING}
+        text={'BUTTONS.BIDDING'}
         fontSize={14}
         color={textColor.white}
         buttonContainerStyle={styles.btnContainer}

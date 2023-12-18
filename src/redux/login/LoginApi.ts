@@ -1,27 +1,25 @@
 import { forEach } from 'lodash'
+import { ToastAndroid } from 'react-native'
 
 import { onApiFetchStartedReducer, onLoginApiSuccessReducer, onLoginApiFailedResponseReducer } from './LoginSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
-import { log } from '../../common/config/log'
 import { LoginFormKeys } from '../../common/Constant'
-import { INCORRECT_EMAIL_ID } from '../../common/ErrorMessages'
 import { IUserFormItem } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { emailIdValidator, validateFormFieldsEmpty } from '../../common/validators/validation-utils'
 import { apiDispatch } from '../../network/DispatchApiCall'
-import { capitalizeFirstChar } from '../../utils/app-utils'
+import { capitalizeFirstChar, tString } from '../../utils/app-utils'
 
 
 export const onLoginUserReducer = (loginForm: Record<LoginFormKeys, IUserFormItem>) => {
-  log('onSignupUserReducer', loginForm)
   const emptyFieldName = validateFormFieldsEmpty(loginForm)
 
   if(emptyFieldName.length) {
-    return showAndroidToastMessage(`${capitalizeFirstChar(emptyFieldName)} is empty`)
+    return showAndroidToastMessage(`${capitalizeFirstChar(tString(emptyFieldName))} ${tString('MultiLanguageString.IS_EMPTY')}`, ToastAndroid.SHORT, false)
   }
 
   if (!emailIdValidator(loginForm.userName?.inputValue)) {
-    return showAndroidToastMessage(INCORRECT_EMAIL_ID)
+    return showAndroidToastMessage('INCORRECT_EMAIL_ID')
   }
 
   const formData = new FormData()

@@ -8,20 +8,17 @@ import { signupStyles as styles } from './styles'
 import { textColor } from '../../common/Colors'
 import { ButtonComponent, CustomText, SpacerComponent, TextInputComponent } from '../../common/components'
 import { KeyboardHandledScrollView } from '../../common/components/generic/KeyboardHandledScrollView'
+import { CrossButtonComponent } from '../../common/components/screens'
 import { FormTopSectionComponent } from '../../common/components/screens/form/FormTopSectionComponent'
 import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
 import { IUserFormItem } from '../../common/Interfaces'
 import { ScreenNames } from '../../common/Screens'
-import { BUTTONS, SIGNUP_SCREEN } from '../../common/strings'
 import { isSignUpFormValid, onSignupUserReducer } from '../../redux/Signup/SignupApi'
 import { onChangeUserInput, resetFormDataReducer } from '../../redux/Signup/SignupSlice'
 import { Dispatch, RootState } from '../../store/DataStore'
 import { navigateSimple } from '../../utils/navigation-utils'
 
-
-const { SubHeading, AlreadyAccount } = SIGNUP_SCREEN
-const { RegisterBtn, Login } = BUTTONS
 
 export const SignUpScreen = ({ navigation }) => {
 
@@ -99,7 +96,7 @@ export const SignUpScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-        text={RegisterBtn}
+        text={'BUTTONS.RegisterBtn'}
         onPress={onRegisterBtnClicked}
       />
     )
@@ -108,7 +105,7 @@ export const SignUpScreen = ({ navigation }) => {
   const renderAlreadyHaveAcnt = () => {
     return (
       <View style={styles.loginContainer}>
-        <CustomText text={AlreadyAccount}
+        <CustomText text={'SIGNUP_SCREEN.AlreadyAccount'}
           fontSize={16}
           fontWeight='400'
           color={textColor.lightWhite}
@@ -116,7 +113,7 @@ export const SignUpScreen = ({ navigation }) => {
         />
         <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
-          text={Login}
+          text={'BUTTONS.Login'}
           onPress={onLoginBtnClicked}
         />
       </View>
@@ -128,7 +125,11 @@ export const SignUpScreen = ({ navigation }) => {
       contentContainerStyle = {styles.contentContainer}
       automaticallyAdjustKeyboardInsets={true}
     >
-      <FormTopSectionComponent subHeading={SubHeading} />
+      <CrossButtonComponent
+        showCrossButton={false}
+        showLanguageDropDown
+      />
+      <FormTopSectionComponent subHeading={'SIGNUP_SCREEN.SubHeading'} />
       <SpacerComponent style={styles.formTopSeperator} />
       {renderFormComponent()}
       <SpacerComponent style={styles.formBottomSeperator} />

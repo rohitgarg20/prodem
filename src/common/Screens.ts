@@ -51,27 +51,27 @@ export const StackNames = {
 export const BOTTOM_TAB_CONFIG = {
   [ScreenNames.HOME_SCREEN]: {
     childStackName: StackNames.HOME_STACK,
-    displayName: 'Home',
+    displayName: 'MultiLanguageString.HOME',
     icon: icons.HOME
   },
   [ScreenNames.ADD_PART_SCREEN]: {
     childStackName: StackNames.ADD_PART_STACK,
-    displayName: 'Add Part',
+    displayName: 'MultiLanguageString.ADD_PART',
     icon: icons.ADD_PART
   },
   [ScreenNames.CART_SCREEN]: {
     childStackName: StackNames.CART_STACK,
-    displayName: 'Cart',
+    displayName: 'MultiLanguageString.CART',
     icon: icons.CART
   },
   [ScreenNames.ASK_OFFER]: {
     childStackName: StackNames.ASK_OFFER_STACK,
-    displayName: 'Ask Offer',
+    displayName: 'MultiLanguageString.ASK_OFFER',
     icon: icons.ASK_OFFER
   },
   [ScreenNames.ACCOUNT_SCREEN]: {
     childStackName: StackNames.ACCOUNT_STACK,
-    displayName: 'Account',
+    displayName: 'MultiLanguageString.ACCOUNT',
     icon: icons.ACCOUNT
   }
 }

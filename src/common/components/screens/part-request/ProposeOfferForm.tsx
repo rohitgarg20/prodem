@@ -15,7 +15,6 @@ import { ButtonType } from '../../../Enumerators'
 import { bottomModal, centerModal } from '../../../GenericStyle'
 import { icons } from '../../../Icons'
 import { IDropDownItem, IFormField, IImageItem } from '../../../Interfaces'
-import { BUTTONS, PART_REQUEST_SCREEN } from '../../../strings'
 import { ButtonComponent, CenterModalPopup, CustomText, IconButtonWrapperComponent, IconWrapper, LabelWithArrowComponent, TextInputComponent } from '../../generic'
 import { BottomModalPopup } from '../../generic/BottomModalPopup'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
@@ -239,7 +238,6 @@ export const ProposeOfferFormComponent = () => {
   }
 
   const onPressItem = useCallback((optionData) => {
-    log('onPressItem', optionData)
     const { key } = optionData
     switch(key) {
       case PICTURE_OPTIONS_KEY.CAMERA:
@@ -348,7 +346,7 @@ export const ProposeOfferFormComponent = () => {
         {!selectedImages?.length ? <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
           buttonContainerStyle={styles.choosePhotoBtnContainer}
-          text='Choose Photo'
+          text={'MultiLanguageString.CHOOSE_PHOTO'}
           color={textColor.black}
           fontSize={18}
           onPress={showImagesSelectPopup}
@@ -403,7 +401,7 @@ export const ProposeOfferFormComponent = () => {
   const renderAddOfferButton = () => {
     return (
       <ButtonComponent
-        text={BUTTONS.ADD_OFFER}
+        text={'BUTTONS.ADD_OFFER'}
         onPress={proposeOfferBtn}
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
       />
@@ -428,7 +426,7 @@ export const ProposeOfferFormComponent = () => {
   const renderTitle = () => {
     return (
       <CustomText
-        text={PART_REQUEST_SCREEN.PROPOSE_OFFER_FORM}
+        text={'PART_REQUEST_SCREEN.PROPOSE_OFFER_FORM'}
         fontSize={16}
         color={textColor.black}
         textStyle={styles.formTitle}

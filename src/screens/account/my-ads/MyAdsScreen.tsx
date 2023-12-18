@@ -14,17 +14,17 @@ import { editFormReducer } from '../../../redux/add-part/AddPartSlice'
 import { resetProductListDataReducer } from '../../../redux/home/SellerAds'
 import { deleteProduct, fetchSellerProductList } from '../../../redux/home/SellerAdsApi'
 import { RootState } from '../../../store/DataStore'
+import { showAlert } from '../../../utils/app-utils'
 import { navigateSimple } from '../../../utils/navigation-utils'
 import { verticalScale } from '../../../utils/scaling'
 import { productListStyles as styles } from  '../../Home/styles'
-import { showAlert } from '../../../utils/app-utils'
 
 
 export const MyAdsListScreen = ({ navigation  }) => {
 
   const dispatch = useDispatch()
   const sellerAdsReducer = useSelector((state: RootState) => state.sellerProductListReducer)
-  const {  productList = {}, isFetching } = sellerAdsReducer
+  const {  productList = [], isFetching } = sellerAdsReducer
   let abortController: any = useRef(new AbortController()).current
   useEffect(() => {
     fetchSellerProductList({
@@ -70,13 +70,13 @@ export const MyAdsListScreen = ({ navigation  }) => {
   }, [])
 
   const onDeleteProduct = useCallback((productId) => {
-    showAlert('Delete Product', 'Are you sure you want to delete this product ?', () => deleteProductApi(productId),  'Delete')
+    showAlert('MultiLanguageString.DELETE_PRODUCT', 'MultiLanguageString.ARE_YOU_SURE_DELETE', () => deleteProductApi(productId),  'MultiLanguageString.DELETE')
   }, [deleteProductApi])
 
-  const renderProductItem = ({ item }: { item: string }) => {
+  const renderProductItem = ({ item }: { item: IProductCardComponent }) => {
     return (
       <SellerProductItemCardComponent
-        sellerProductData={productList[item]}
+        sellerProductData={item}
         onDeleteBtnPress={onDeleteProduct}
         onPressProductCard={onPressProductCard}
         onEditBtnPress={onPressEditBtn}
@@ -84,7 +84,7 @@ export const MyAdsListScreen = ({ navigation  }) => {
     )
   }
 
-  const getKeyExtractor = (item: string, index) => `${item}_${index}`.toString()
+  const getKeyExtractor = (item: IProductCardComponent, index) => `${item.productId}_${index}`.toString()
 
   const renderItemSeperatorComponent = () => ( <View style={styles.productSeperator} />)
 
@@ -116,7 +116,7 @@ export const MyAdsListScreen = ({ navigation  }) => {
       <FlashList
         estimatedItemSize={verticalScale(170)}
         style={styles.productList}
-        data={Object.keys(productList)}
+        data={productList}
         renderItem={renderProductItem}
         keyExtractor={getKeyExtractor}
         ItemSeparatorComponent={renderItemSeperatorComponent}
@@ -142,7 +142,7 @@ export const MyAdsListScreen = ({ navigation  }) => {
   return (
     <View style={styles.mainContainer}>
       <HeaderComponent
-        title={'My Active Ads'}
+        title={'MultiLanguageString.MY_ACTIVE_ADS'}
         showBackBtn
       />
       {!isFetching && !isEmpty(productList) && renderContentContainer()}

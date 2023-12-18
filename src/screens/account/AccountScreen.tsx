@@ -23,6 +23,7 @@ import { getUserDetailsSelector } from '../../redux/profile/ProfileSelector'
 import { RootState, useAppSelector } from '../../store/DataStore'
 import { navigateSimple } from '../../utils/navigation-utils'
 import { scale, verticalScale } from '../../utils/scaling'
+import { LanguagesDropdownComponent } from '../Home/LanguagesDropDownComponent'
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -113,6 +114,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGreen,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  languageContainer: {
+    position: 'absolute',
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    backgroundColor: colors.primary,
+    bottom: 5,
+    right: 10
   }
 })
 
@@ -127,7 +137,6 @@ export const AccountScreen = ({ navigation }) => {
   // }, [])
 
   const onPressItem = useCallback((optionData) => {
-    log('onPressItem', optionData)
     const { key } = optionData
     switch(key) {
       case PICTURE_OPTIONS_KEY.CAMERA:
@@ -173,7 +182,6 @@ export const AccountScreen = ({ navigation }) => {
   }
 
   const renderSelectUserPhotoButton = () => {
-    log('userDatauserDatauserData', userData?.p_user_photo)
     return (
       <View style={styles.selectPhotoContainer}>
         <IconWrapper
@@ -260,6 +268,9 @@ export const AccountScreen = ({ navigation }) => {
         <View style={styles.rowContainer}>
           {renderSelectUserPhotoButton()}
           {renderUserDetailsContainer()}
+        </View>
+        <View style = {styles.languageContainer}>
+          <LanguagesDropdownComponent />
         </View>
       </View>
     )

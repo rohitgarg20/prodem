@@ -11,16 +11,11 @@ import { textColor } from '../../../common/Colors'
 import { ButtonComponent, CustomText, TextInputComponent } from '../../../common/components'
 import { HeaderComponent } from '../../../common/components/screens'
 import { ButtonType } from '../../../common/Enumerators'
-import { NAME_MIN_LENGTH_INVALID, PASSWORD_EMPTY } from '../../../common/ErrorMessages'
-import { EDIT_NAME_PROFILE_SCREEN } from '../../../common/strings'
 import { showAndroidToastMessage } from '../../../common/Toast'
 import { updateUserNameApi, updateUserPasswordApi } from '../../../redux/profile/ProfileApi'
 import { getUserNameSelector } from '../../../redux/profile/ProfileSelector'
 import { useAppSelector } from '../../../store/DataStore'
 
-const {
-  HEADER_TITLE, EDIT_PERSONAL_INFO_HEADER, NAME_LABEL, SAVE_BUTTON, CHANGE_PASSWORD_HEADER,
-  CHANGE_PASSWORD_SUBHEADER, CURRENT_PASSWORD_LABEL, NEW_PASSWORD_LABEL, RESET_BUTTON } = EDIT_NAME_PROFILE_SCREEN
 
 const TextBox = ({
   label,
@@ -67,12 +62,13 @@ export const ProfileNameEditScreen = () => {
   const onSaveUserNamePressed = () => {
     if(userName) {
       updateUserNameApi(userName).then(() => {
-        showAndroidToastMessage('User name updated successfully')
+        showAndroidToastMessage('MultiLanguageString.USER_NAME')
+      // eslint-disable-next-line handle-callback-err
       }).catch((err) => {
-        showAndroidToastMessage('Error while updating user name')
+        showAndroidToastMessage('MultiLanguageString.ERROR')
       })
     } else {
-      showAndroidToastMessage(NAME_MIN_LENGTH_INVALID)
+      showAndroidToastMessage('NAME_MIN_LENGTH_INVALID')
     }
   }
 
@@ -83,7 +79,7 @@ export const ProfileNameEditScreen = () => {
         newPassword: newPassword
       })
     } else {
-      showAndroidToastMessage(PASSWORD_EMPTY)
+      showAndroidToastMessage('PASSWORD_EMPTY')
     }
 
   }
@@ -125,30 +121,30 @@ export const ProfileNameEditScreen = () => {
   return <View style={styles.container}>
     <HeaderComponent
       showBackBtn
-      title={HEADER_TITLE}
+      title={'EDIT_NAME_PROFILE_SCREEN.HEADER_TITLE'}
     />
     <ScrollView style={styles.mainContainer}
       automaticallyAdjustKeyboardInsets={true}
     >
       {/** Info Section */}
-      <Header header={EDIT_PERSONAL_INFO_HEADER} />
-      <TextBox label={NAME_LABEL}
+      <Header header={'EDIT_NAME_PROFILE_SCREEN.EDIT_PERSONAL_INFO_HEADER'} />
+      <TextBox label={'EDIT_NAME_PROFILE_SCREEN.NAME_LABEL'}
         value={userName}
         onChangeText={onChangeUserName} />
-      <ActionButton text={SAVE_BUTTON}
+      <ActionButton text={'EDIT_NAME_PROFILE_SCREEN.SAVE_BUTTON'}
         onActionPressed={onSaveUserNamePressed} />
 
       {/** Change Password Section */}
       <View style={styles.headerSpacing} />
-      <Header header={CHANGE_PASSWORD_HEADER}
-        subHeader={CHANGE_PASSWORD_SUBHEADER} />
-      <TextBox label={CURRENT_PASSWORD_LABEL}
+      <Header header={'EDIT_NAME_PROFILE_SCREEN.CHANGE_PASSWORD_HEADER'}
+        subHeader={'EDIT_NAME_PROFILE_SCREEN.CHANGE_PASSWORD_SUBHEADER'} />
+      <TextBox label={'EDIT_NAME_PROFILE_SCREEN.CURRENT_PASSWORD_LABEL'}
         value={oldPassword}
         onChangeText={onChangeOldPassword} />
-      <TextBox label={NEW_PASSWORD_LABEL}
+      <TextBox label={'EDIT_NAME_PROFILE_SCREEN.NEW_PASSWORD_LABEL'}
         value={newPassword}
         onChangeText={onChangeNewPassword} />
-      <ActionButton text={RESET_BUTTON}
+      <ActionButton text={'EDIT_NAME_PROFILE_SCREEN.RESET_BUTTON'}
         onActionPressed={onChangePasswordPressed} />
     </ScrollView>
   </View>

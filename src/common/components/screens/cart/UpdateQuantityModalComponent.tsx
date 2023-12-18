@@ -7,7 +7,6 @@ import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
 import { SCREEN_WIDTH } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
-import { BUTTONS, CART_COMPONENT } from '../../../strings'
 import { ButtonComponent, CustomText, TextInputComponent } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
 
@@ -40,8 +39,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const { ENTER_QUANTITY, PLACEHOLDER } = CART_COMPONENT
-const { CANCEL, APPLY } = BUTTONS
 
 export const UpdateQuantityModalComponent = ({
   updateQuantityOnPress, productId
@@ -66,12 +63,12 @@ export const UpdateQuantityModalComponent = ({
     return (
       <View style = {styles.buttonComponent}>
         <ButtonComponent
-          text={CANCEL}
+          text={'BUTTONS.CANCEL'}
           buttonType={ButtonType.SIMPLE_BTN}
           onPress={dismissQuantityModal}
         />
         <ButtonComponent
-          text={APPLY}
+          text={'BUTTONS.APPLY'}
           buttonType={ButtonType.SIMPLE_BTN}
           onPress={updateProductQuantity}
           disabled={isApplyBtnDisabled}
@@ -82,7 +79,6 @@ export const UpdateQuantityModalComponent = ({
   }
 
   const onChangeQunatity = useCallback((updatedValue) => {
-    log('onChangeQunatity', updatedValue)
     setProductQuantity(updatedValue)
   }, [])
 
@@ -90,14 +86,14 @@ export const UpdateQuantityModalComponent = ({
     return (
       <View style={styles.quantityModalContainer}>
         <CustomText
-          text={ENTER_QUANTITY}
+          text={'CART_COMPONENT.ENTER_QUANTITY'}
           fontSize={16}
           color={textColor.cinder}
         />
         <TextInputComponent
           textInputType='roundedCorners'
           textContainerStyle = {styles.quantityInputField}
-          placeholder={PLACEHOLDER}
+          placeholder={'CART_COMPONENT.PLACEHOLDER'}
           style = {styles.textInput}
           value={updatedQty}
           onChangeText={onChangeQunatity}

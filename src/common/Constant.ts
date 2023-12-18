@@ -1,15 +1,12 @@
 import { Dimensions, KeyboardType, Platform } from 'react-native'
 
+import { textColor } from './Colors'
 import { icons } from './Icons'
 import { RatingTypes } from './Interfaces'
 import { ScreenNames } from './Screens'
 
-export const INPUT_FIELD_PLAEHOLDERS = {
-  Email: 'Enter your Email'
-}
-
 export const RETURN_KEY_LABEL = {
-  Done: 'Done'
+  Done: 'MultiLanguageString.Done'
 }
 
 export const ReducerName = {
@@ -56,26 +53,26 @@ export type LoginFormKeys = 'userName' | 'password' | 'device'
 
 export const SIGN_UP_FORM = {
   'userName': {
-    label: 'Username',
+    label: 'MultiLanguageString.Username',
     key: FORM_KEYS.USERNAME,
     apiKey: 'p_user_name',
     inputValue: ''
   },
   'email': {
-    label: 'Email',
+    label: 'MultiLanguageString.Email',
     key: FORM_KEYS.EMAIL,
     apiKey: 'p_user_email',
     inputValue: ''
   },
   'password': {
-    label: 'Password',
+    label: 'MultiLanguageString.Password',
     key: FORM_KEYS.PASSWORD,
     inputValue: '',
     secureTextEntry: true,
     apiKey: 'p_user_password'
   },
   'device': {
-    label: 'Device',
+    label: 'MultiLanguageString.Device',
     key: FORM_KEYS.DEVICE,
     inputValue: Platform.OS,
     editable: false,
@@ -85,20 +82,20 @@ export const SIGN_UP_FORM = {
 
 export const LOGIN_FORM = {
   'userName': {
-    label: 'Username',
+    label: 'MultiLanguageString.Username',
     key: 'userName',
     apiKey: 'username',
     inputValue: ''
   },
   'password': {
-    label: 'Password',
+    label: 'MultiLanguageString.Password',
     key: 'password',
     apiKey: 'password',
     inputValue: '',
     secureTextEntry: true
   },
   'device': {
-    label: 'Device',
+    label: 'MultiLanguageString.Device',
     key: 'device',
     apiKey: 'device',
     inputValue: Platform.OS,
@@ -125,7 +122,7 @@ export enum InputType {
 
 export const ADD_PART_FORM = {
   [AddPartFieldKeys.NAME]: {
-    title: 'What piece are you selling ?',
+    title: 'MultiLanguageString.EHAT_PIECE',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -133,7 +130,7 @@ export const ADD_PART_FORM = {
     key: AddPartFieldKeys.NAME
   },
   [AddPartFieldKeys.DESCRIPTION]: {
-    title: 'Description',
+    title: 'MultiLanguageString.Description',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -143,18 +140,18 @@ export const ADD_PART_FORM = {
     multiline: true
   },
   [AddPartFieldKeys.CATEGORY]: {
-    title: 'Category',
+    title: 'MultiLanguageString.Category',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedItem: {},
     selectedValue: '',
     key: AddPartFieldKeys.CATEGORY,
     apiKey: 'product_subcategory'
   },
   [AddPartFieldKeys.IMAGES]: {
-    title: 'Photos',
+    title: 'MultiLanguageString.PHOTOS',
     required: true,
     type: InputType.IMAGES_SELECTION,
     maxPhotos: 5,
@@ -163,31 +160,32 @@ export const ADD_PART_FORM = {
     key: AddPartFieldKeys.IMAGES
   },
   [AddPartFieldKeys.VEHICLES]: {
-    title: 'For what car ?',
+    title: 'MultiLanguageString.FOR_WHAT_CAR',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
     multiSelectedDropDownItem: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: AddPartFieldKeys.VEHICLES,
     apiKey: 'product_vehicles',
-    isListMultiSelect: true
+    isListMultiSelect: true,
+    multiSelectedDropDownItemNames: []
   },
   [AddPartFieldKeys.STATUS]: {
-    title: 'Status',
+    title: 'MultiLanguageString.STATUS',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: AddPartFieldKeys.STATUS,
     apiKey: 'product_type'
   },
   [AddPartFieldKeys.PRICE]: {
-    title: 'Price',
+    title: 'MultiLanguageString.PRICE_W_S',
     required: true,
     type: InputType.TEXT_INPUT,
     keyboardType: 'number-pad' as KeyboardType,
@@ -196,7 +194,7 @@ export const ADD_PART_FORM = {
     key: AddPartFieldKeys.PRICE
   },
   [AddPartFieldKeys.QUANTITY]: {
-    title: 'Quantity',
+    title: 'MultiLanguageString.QUANTITY',
     required: true,
     type: InputType.TEXT_INPUT,
     keyboardType: 'number-pad' as KeyboardType,
@@ -220,98 +218,99 @@ export const SELL_DROPDOWN_DATA = {
 
 
 export const PICTURE_OPTIONS_KEY =  {
-  CAMERA: 'camera',
-  GALLERY: 'gallery'
+  CAMERA: 'MultiLanguageString.camera',
+  GALLERY: 'MultiLanguageString.gallery'
 }
 
 export const PICTURE_OPTIONS = [
   {
-    label: 'Pick Image',
+    label: 'MultiLanguageString.pick_img',
     icon: icons.GALLERY_ICON,
     key: PICTURE_OPTIONS_KEY.GALLERY
   },
   {
-    label: 'Capture',
+    label: 'MultiLanguageString.Capture',
     icon: icons.CAMERA_ICON,
     key: PICTURE_OPTIONS_KEY.CAMERA
   }
 ]
 
+
 export const PROFILE_OPTIONS = [
   {
-    label: 'Profile Details',
+    label: 'MultiLanguageString.PD',
     icon: icons.PROFILE_ICON,
     screenToNavigate: ScreenNames.PROFILE_SCREEN,
     key: 'profile_details'
   },
   {
-    label: 'Order Received',
+    label: 'MultiLanguageString.OR',
     icon: icons.ORDER_RECIEVED,
     screenToNavigate: ScreenNames.ORDER_RECIEVED_LIST_SCREEN,
     key: 'order_received'
   },
   {
-    label: 'Order Placed',
+    label: 'MultiLanguageString.OP',
     icon: icons.ORDER_PLACED,
     screenToNavigate: ScreenNames.ORDER_PLACED_LIST_SCREEN,
     key: 'order_placed'
   },
   {
-    label: 'Notifications',
+    label: 'MultiLanguageString.N',
     icon: icons.NOTIFICATION,
     screenToNavigate: ScreenNames.NOTIFICATION_LIST_SCREEN,
     key: 'notifications'
   },
   {
-    label: 'Wishlist',
+    label: 'MultiLanguageString.Wishlist',
     icon: icons.WISHLIST_ICON,
     screenToNavigate: ScreenNames.WISHLIST_SCREEN,
     key: 'wishlist'
   },
   {
-    label: 'My Ads',
+    label: 'MultiLanguageString.MY_ADS',
     icon: icons.MY_PART,
     screenToNavigate: ScreenNames.SELLER_PRODUCT_LIST_SCREEN,
     key: 'my_ads'
   },
   {
-    label: 'My Part Request',
+    label: 'MultiLanguageString.MPR',
     icon: icons.MY_PART_REQUEST,
     screenToNavigate: ScreenNames.MY_PART_REQUEST_LIST_SCREEN,
     key: 'my_part_request'
   },
   {
-    label: 'My Bid Request',
+    label: 'MultiLanguageString.MBR',
     icon: icons.MY_BID_REQUEST,
     screenToNavigate: ScreenNames.MY_BID_REQUEST_SCREEN,
     key: 'my_bid_request'
   },
   {
-    label: 'Winning Bids',
+    label: 'MultiLanguageString.WB',
     icon: icons.WINNING_BIDS,
     screenToNavigate: ScreenNames.WINNING_BID_SCREEN,
     key: 'winning_bids'
   },
   {
-    label: 'Subscription',
+    label: 'MultiLanguageString.SUBS',
     icon: icons.SUBSCRIPTION,
     screenToNavigate: ScreenNames.SUBSCRIPTION_SCREEN,
     key: 'subscription'
   },
   {
-    label: 'Ratings',
+    label: 'MultiLanguageString.Ratings',
     icon: icons.RATINGS,
     screenToNavigate: ScreenNames.RATINGS_SCREEN,
     key: 'rating'
   },
   {
-    label: 'Part Request',
+    label: 'MultiLanguageString.PART_REQUEST',
     icon: icons.PART_OFFER,
     screenToNavigate: ScreenNames.PART_REQUEST_SCREEN,
     key: 'part_request'
   },
   {
-    label: 'Logout',
+    label: 'MultiLanguageString.LOGOUT',
     icon: icons.LOGOUT,
     screenToNavigate: 'logout',
     key: 'logout'
@@ -335,7 +334,7 @@ export enum PartRequestFieldKeys {
 
 export const ASK_OFFER_FORM = {
   [PartRequestFieldKeys.TITILE]: {
-    title: 'What car part are you looking for?',
+    title: 'MultiLanguageString.WCLF',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -343,7 +342,7 @@ export const ASK_OFFER_FORM = {
     key: PartRequestFieldKeys.TITILE
   },
   [PartRequestFieldKeys.DESCRIPTION]: {
-    title: 'Part code or other details',
+    title: 'MultiLanguageString.PCD',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -351,7 +350,7 @@ export const ASK_OFFER_FORM = {
     key: PartRequestFieldKeys.DESCRIPTION
   },
   [PartRequestFieldKeys.IMAGES]: {
-    title: 'Photos',
+    title: 'MultiLanguageString.Photos',
     required: true,
     type: InputType.IMAGES_SELECTION,
     maxPhotos: 5,
@@ -360,11 +359,11 @@ export const ASK_OFFER_FORM = {
     key: AddPartFieldKeys.IMAGES
   },
   [PartRequestFieldKeys.VEHICLES]: {
-    title: 'For what car?',
+    title: 'MultiLanguageString.FWC',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedItem: {},
     selectedValue: '',
     key: PartRequestFieldKeys.VEHICLES,
@@ -372,18 +371,18 @@ export const ASK_OFFER_FORM = {
   },
 
   [PartRequestFieldKeys.MANUFACTURING_YEAR]: {
-    title: 'Manufacturing year',
+    title: 'MultiLanguageString.MY',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: PartRequestFieldKeys.MANUFACTURING_YEAR,
     apiKey: 'partrequest_year'
   },
   [PartRequestFieldKeys.PRODUCT_VARIANT]: {
-    title: 'Alternative',
+    title: 'MultiLanguageString.Alternative',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -391,7 +390,7 @@ export const ASK_OFFER_FORM = {
     key: PartRequestFieldKeys.PRODUCT_VARIANT
   },
   [PartRequestFieldKeys.ENGINE]: {
-    title: 'Engines',
+    title: 'MultiLanguageString.Engines',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -399,7 +398,7 @@ export const ASK_OFFER_FORM = {
     key: PartRequestFieldKeys.ENGINE
   },
   [PartRequestFieldKeys.CHASIS]: {
-    title: 'Chassic series',
+    title: 'MultiLanguageString.CS',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
@@ -407,29 +406,29 @@ export const ASK_OFFER_FORM = {
     key: PartRequestFieldKeys.CHASIS
   },
   [PartRequestFieldKeys.PRODUCT_TYPE]: {
-    title: 'Status',
+    title: 'MultiLanguageString.Status',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: PartRequestFieldKeys.PRODUCT_TYPE,
     apiKey: 'partrequest_product_type'
   },
   [PartRequestFieldKeys.DELIVERY_CITY]: {
-    title: 'Delivery Country/City',
+    title: 'MultiLanguageString.DCC',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: PartRequestFieldKeys.DELIVERY_CITY,
     apiKey: 'partrequest_delivery_city'
   },
   [PartRequestFieldKeys.DELIVERY_LOCATION]: {
-    title: 'Delivery Area/Location',
+    title: 'MultiLanguageString.DAL',
     required: true,
     type: InputType.TEXT_INPUT,
     inputValue: '',
@@ -451,16 +450,16 @@ export enum ProposeOfferFieldKeys {
 
 export const PROPOSE_OFFER_FORM = {
   [ProposeOfferFieldKeys.TITILE]: {
-    title: 'The Piece offered',
+    title: 'MultiLanguageString.TPO',
     required: true,
     inputValue: '',
     type: InputType.TEXT_INPUT,
     apiKey: 'title',
     key: PartRequestFieldKeys.TITILE,
-    placeholder: 'ex: Dacia Logan red front bar without scratches'
+    placeholder: 'MultiLanguageString.TPOP'
   },
   [ProposeOfferFieldKeys.PRICE]: {
-    title: 'Price with VAT',
+    title: 'MultiLanguageString.PWV',
     required: true,
     type: InputType.TEXT_INPUT,
     keyboardType: 'number-pad' as KeyboardType,
@@ -469,78 +468,78 @@ export const PROPOSE_OFFER_FORM = {
     key: ProposeOfferFieldKeys.PRICE
   },
   [ProposeOfferFieldKeys.CURRENCY]: {
-    title: '$',
+    title: 'MultiLanguageString.DOLLAR',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: ProposeOfferFieldKeys.CURRENCY,
     apiKey: 'currency'
   },
   [ProposeOfferFieldKeys.UNIT]: {
-    title: 'U.M.',
+    title: 'MultiLanguageString.UM',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: ProposeOfferFieldKeys.UNIT,
     apiKey: 'unit'
   },
   [ProposeOfferFieldKeys.PRIVATE_REMARKS]: {
-    title: 'Private Remarks',
+    title: 'MultiLanguageString.PR',
     required: false,
     inputValue: '',
     type: InputType.TEXT_INPUT,
     apiKey: 'remark',
     key: ProposeOfferFieldKeys.PRIVATE_REMARKS,
-    placeholder: 'Only you see them'
+    placeholder: 'MultiLanguageString.PRP'
   },
   [ProposeOfferFieldKeys.OFFERED_BY]: {
-    title: 'Offered by',
+    title: 'MultiLanguageString.OB',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: ProposeOfferFieldKeys.OFFERED_BY,
     apiKey: 'type'
   },
   [ProposeOfferFieldKeys.AVAILABILITY]: {
-    title: 'Availability',
+    title: 'MultiLanguageString.AVAIL',
     required: true,
     type: InputType.DROPDOWN,
     dropdownData: [],
-    defaultValue: 'Not Selected',
+    defaultValue: 'MultiLanguageString.NOT_SELECTED',
     selectedValue: '',
     selectedItem: {},
     key: ProposeOfferFieldKeys.AVAILABILITY,
     apiKey: 'availavility'
   },
   [ProposeOfferFieldKeys.IMAGES]: {
-    title: 'Images',
+    title: 'MultiLanguageString.Images',
     required: false,
     type: InputType.IMAGES_SELECTION,
     maxPhotos: 5,
     selectedImages: [],
     apiKey: 'product_slides',
     key: ProposeOfferFieldKeys.IMAGES
-  },
+  }
 }
 
 export const RATINGS_TOP_BAR = [{
   key: RatingTypes.PENDING,
-  label: 'Pending'
+  label: 'MultiLanguageString.Pending'
 }, {
   key: RatingTypes.GIVEN,
-  label: 'Given'
+  label: 'MultiLanguageString.Given'
 },  {
   key: RatingTypes.RECIEVED,
-  label: 'Received'
+  label: 'MultiLanguageString.Received'
 } ]
 
 export const RATING_API_RESPONSE_MAPPER: Map<RatingTypes, string> = new Map([
@@ -551,36 +550,36 @@ export const RATING_API_RESPONSE_MAPPER: Map<RatingTypes, string> = new Map([
 
 export const WINNING_BIDS_TOP_BAR_KEYS = [{
   key: 'new',
-  value: 'New'
+  value: 'MultiLanguageString.New'
 },
 {
   key: 'confirm',
-  value: 'Confirm'
+  value: 'MultiLanguageString.Confirm'
 },
 {
   key: 'deliverd',
-  value: 'Delivered'
+  value: 'MultiLanguageString.Delivered'
 },
 {
   key: 'completed',
-  value: 'Completed'
+  value: 'MultiLanguageString.Completed'
 },
 {
   key: 'cancel',
-  value: 'Cancelled'
+  value: 'MultiLanguageString.Cancelled'
 }]
 
 export const MY_BIDS_REQUEST_TOP_BAR_KEYS = [{
   key: 'active',
-  value: 'Active'
+  value: 'MultiLanguageString.Active'
 },
 {
   key: 'inactive',
-  value: 'InActive'
+  value: 'MultiLanguageString.InActive'
 },
 {
   key: 'lost',
-  value: 'Lost'
+  value: 'MultiLanguageString.Lost'
 }]
 
 export const PART_REQUEST_TYPE = {
@@ -598,10 +597,10 @@ export const PART_REQUEST_STATUS = {
 }
 
 export const PART_REQUEST_STR_VALUE = {
-  1: 'Resolved requests',
-  2: PART_REQUEST_TYPE.ACTIVE,
-  3: PART_REQUEST_TYPE.INACTIVE,
-  4: 'Cancelled requests'
+  1: 'MultiLanguageString.RESOLVED_REQ',
+  2: 'MultiLanguageString.ACTIVE',
+  3: 'MultiLanguageString.INACTIVE',
+  4: 'MultiLanguageString.CR'
 }
 
 export type OrderType = 0 | 1 | 2 | 3 | 4 | 5
@@ -609,57 +608,57 @@ export type OrderType = 0 | 1 | 2 | 3 | 4 | 5
 
 export const OrderReceivedTypeList = [
   {
-    label: 'New',
+    label: 'MultiLanguageString.New',
     key: 2
   },
   {
-    label: 'Suspended',
+    label: 'MultiLanguageString.Suspended',
     key: 3
   },
   {
-    label: 'Completed',
+    label: 'MultiLanguageString.Completed',
     key: 1
   },
   {
-    label: 'Rejected',
+    label: 'MultiLanguageString.Rejected',
     key: 4
   },
   {
-    label: 'Cancelled',
+    label: 'MultiLanguageString.Cancelled',
     key: 5
   },
   {
-    label: 'All',
+    label: 'MultiLanguageString.All',
     key: 0
   }
 ]
 
 export const updateOrderStatusOptions = [
   {
-    value: 'Completed',
+    value: 'MultiLanguageString.Completed',
     id: 1
   },
   {
-    value: 'Suspended',
+    value: 'MultiLanguageString.Suspended',
     id: 3
   },
   {
-    value: 'Rejected',
+    value: 'MultiLanguageString.Rejected',
     id: 4
   }
 ]
 
 export const partRequestStatusTypeList = [
   {
-    label: 'Requests',
+    label: 'MultiLanguageString.RequestsC',
     key: 'requests'
   },
   {
-    label: 'Cancelled',
+    label: 'MultiLanguageString.Cancelled',
     key: 'cancled'
   },
   {
-    label: 'Resolved',
+    label: 'MultiLanguageString.Resolved',
     key: 'solved'
   }
 ]
@@ -667,33 +666,103 @@ export const partRequestStatusTypeList = [
 export const ratingsData = [
   {
     key: 3,
-    value: 'Positive',
+    value: 'MultiLanguageString.POSITIVE',
     icon: icons.HAPPY,
     tintColor: '#00A040'
   },
   {
     key: 2,
-    value: 'Neutral',
+    value: 'MultiLanguageString.NEUTRAL',
     icon: icons.NEUTRAL,
     tintColor: '#606060'
   },
   {
     key: 1,
-    value: 'Negative',
+    value: 'MultiLanguageString.NEGATIVE',
     icon: icons.SAD,
     tintColor: '#D00000'
-  },
+  }
 ]
 
 export const sortByFilters = [
   {
     id: 'price-asc-asc',
-    value: 'Price (Low to High)'
+    value: 'MultiLanguageString.PLH'
   },
   {
     id: 'price-desc-desc',
-    value: 'Price (High to Low)'
+    value: 'MultiLanguageString.PHL'
   }
 ]
 
 export const isIos = Platform.OS === 'ios'
+
+export enum PartTypesButton {
+  PROPOSE_OFFER = 'proposeOffer',
+  OFFER_LATER =  'offerLater',
+  IGNORE_REQUEST = 'ignoreRequest'
+}
+
+export const PART_REQUEST_BUTTONS = {
+  [PartTypesButton.PROPOSE_OFFER]: {
+    icon: icons.EDIT_ICON,
+    label: 'PART_REQUEST_SCREEN.PROPOSE_OFFER_FORM',
+    color: textColor.white,
+    key: PartTypesButton.PROPOSE_OFFER
+  },
+  [PartTypesButton.OFFER_LATER]: {
+    icon: icons.TIMER_ICON,
+    label: 'PART_REQUEST_SCREEN.OFFER_LATER',
+    color: textColor.black,
+    key: PartTypesButton.OFFER_LATER
+  },
+  [PartTypesButton.IGNORE_REQUEST]: {
+    icon: icons.DELETE_ICON,
+    label: 'PART_REQUEST_SCREEN.ITR',
+    color: textColor.black,
+    key: PartTypesButton.IGNORE_REQUEST
+  }
+
+}
+
+export const LanguagesAvailable = [
+  {
+    name: 'English $',
+    value: 'English $',
+    id: 'en'
+  },
+  {
+    name: 'Deutsch €',
+    value: 'Deutsch €',
+    id: 'de'
+  },
+  {
+    name: 'Italiano €',
+    value: 'Italiano €',
+    id: 'it'
+  },
+  {
+    name: 'Română lei',
+    value: 'Română lei',
+    id: 'ro'
+  }
+]
+
+export const RonToCurrency = {
+  'en': {
+    currency: '$',
+    price: 0.21922174
+  },
+  'de': {
+    currency: '€',
+    price: 0.20110509
+  },
+  'it': {
+    currency: '€',
+    price: 0.20110509
+  },
+  'ro': {
+    currency: 'lei',
+    price: 1
+  }
+}

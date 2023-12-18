@@ -13,14 +13,12 @@ import { ScrollableTopBarComponent } from '../../../common/components/screens/ra
 import { log } from '../../../common/config/log'
 import { OrderReceivedTypeList } from '../../../common/Constant'
 import { ScreenNames } from '../../../common/Screens'
-import { ORDER_RECIEVED } from '../../../common/strings'
 import { fetchOrderRecievedList } from '../../../redux/order-recieved/OrderRecievedApi'
 import { getOrderRecievedListByStatus } from '../../../redux/order-recieved/OrderRecievedSelector'
 import { onChangeSelectedOrderTypeReducer, resetReducerData } from '../../../redux/order-recieved/OrderRecievedSlice'
 import { RootState } from '../../../store/DataStore'
 import { navigateSimple } from '../../../utils/navigation-utils'
 
-const { HEADER_TITLE } = ORDER_RECIEVED
 
 export const OrderRecievedListScreen = () => {
 
@@ -39,7 +37,6 @@ export const OrderRecievedListScreen = () => {
   }, [dispatch])
 
   const updateOrderType = useCallback((selectedOrderStatus) => {
-    log('')
     dispatch({
       type: onChangeSelectedOrderTypeReducer.type,
       payload: {
@@ -110,7 +107,7 @@ export const OrderRecievedListScreen = () => {
     <View style={styles.container}>
       <HeaderComponent
         showBackBtn
-        title={HEADER_TITLE}
+        title={'ORDER_RECIEVED.HEADER_TITLE'}
       />
       {renderOrderTypeListComponent()}
       <View style={styles.mainContainer}>

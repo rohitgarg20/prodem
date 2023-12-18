@@ -8,9 +8,7 @@ import { IAPIRequest, IActions } from './NetworkUtil'
 import { API_STATUS_CODE } from '../common/ApiConstant'
 import { log } from '../common/config/log'
 import { hideLoader, showLoader } from '../redux/LoaderDataStore/LoaderSlice'
-import { LOGOUT_SUCCESS } from '../common/ErrorMessages'
 import { LOGOUT_ACTION } from '../store/DataStore'
-import { showAndroidToastMessage } from '../common/Toast'
 
 export const makeApiRequest = async (store?: MiddlewareAPI, dispatch?: any, action?: IActions) => {
 
@@ -44,11 +42,9 @@ export const makeApiRequest = async (store?: MiddlewareAPI, dispatch?: any, acti
       }
       dispatch({ type: apiCallSuccess, payload: { responseData: respData || {}, requestData: payload || {}, extraParams } })
     } else {
-      log('inside else is called 41', statusCode)
 
       throw respData
     }
-    log('inside after else is called 45', statusCode)
 
     return respData
 

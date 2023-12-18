@@ -3,7 +3,6 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { ProdemLogoComponent } from './ProdemLogoComponent'
-import { CHECK_USER_EXISTANCE_SCREEN } from '../../../strings'
 import { SpacerComponent, SubHeadingComponent } from '../../generic'
 import { HeadingComponent } from '../HeadingComponent'
 
@@ -28,7 +27,7 @@ export const FormTopSectionComponent = ({ subHeading }: { subHeading: string }) 
   const renderSubDetailsComponent = () => {
     return (
       <View style={styles.subDetailContainer}>
-        <HeadingComponent text={ CHECK_USER_EXISTANCE_SCREEN.Heading } />
+        <HeadingComponent text={ 'CHECK_USER_EXISTANCE_SCREEN.Heading' } />
         <SpacerComponent style={styles.seperator} />
         <SubHeadingComponent text={subHeading} />
       </View>

@@ -27,13 +27,10 @@ const onApiRequestInitiated = () => {
 }
 
 const onApiResponseFetched = (state: IUserExistanceState, { payload  }: { payload: IAPIResponse }) => {
-  log('onApiResponseFetched is = ', payload)
   const { responseData } = payload || {}
   const { code, message  } = responseData as ICheckUserExistance || {}
-  log('success is called', code)
 
   if(code === SUCCESS) {
-    log('success is called')
     // navigate to login screen
     // navigateSimple({ screenToNavigate: ScreenNames.LOGIN_SCREEN })
     showAndroidToastMessage(message)
@@ -42,7 +39,6 @@ const onApiResponseFetched = (state: IUserExistanceState, { payload  }: { payloa
 }
 
 const onApiResponseFailed = (state, { payload }: { payload: IAPIError  }) => {
-  log('onApiResponseFailed is = rohit garg', payload)
   const { message, code } = payload?.error
   if(code === USER_NOT_EXISTS) {
     // navigateSimple({ screenToNavigate: ScreenNames.SIGNUP_SCREEN })

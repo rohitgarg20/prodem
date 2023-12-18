@@ -5,7 +5,7 @@ import { onSuccessOrderStatusApiReducer } from './OrderReceivedDetailSlice'
 import { log } from '../../common/config/log'
 import { OrderReceivedTypeList, OrderType, ReducerName } from '../../common/Constant'
 import { IOrderReceivedCardComponent } from '../../common/Interfaces'
-import { getFormattedDateInDetailFormat, handleApiFailure } from '../../utils/app-utils'
+import { currencyCoverter, getFormattedDateInDetailFormat, handleApiFailure, tString } from '../../utils/app-utils'
 
 interface IOrderRecievedState {
   selectedOrderType: OrderType
@@ -24,15 +24,15 @@ const onOrderRecievedApiSuccess = (state: IOrderRecievedState, { payload }) => {
   const responseData = get(payload, 'responseData.data', [])
   const formattedOrderRecieved: IOrderReceivedCardComponent[] = map(responseData, (orderRecieveItem) => {
     return {
-      orderNo: `Order No. ${orderRecieveItem?.order_no}`,
+      orderNo: `${tString('ORDER_NO')}. ${orderRecieveItem?.order_no}`,
       orderId: orderRecieveItem?.order_id,
       displayStatus: find(OrderReceivedTypeList, (orderStatusType) => orderStatusType.key === orderRecieveItem?.order_status)?.label || '',
       statusId: orderRecieveItem?.order_status,
       productName: orderRecieveItem?.product_name,
       productId: orderRecieveItem?.product_id,
       orderDate: getFormattedDateInDetailFormat(orderRecieveItem?.order_created_at),
-      orderPrice: orderRecieveItem?.order_amount,
-      deliveryCost: orderRecieveItem?.order_delivery_amount
+      orderPrice: currencyCoverter(orderRecieveItem?.order_amount),
+      deliveryCost: currencyCoverter(orderRecieveItem?.order_delivery_amount)
     }
   })
   state.orderRecievedList = formattedOrderRecieved

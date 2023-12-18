@@ -1,16 +1,28 @@
 
+import i18next from 'i18next'
 import { find, get, isNumber } from 'lodash'
-import { Alert } from 'react-native'
+import { Alert, ToastAndroid } from 'react-native'
 import FastImage from 'react-native-fast-image'
 
 import { BASE_URL } from '../common/ApiConstant'
-import { log } from '../common/config/log'
-import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../common/ErrorMessages'
+import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE, RonToCurrency } from '../common/Constant'
 import { showAndroidToastMessage } from '../common/Toast'
+import { log } from '../common/config/log'
+import { getLanguage } from './auth-utils'
+
+export const tString = (key) => {
+  return i18next.t(key)
+}
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
+}
+
+
+export const getDay = (date) => {
+  const currentDate = new Date(date)
+  const day = currentDate.getDay()
+  return tString(`days.${day}`)
 }
 
 export const capitalizeFirstChar = (str: string) => {
@@ -24,7 +36,7 @@ export const getBlob = (fileUri: string) => {
       return response.blob()
     },
     error => {
-      log(`Error in converting image to blob - ${error}`)
+      // log(`Error in converting image to blob - ${error}`)
     },
   )
 }
@@ -39,39 +51,22 @@ export const blobToBase64 = blob => {
       }
     })
   } catch (err) {
-    log(`Error in converting blob to base64 - ${err}`)
+    // log(`Error in converting blob to base64 - ${err}`)
     throw err
   }
 }
 
 export const getProductType = (productType: number) => {
-  if(productType === 1) return 'New'
-  return 'Old'
+  if(productType === 1) return tString('MultiLanguageString.NEW')
+  return tString('MultiLanguageString.OLD')
 }
-
-export const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-]
-
-export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']
 
 
 export const getFormattedDate = (date) => {
   if (!date) return ''
   const newDate = new Date(date)
   const day = newDate.getDate()
-  const month = months[newDate.getMonth()]
+  const month = tString(`months.${newDate.getMonth()}`)
   const year = newDate.getFullYear()
 
   return `${day} ${month} ${year}`
@@ -81,24 +76,28 @@ export const getDateInMDDYYYYFormat = (date) => {
   if (!date) return ''
   const newDate = new Date(date)
   const day = newDate.getDate()
-  const month = months[newDate.getMonth()]
+  const month = tString(`months.${newDate.getMonth()}`)
   const year = newDate.getFullYear()
 
   return `${month} ${day}, ${year}`
 }
 
 export const isDateCurrentDate = (date) => {
+  log('isDateCurrentDate', getDateInMDDYYYYFormat(date), getDateInMDDYYYYFormat(new Date()))
   return getDateInMDDYYYYFormat(date) === getDateInMDDYYYYFormat(new Date())
 }
 
 export const isDatePreviousDate = (date) => {
   const currentDate = new Date()
+  log('isDatePreviousDate isDatePreviousDate', getDateInMDDYYYYFormat(date), getDateInMDDYYYYFormat(new Date().setDate(currentDate.getDate() - 1)))
+
   return getDateInMDDYYYYFormat(date) === getDateInMDDYYYYFormat(new Date().setDate(currentDate.getDate() - 1))
 }
 
 export const isDateGreaterThanPreviousWeek = (date) => {
   const currentDate = new Date()
-  return getDateInMDDYYYYFormat(date) >= getDateInMDDYYYYFormat(new Date().setDate(currentDate.getDate() - 7))
+  const timeBeforePrevWeek = new Date(new Date().setDate(currentDate.getDate() - 7)).getTime()
+  return new Date(date).getTime() >= timeBeforePrevWeek
 }
 export const getLocalDateTime = (dateObj) => {
   const date = new Date(dateObj)
@@ -112,11 +111,6 @@ export const getLocalDateTime = (dateObj) => {
   return `${hours}:${minutes} ${timeOfDay}`
 }
 
-export const getDay = (date) => {
-  const currentDate = new Date(date)
-  const day = currentDate.getDay()
-  return days[day]
-}
 
 export const getFormattedDateInDetailFormat = (date) => {
   if (!date) return ''
@@ -177,7 +171,7 @@ export const getOrderStatusLabel = (orderStatus) => {
 
 export const handleApiFailure = (payload) => {
   const { error } = payload || {}
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
 }
 
 export const getSellerProductImagesUrl = (id) => {
@@ -198,14 +192,15 @@ export const getBase64FromImageUrl = async (url: string) => {
   })
 }
 
-export const showAlert = (title, heading, onPress, btnTitle) => {
-  Alert.alert(title, heading, [
+
+export const showAlert = (title, heading, onPress, btnTitle, useTString = true) => {
+  Alert.alert(useTString ? tString(title) : title, useTString ? tString(heading) : heading, [
     {
-      text: 'Cancel'
+      text: tString('MultiLanguageString.CANCEL')
 
     },
     {
-      text: btnTitle,
+      text: useTString ? tString(btnTitle) : btnTitle,
       onPress: () => {
         onPress()
       }
@@ -221,4 +216,18 @@ export const getImagesArray = (images: string) => {
   if(images?.length) {
     return images.split(',')
   }
+}
+
+export const currencyCoverter = (itemPrice) => {
+  const language = getLanguage()
+  const data = RonToCurrency[language]
+  const { currency, price } = data
+  return `${(itemPrice * price).toFixed(2)} ${currency}`
+}
+
+export const getPrice = (itemPrice) => {
+  const language = getLanguage()
+  const data = RonToCurrency[language]
+  const { price, currency } = data
+  return `${currency} ${(itemPrice * price).toFixed(2)}`
 }

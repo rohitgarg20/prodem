@@ -7,7 +7,8 @@ import { AddPartFieldKeys, InputType } from '../../common/Constant'
 import { IFormField } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { apiDispatch } from '../../network/DispatchApiCall'
-import { callPromisesParallel, getBase64FromImageUrl } from '../../utils/app-utils'
+import { callPromisesParallel, getBase64FromImageUrl, tString } from '../../utils/app-utils'
+import { ToastAndroid } from 'react-native'
 
 
 export const getSellingDropDownList = () => {
@@ -26,6 +27,7 @@ export const isAddPartFormValid = (formData: Record<AddPartFieldKeys, IFormField
   let emptyField = ''
   Object.keys(formData).forEach((formKey) => {
     const formKeyData = formData?.[formKey]
+    log('isAddPartFormValidisAddPartFormValid', formKey)
     const { inputValue, type, selectedItem, isListMultiSelect, multiSelectedDropDownItem } = formKeyData
     if(emptyField.length) {
       return
@@ -95,10 +97,9 @@ export const addNewPart = (addPartForm: Record<AddPartFieldKeys, IFormField>) =>
     })
 
   } else {
-    showAndroidToastMessage(`${emptyFieldName} cannot be empty`)
+    showAndroidToastMessage(`${tString(emptyFieldName)} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`, ToastAndroid.SHORT, false)
   }
 
-  log('formDataformDataformData', formData, addPartForm)
 }
 
 export const editPart = async (addPartForm: Record<AddPartFieldKeys, IFormField>, productId: number) => {
@@ -166,7 +167,7 @@ export const editPart = async (addPartForm: Record<AddPartFieldKeys, IFormField>
     })
 
   } else {
-    showAndroidToastMessage(`${emptyFieldName} cannot be empty`)
-    throw new Error(`${emptyFieldName} cannot be empty`)
+    showAndroidToastMessage(`${tString(emptyFieldName)} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`, ToastAndroid.SHORT, false)
+    throw new Error(`${tString(emptyFieldName)} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`)
   }
 }

@@ -4,11 +4,11 @@ import { find, get, isEmpty, reduce } from 'lodash'
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { log } from '../../common/config/log'
 import { ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { ICartItemComponent } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getProductIdFromPayload } from '../../utils/app-utils'
+import { currencyCoverter, getProductIdFromPayload, tString } from '../../utils/app-utils'
+import { ToastAndroid } from 'react-native'
 
 
 interface IWishlistState {
@@ -23,7 +23,7 @@ const wishlistItemMapper = (cartItem) => {
   return {
     productId: cartItem?.product_id,
     productName: cartItem?.product_name,
-    displayPrice: cartItem?.product_offer_price,
+    displayPrice: currencyCoverter(cartItem?.product_offer_price),
     productImage: cartItem?.product_image || icons.DEFAULT_IMAGE,
     quantity: 'N/A',
     cartId: cartItem?.user_wishlist_id,
@@ -81,7 +81,8 @@ const onRemoveProductFromWishList = (state: IWishlistState, { payload }) => {
 
 const onRemoveProductFailureFromWishlist = (state: IWishlistState, { payload }) => {
   const { error } = payload
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
   log('payloadpayload', payload)
 }
 

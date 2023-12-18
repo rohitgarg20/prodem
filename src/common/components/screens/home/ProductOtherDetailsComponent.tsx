@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { colors, textColor } from '../../../Colors'
 import { CustomText } from '../../generic'
 
+
 const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: 'row',
@@ -47,25 +48,25 @@ export const ProductOtherDetailsComponent = ({
   }
 
   const renderProductDate = () => {
-    return renderTitleWithDescripton('Updated Date :', date)
+    return renderTitleWithDescripton('MultiLanguageString.UPDATED_DT', date)
   }
 
   const renderProductColor = () => {
-    return renderTitleWithDescripton('Color :', color)
+    return renderTitleWithDescripton('MultiLanguageString.COLOR', color)
   }
 
   const renderProductType = () => {
-    return renderTitleWithDescripton('Type :', type)
+    return renderTitleWithDescripton('MultiLanguageString.TYPE', type)
   }
 
   const renderProductBrand = () => {
-    return renderTitleWithDescripton('Brand :', brand)
+    return renderTitleWithDescripton('MultiLanguageString.BRAND', brand)
   }
 
   const renderHeading = () => {
     return (
       <CustomText
-        text={'Details'}
+        text={'MultiLanguageString.Details'}
         fontSize={16}
         color = {textColor.black}
         fontWeight='bold'

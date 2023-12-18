@@ -4,11 +4,11 @@ import { filter, find, get, map } from 'lodash'
 import { BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
 import { InputType, PROPOSE_OFFER_FORM, ProposeOfferFieldKeys, ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { icons } from '../../common/Icons'
 import { IBidDetail, ICompanyDetail, IFormField, IPartRequestBasicDetail, IProposeOfferDropdownData } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getFormattedDateInDetailFormat, getImagesArray, getTitleWithSeperator } from '../../utils/app-utils'
+import { getFormattedDateInDetailFormat, getImagesArray, getPrice, getTitleWithSeperator, tString } from '../../utils/app-utils'
+import { ToastAndroid } from 'react-native'
 
 
 interface IPartRequestDetail {
@@ -46,7 +46,6 @@ const onSelectDropDowItem = (state: IPartRequestDetail, { payload }) => {
 }
 
 const onFetchedBidOptionsSuccess = (state: IPartRequestDetail, { payload }) => {
-  log('onFetchedBidOptionsSuccessonFetchedBidOptionsSuccess', payload)
   const dropDownData: IProposeOfferDropdownData = get(payload, 'data') || get(payload, 'responseData.data', {})
   const { offerAvailability, offerCurrency, offerUnit, productType  } = dropDownData || {}
 
@@ -54,8 +53,6 @@ const onFetchedBidOptionsSuccess = (state: IPartRequestDetail, { payload }) => {
   state.formData.unit.dropdownData = offerUnit
   state.formData.offeredBy.dropdownData = productType
   state.formData.availability.dropdownData = offerAvailability
-  log('onFetchedBidOptionsSuccessonFetchedBidOptionsSuccess', state.formData, dropDownData)
-
 
 }
 
@@ -65,7 +62,7 @@ const getFormattedPrice = (state: IPartRequestDetail, price, currencyId, unitId)
   let unitDisplay = find(unit?.dropdownData, (item) => item.id === unitId)
   let displayPrice = price
   if(price) {
-    displayPrice = '$' + displayPrice + ' ' + (currencyDispay?.value || '') + ' / ' + (unitDisplay?.value || '')
+    displayPrice = getPrice(displayPrice) + ' ' + (currencyDispay?.value || '') + ' / ' + (unitDisplay?.value || '')
   }
   return displayPrice
 }
@@ -79,11 +76,10 @@ const getProductType = (state: IPartRequestDetail, productTypeId) => {
 const getProductAvailabilityType = (state: IPartRequestDetail, availabilityId) => {
   const { availability } = state.formData
   let availabilityData = find(availability?.dropdownData, (item) => item.id === availabilityId)
-  return (availabilityData?.value || '') + ' piece in stock'
+  return (availabilityData?.value || '') + tString('MultiLanguageString.PIECE_STOCK')
 }
 
 const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => {
-  log('partRequestDetailApiSuccess', payload)
   const respData = get(payload, 'responseData.data', {})
   const loggedInUserId = get(payload, 'extraParams.loggedInUserId', '')
   const productData = get(respData, 'product', {})
@@ -147,7 +143,6 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
         return icons.DEFAULT_IMAGE
       }
     })
-    log('bidItem?.partoffer_bid_slides', bidItem?.partoffer_bid_slides, bidItem?.partoffer_bid_slides?.split(','))
     return {
       partRequestId: bidItem?.partoffer_bid_parent_id,
       companyName: bidItem?.company_name || bidItem?.p_user_name,
@@ -167,7 +162,7 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
         return {
           text: msgItem?.pob_msg_text?.replaceAll('\r', '').replaceAll('\n', ''),
           createdAt: getFormattedDateInDetailFormat(msgItem?.pob_msg_created_at),
-          userType: msgItem?.pob_msg_user_type === 1 ? 'Buyer, ' : 'Seller, '
+          userType: msgItem?.pob_msg_user_type === 1 ? `${tString('MultiLanguageString.BUYER')}, ` : `${tString('MultiLanguageString.SELLER')}, `
         }
       })
     }
@@ -178,8 +173,8 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
       companyDetail: {
         companyLogo,
         companyName: productData?.company_name,
-        companyFiscal: `CIF: ${productData?.company_fiscal}`,
-        companyAddressStreet: `Address: ${productData?.company_address_street}`
+        companyFiscal: `${tString('MultiLanguageString.CIF')} ${productData?.company_fiscal}`,
+        companyAddressStreet: `${tString('MultiLanguageString.ADDRESS')} ${productData?.company_address_street}`
       },
       biddingList: formattedBiddingList,
       initialIgnoreValue: loggedInUserId === productData?.partofferignore_user_id,
@@ -188,8 +183,6 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
       isAddedInWishlistByUser: loggedInUserId === productData?.partofferwishlist_user_id
     }
   }
-
-  log('partRequestDetailpartRequestDetail', state.partRequestDetail)
 }
 
 const setActivePartRequestId = (state: IPartRequestDetail, { payload }) => {
@@ -200,7 +193,7 @@ const addRemoveProductToIgnoreList = (state: IPartRequestDetail, { payload }) =>
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isIgnoredByUser = updatedValue === 'add'
-    showAndroidToastMessage('Request updated successfully')
+    showAndroidToastMessage('MultiLanguageString.REQUEST_UPDATED')
   }
 }
 
@@ -208,7 +201,7 @@ const addRemoveProductToWishlistList = (state: IPartRequestDetail, { payload }) 
   const updatedValue = get(payload, 'responseData.data.mode')
   if(state.activePartRequestId) {
     state.partRequestDetail[state.activePartRequestId].isAddedInWishlistByUser = updatedValue === 'new'
-    showAndroidToastMessage('Request updated successfully')
+    showAndroidToastMessage('MultiLanguageString.REQUEST_UPDATED')
   }
 }
 
@@ -258,7 +251,8 @@ const proposeNewOfferApiSuccess = (state: IPartRequestDetail, { payload }) => {
 const proposeNewOfferApiFailure = (state: IPartRequestDetail, { payload }) => {
   log('proposeNewOfferApiFailureproposeNewOfferApiFailure', state, payload)
   const { error } = payload
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
 }
 
 const resetData = (state: IPartRequestDetail) => {

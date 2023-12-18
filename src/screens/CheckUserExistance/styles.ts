@@ -32,7 +32,9 @@ export const styles = StyleSheet.create({
   },
   buttonRowContainer: {
     flexDirection: 'row',
-    paddingTop: scale(20)
+    paddingTop: scale(20),
+    flexWrap: 'wrap',
+    paddingBottom: 10
   },
   registerContainer: {
     paddingTop: scale(10),
@@ -44,7 +46,8 @@ export const styles = StyleSheet.create({
   },
   simpleBtnBorder: {
     borderBottomWidth: 2,
-    borderColor: colors.primary
+    borderColor: colors.primary,
+    marginBottom: 10
   },
   registerLabel: {
     paddingRight: 4

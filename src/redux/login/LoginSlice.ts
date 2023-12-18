@@ -4,9 +4,7 @@ import { isEmpty } from 'lodash'
 import { dimissKeyboard } from '../../common/App-Utils'
 import { log } from '../../common/config/log'
 import { LOGIN_FORM, LoginFormKeys, ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IUserFormItem } from '../../common/Interfaces'
-import { showAndroidToastMessage } from '../../common/Toast'
 import { IActions } from '../../network/NetworkUtil'
 
 export interface ILoginState {

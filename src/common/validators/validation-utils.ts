@@ -1,6 +1,3 @@
-import {
-  INCORRECT_MOBILE_NUMBER, PASSWORD_EMPTY, NAME_MIN_LENGTH_INVALID, PASSWORD_MISMATCHES
-} from '../ErrorMessages'
 import { IUserFormItem } from '../Interfaces'
 
 const REGEX_NUMBERS_ONLY = /^[0-9]*$/
@@ -43,12 +40,12 @@ export const isOTPValid = (otpVal: any) => {
 }
 
 export const getInValidPhoneNumberErrorMsg = (phoneNumber) => {
-  return isPhoneNumberValid(phoneNumber) ? '' : INCORRECT_MOBILE_NUMBER
+  return isPhoneNumberValid(phoneNumber) ? '' : 'INCORRECT_MOBILE_NUMBER'
 }
 
 export const getPasswordEmptyErrorMsg = (password) => {
   if (password.length === 0) {
-    return PASSWORD_EMPTY
+    return 'PASSWORD_EMPTY'
   }
   return ''
 }
@@ -70,14 +67,14 @@ export const isUserNameValid = (userName) => {
 }
 
 export const getInValidUserNameErrorMsg = (userName) => {
-  return isUserNameValid(userName) ? '' : NAME_MIN_LENGTH_INVALID
+  return isUserNameValid(userName) ? '' : 'NAME_MIN_LENGTH_INVALID'
 }
 
 export const getCreatePasswordErrorMsg = (password, confirmPass) => {
   if (password.length === 0) {
-    return PASSWORD_EMPTY
+    return 'PASSWORD_EMPTY'
   }
-  return  (isCreatePasswordValid(password, confirmPass) ? '' : PASSWORD_MISMATCHES)
+  return  (isCreatePasswordValid(password, confirmPass) ? '' : 'PASSWORD_MISMATCHES')
 }
 
 export function emailIdValidator(emailId) {

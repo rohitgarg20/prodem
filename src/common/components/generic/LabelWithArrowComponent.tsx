@@ -59,7 +59,6 @@ export const LabelWithArrowComponent = memo((props: ITextDropDownComponent) => {
 
   const renderTextComponent = () => {
     const selectedItemValue = get(selectedDropDownItem, 'value')
-    log('multiSelectDropDownItem', multiSelectDropDownItem)
     if(showMultiSelectList && multiSelectDropDownItem?.length > 0) {
       return (
         <View>

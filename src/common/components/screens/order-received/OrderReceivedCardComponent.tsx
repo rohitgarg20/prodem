@@ -2,10 +2,10 @@ import React, { memo } from 'react'
 
 import { StyleSheet, View } from 'react-native'
 
+import { tString } from '../../../../utils/app-utils'
 import { textColor } from '../../../Colors'
 import { ButtonType } from '../../../Enumerators'
 import { IOrderReceivedCardComponent } from '../../../Interfaces'
-import { BUTTONS } from '../../../strings'
 import { ButtonComponent, CustomText } from '../../generic'
 
 interface IProps {
@@ -63,7 +63,7 @@ export const OrderRecievedCardComponent = memo((props: IProps) => {
   }
 
   const renderTotalPrice = () => {
-    const totalPrice = `${orderPrice} + ${deliveryCost} delivery cost`
+    const totalPrice = `${orderPrice} + ${deliveryCost} ${tString('MultiLanguageString.DELIVERY_COST')}`
     return (
       <CustomText
         text={totalPrice}
@@ -77,7 +77,7 @@ export const OrderRecievedCardComponent = memo((props: IProps) => {
     return (
       <View style={styles.orderRowContainer}>
         <CustomText
-          text={'Status'}
+          text={'MultiLanguageString.STATUS'}
           fontSize={14}
           color={textColor.lightBlack}
         />
@@ -108,7 +108,7 @@ export const OrderRecievedCardComponent = memo((props: IProps) => {
   const renderOrderDetailButton = () => {
     return (
       <ButtonComponent
-        text={BUTTONS.ORDER_DETAILS}
+        text={'BUTTONS.ORDER_DETAILS'}
         buttonType={ButtonType.ROUNDED_BTN}
         buttonContainerStyle={styles.sendMsgButton}
         onPress={onPressButton}

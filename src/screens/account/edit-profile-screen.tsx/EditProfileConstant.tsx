@@ -1,3 +1,4 @@
+
 export enum FIELD_TYPE {
   RADIO_BOX = 'RADIO_BOX',
   TEXTBOX = 'TEXTBOX',
@@ -38,11 +39,11 @@ export enum ACTION_NAME {
 export const USER_PREFERENCE_LIST = [
   {
     key: '1',
-    value: 'Buyer'
+    value: 'MultiLanguageString.BUYER'
   },
   {
     key: '2',
-    value: 'Seller'
+    value: 'MultiLanguageString.SELLER'
   },
 ]
 
@@ -52,7 +53,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     value: '',
     fieldType: FIELD_TYPE.TEXTBOX,
     defaultValue: '',
-    label: 'Name',
+    label: 'MultiLanguageString.NAME',
     actionName: ACTION_NAME.UPDATE_USER_NAME,
     valueType: 'string',
     isRequired: true,
@@ -64,7 +65,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Phone No.',
+    label: 'MultiLanguageString.PHONE_NO',
     actionName: ACTION_NAME.UPDATE_CONTACT_NUMBER,
     valueType: 'string',
     isRequired: true,
@@ -76,7 +77,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.DROP_DOWN,
     value: '',
     defaultValue: '',
-    label: 'Country',
+    label: 'MultiLanguageString.COUNTRY',
     actionName: ACTION_NAME.UPDATE_COUNTRY,
     valueType: 'string',
     isRequired: false,
@@ -88,7 +89,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.DROP_DOWN,
     value: '',
     defaultValue: '',
-    label: 'City',
+    label: 'MultiLanguageString.CITY',
     actionName: ACTION_NAME.UPDATE_CITY,
     valueType: 'string',
     isRequired: false,
@@ -100,7 +101,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Address',
+    label: 'MultiLanguageString.ADDRESS',
     actionName: ACTION_NAME.UPDATE_ADDRESS,
     multiline: true,
     valueType: 'string',
@@ -113,7 +114,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Legal Entity',
+    label: 'MultiLanguageString.LEGAL_ENTITY',
     actionName: ACTION_NAME.UPDATE_LEGAL_ENTITY,
     valueType: 'string',
     isRequired: false,
@@ -125,7 +126,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'CIF/ WHICH',
+    label: 'MultiLanguageString.CIF_WHICH',
     actionName: ACTION_NAME.UPDATE_CIF_WHICH,
     valueType: 'string',
     isRequired: false,
@@ -137,7 +138,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Nr. Reg. Com',
+    label: 'MultiLanguageString.NR_REG',
     actionName: ACTION_NAME.UPDATE_NR_REG,
     valueType: 'string',
     isRequired: false,
@@ -149,7 +150,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Headquarter Address',
+    label: 'MultiLanguageString.Headquarter_Address',
     multiline: true,
     actionName: ACTION_NAME.UPDATE_HEADQUARTER_ADDRESS,
     valueType: 'string',
@@ -162,7 +163,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'Bank',
+    label: 'MultiLanguageString.BANK',
     actionName: ACTION_NAME.UPDATE_BANK,
     valueType: 'number',
     isRequired: false,
@@ -174,7 +175,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.TEXTBOX,
     value: '',
     defaultValue: '',
-    label: 'IBAN Code',
+    label: 'MultiLanguageString.IBAN_CODE',
     actionName: ACTION_NAME.UPDATE_IBAN_CODE,
     valueType: 'number',
     isRequired: false,
@@ -186,7 +187,7 @@ export const INITIAL_DATA_STATE: IStateElement[] = [
     fieldType: FIELD_TYPE.RADIO_BOX,
     value: USER_PREFERENCE_LIST[0].key,
     defaultValue: '',
-    label: 'Preferences',
+    label: 'MultiLanguageString.PREFERENCES',
     actionName: ACTION_NAME.UPDATE_PREFERENCES,
     valueType: 'string',
     isRequired: false,

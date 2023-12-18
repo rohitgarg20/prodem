@@ -3,7 +3,6 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 
 import { reducers } from './Reducers'
 import { reactotron } from '../common/config/ReactotronConfig'
-import { LOGOUT_SUCCESS } from '../common/ErrorMessages'
 import { showAndroidToastMessage } from '../common/Toast'
 import { apiMiddleware } from '../network/ApiMiddleware'
 import { clearAll } from '../utils/auth-utils'
@@ -21,7 +20,7 @@ const rootReducer = (state, action) => {
     clearAll()
     logoutStack()
     resetStackData()
-    showAndroidToastMessage(LOGOUT_SUCCESS)
+    showAndroidToastMessage('LOGOUT_SUCCESS')
     return reducers(undefined, action)
   }
 

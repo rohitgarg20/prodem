@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { find, get } from 'lodash'
+import { get } from 'lodash'
+import { ToastAndroid } from 'react-native'
 
 import { genericDrawerController } from '../../common/components/ModalComponent/GenericModalController'
 import { log } from '../../common/config/log'
-import { OrderReceivedTypeList, ReducerName } from '../../common/Constant'
-import { SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
+import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { IDropDownItem, IOrderReceivedDetail } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getOrderStatusLabel } from '../../utils/app-utils'
+import { currencyCoverter, getOrderStatusLabel, tString } from '../../utils/app-utils'
 
 interface IOrderReceivedDetailState {
   orderDetails?: IOrderReceivedDetail
@@ -29,6 +29,12 @@ const initialState: IOrderReceivedDetailState = {
 const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload }) => {
   const orderDetail = get(payload, 'responseData.data.orderDetails', {})
   const orderStatusLabel = getOrderStatusLabel(orderDetail?.order_status)
+  const ratingsData = get(orderDetail, 'ratings', [])
+  const totalLength = ratingsData?.length
+  let lastRatingDetail: any = {}
+  if(totalLength > 0) {
+    lastRatingDetail = ratingsData[totalLength - 1]
+  }
   state.orderDetails = {
     orderNo: orderDetail?.order_no,
     orderId: orderDetail?.order_id,
@@ -37,16 +43,16 @@ const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload
     productName: orderDetail?.product_name,
     productId: orderDetail?.product_id,
     orderDate: orderDetail?.product_created_at,
-    orderPrice: orderDetail?.order_final_amount,
-    deliveryCost: orderDetail?.order_delivery_amount,
-    quantity: orderDetail?.product_qty,
-    itemPrice: orderDetail?.order_price,
+    orderPrice: currencyCoverter(orderDetail?.order_final_amount),
+    deliveryCost: currencyCoverter(orderDetail?.order_delivery_amount),
+    quantity: orderDetail?.order_qty,
+    itemPrice: currencyCoverter(orderDetail?.order_price),
     buyerName: orderDetail?.order_name,
     buyerEmail: orderDetail?.order_phone,
     buyerMobile: orderDetail?.order_email,
     address: orderDetail?.order_address,
-    // ratingGiven: orderDetail?,
-    // sellerNotes: orderDetail?,
+    ratingGiven: lastRatingDetail?.rating_star || -1,
+    ratingDescription: lastRatingDetail?.rating_desc || '',
     productImage: orderDetail?.product_image || icons.DEFAULT_IMAGE,
     vendorRemarks: orderDetail?.order_vendor_remark || ''
   }
@@ -55,7 +61,7 @@ const onFetchedOrderDetailSuccess = (state: IOrderReceivedDetailState, { payload
     value: orderStatusLabel
   }
   state.isFetching = false
-  log('statestatestatestatestate', state)
+  log('', state)
 }
 
 const onSelectDropDowItem = (state: IOrderReceivedDetailState, { payload }) => {
@@ -70,24 +76,21 @@ const resetFetchedOrderDetail = (state: IOrderReceivedDetailState) => {
 }
 
 const onRatingApiSuccess = (state: IOrderReceivedDetailState, { payload }) => {
-  log('onRatingApiSuccessonRatingApiSuccess', payload)
   genericDrawerController.closeGenericDrawerModal()
-  showAndroidToastMessage('Ratings submitted successfully')
+  showAndroidToastMessage('MultiLanguageString.RATING_SUBMITTED')
   // state.orderDetails = undefined
   // state.selectedStatusItem = {}
 }
 
 
 const onRemarksApiSuccess = (state: IOrderReceivedDetailState, { payload }) => {
-  log('onRemarksApiSuccessonRemarksApiSuccess', payload)
-  showAndroidToastMessage('Remarks Submitted')
+  showAndroidToastMessage('MultiLanguageString.REMARKS_SUBMITTED')
   // state.orderDetails = undefined
   // state.selectedStatusItem = {}
 }
 
 const onSuccessOrderStatusApi = (state: IOrderReceivedDetailState, { payload }) => {
   genericDrawerController.closeGenericDrawerModal()
-  log('onRemarksApiSuccessonRemarksApiSuccess', payload)
   const orderId = get(payload, 'extraParams.orderId', '')
   const status = get(payload, 'extraParams.status', '')
   let orderDetails = state.orderDetails as IOrderReceivedDetail
@@ -99,17 +102,17 @@ const onSuccessOrderStatusApi = (state: IOrderReceivedDetailState, { payload }) 
       value: getOrderStatusLabel(status)
     }
     state.orderDetails = orderDetails
-    showAndroidToastMessage('Status of order updated successfully')
+    showAndroidToastMessage('MultiLanguageString.STATUS_UPDATED')
   }
 }
 
 
 const onFailureApiResponse = (state: IOrderReceivedDetailState, { payload }) => {
-  log('onRemaksApiFailureonRemaksApiFailure', payload)
   genericDrawerController.closeGenericDrawerModal()
   const { error } = payload
   state.isFetching = false
-  showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
+  showAndroidToastMessage(get(error, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
   // state.orderDetails = undefined
   // state.selectedStatusItem = {}
 }

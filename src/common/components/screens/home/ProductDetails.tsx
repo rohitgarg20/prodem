@@ -2,6 +2,7 @@ import React from 'react'
 
 import { StyleSheet, View } from 'react-native'
 
+import { tString } from '../../../../utils/app-utils'
 import { scale, verticalScale } from '../../../../utils/scaling'
 import { textColor } from '../../../Colors'
 import { SCREEN_WIDTH } from '../../../Constant'
@@ -111,7 +112,7 @@ export const ProductDetails = ({
   const renderProductViewsCount = () => {
     return (
       <CustomText
-        text={`${productViews} Views`}
+        text={`${productViews} ${tString('MultiLanguageString.Views')}`}
         fontSize={16}
         color = {textColor.lightBlack}
         // fontWeight="600"

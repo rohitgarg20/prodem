@@ -12,12 +12,9 @@ import { FormTopSectionComponent } from '../../common/components/screens/form/Fo
 import { log } from '../../common/config/log'
 import { ButtonType } from '../../common/Enumerators'
 import { ScreenNames } from '../../common/Screens'
-import { CHECK_USER_EXISTANCE_SCREEN, BUTTONS } from '../../common/strings'
 import { checkUserExistanceApi } from '../../redux/CheckUserExistance/UserExistanceApis'
 import { navigateSimple } from '../../utils/navigation-utils'
-
-const { SubHeading, PrivacyPolicy, TermsAndCondition, SignupBtn,  Email } = CHECK_USER_EXISTANCE_SCREEN
-const { NextBtnText, RegisterBtn } = BUTTONS
+import { LanguagesDropdownComponent } from '../Home/LanguagesDropDownComponent'
 
 export const CheckUserExistanceScreen = ({ navigation }) => {
 
@@ -30,7 +27,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
   const renderEmailTextField = () => {
     return (
       <TextInputComponent
-        label={Email}
+        label={'CHECK_USER_EXISTANCE_SCREEN.Email'}
         value={emailId}
         onChangeText={onChangeEmailId}
       />
@@ -43,7 +40,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
       screenToNavigate: ScreenNames.TERMS_OF_CONDITION_SCREEN,
       params: {
         url: 'pages/terms-and-conditions',
-        headerTitle: 'Terms of condition'
+        headerTitle: 'MultiLanguageString.TERMS_CONDITION'
       }
     })
   }, [navigation])
@@ -54,7 +51,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
       screenToNavigate: ScreenNames.TERMS_OF_CONDITION_SCREEN,
       params: {
         url: 'pages/privacy-policy',
-        headerTitle: 'Privacy Policy'
+        headerTitle: 'MultiLanguageString.PRIVACY_POLICY'
       }
     })
   }, [navigation])
@@ -63,7 +60,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={TermsAndCondition}
+        text={'CHECK_USER_EXISTANCE_SCREEN.TermsAndCondition'}
         onPress={navigateToTermsAndCondition}
         buttonContainerStyle={styles.simpleBtnBorder}
       />
@@ -74,7 +71,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
     return (
       <ButtonComponent
         buttonType={ButtonType.SIMPLE_BTN}
-        text={PrivacyPolicy}
+        text={'CHECK_USER_EXISTANCE_SCREEN.PrivacyPolicy'}
         onPress={navigateToPrivacyPolicy}
         buttonContainerStyle={styles.simpleBtnBorder}
       />
@@ -114,9 +111,12 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
   const renderTopContainer = () => {
     return (
       <View>
-        <CrossButtonComponent onPressIcon={onCrossBtnClicked} />
+        <CrossButtonComponent
+          onPressIcon={onCrossBtnClicked}
+          showLanguageDropDown
+        />
         <SpacerComponent style={styles.titleSpacing} />
-        <FormTopSectionComponent subHeading={SubHeading} />
+        <FormTopSectionComponent subHeading={'CHECK_USER_EXISTANCE_SCREEN.SubHeading'} />
         <SpacerComponent style={styles.formSpacing} />
         {renderEmailTextField()}
         {renderButtonsRow()}
@@ -133,11 +133,11 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
       <View>
         <ButtonComponent
           buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
-          text={NextBtnText}
+          text={'BUTTONS.NextBtnText'}
           onPress={checkUserExistance}
         />
         <View style={styles.registerContainer}>
-          <CustomText text={SignupBtn}
+          <CustomText text={'CHECK_USER_EXISTANCE_SCREEN.SignupBtn'}
             fontSize={16}
             fontWeight='400'
             color={textColor.white}
@@ -145,7 +145,7 @@ export const CheckUserExistanceScreen = ({ navigation }) => {
           />
           <ButtonComponent
             buttonType={ButtonType.SIMPLE_BTN}
-            text={RegisterBtn}
+            text={'BUTTONS.RegisterBtn'}
             onPress={navigateToSignupScreen}
           />
         </View>

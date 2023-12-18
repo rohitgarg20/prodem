@@ -19,7 +19,6 @@ import { ButtonType } from '../../common/Enumerators'
 import { bottomModal, centerModal } from '../../common/GenericStyle'
 import { icons } from '../../common/Icons'
 import { IDropDownItem, IFormField, IImageItem } from '../../common/Interfaces'
-import { ASK_PART_SCREEN, BUTTONS } from '../../common/strings'
 import { getRequestPartDropDownData, requestNewPartApi } from '../../redux/ask-part/AskPartApi'
 import { getAskPartTotalImagesTakenCountSelector } from '../../redux/ask-part/AskPartSelector'
 import { onChangeUserInputReducer, onSelectDropDowItemReducer, onRemoveImageReducer, onSelectImagesReducer } from '../../redux/ask-part/AskPartSlice'
@@ -27,14 +26,12 @@ import { RootState } from '../../store/DataStore'
 import { addPartStyle as askPartStyle } from '../add-part/styles'
 
 
-const { headerTitle } = ASK_PART_SCREEN
 const MAX_IMAGES_ALLOWED = 5
 
 export const AskOfferScreen = () => {
 
   const askPartForm = useSelector((state: RootState) => state.askPartSliceReducer.formData)
   const isLoading = useSelector((state: RootState) => state.loaderReducer.isLoading) || false
-  log('askPartFormaskPartForm', askPartForm)
   const totalImagesTakenCount = useSelector(getAskPartTotalImagesTakenCountSelector)
   const [showCameraComponent, updateCameraShownStatus ] = useState(false)
   const [showImageGallery, updateImageGalleryStatus ] = useState(false)
@@ -43,7 +40,6 @@ export const AskOfferScreen = () => {
 
 
   const onBackPressed = useCallback(() => {
-    log('onn back pressed is called')
     return isLoading
   }, [isLoading])
 
@@ -168,7 +164,6 @@ export const AskOfferScreen = () => {
   }
 
   const onPressItem = useCallback((optionData) => {
-    log('onPressItem', optionData)
     const { key } = optionData
     switch(key) {
       case PICTURE_OPTIONS_KEY.CAMERA:
@@ -277,7 +272,7 @@ export const AskOfferScreen = () => {
         {!selectedImages?.length ? <ButtonComponent
           buttonType={ButtonType.SIMPLE_BTN}
           buttonContainerStyle={askPartStyle.choosePhotoBtnContainer}
-          text='Choose Photo'
+          text={'MultiLanguageString.CHOOSE_PHOTO'}
           color={textColor.black}
           fontSize={18}
           onPress={showImagesSelectPopup}
@@ -336,7 +331,7 @@ export const AskOfferScreen = () => {
   const renderAddPartButton = () => {
     return (
       <ButtonComponent
-        text={BUTTONS.REQUEST_QUOTE}
+        text={'BUTTONS.REQUEST_QUOTE'}
         onPress={postAd}
         buttonType={ButtonType.ROUNDED_BTN_WITH_UNDERLINE_TEXT}
       />
@@ -381,7 +376,9 @@ export const AskOfferScreen = () => {
 
   return (
     <View style={askPartStyle.mainContainer}>
-      <HeaderComponent title={headerTitle} />
+      <HeaderComponent title={'ASK_PART_SCREEN.headerTitle'}
+        showLanguageDropDown
+      />
       {renderAddPartForm()}
       { showCameraComponent && <CameraComponent
         onSavePicture={onSavePicture}

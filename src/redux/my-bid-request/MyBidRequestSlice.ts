@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import {  ReducerName } from '../../common/Constant'
+import { currencyCoverter } from '../../utils/app-utils'
 
 const initialState: IBidRequestStore = {}
 
@@ -32,7 +33,7 @@ const onBidRequestDataApiSuccessReducer = (state: IBidRequestStore, { payload })
       parentBidId: item?.partoffer_bid_parent_id,
       userId: item?.partoffer_bid_user_id,
       title: item?.partoffer_bid_title_text,
-      price: item?.partoffer_bid_price,
+      price: currencyCoverter(item?.partoffer_bid_price),
       privateRemark: item?.partoffer_bid_private_remark,
       createdAt: item?.partoffer_bid_created_at,
       updatedAt: item?.partoffer_bid_updated_at,

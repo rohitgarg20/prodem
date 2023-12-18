@@ -1,26 +1,26 @@
 import { forEach, get } from 'lodash'
+import { ToastAndroid } from 'react-native'
 
 import { onApiFailedResponseReducer, onApiFetchStartedReducer, onSignupSuccessReducer } from './SignupSlice'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { FormKeys } from '../../common/Constant'
-import { INCORRECT_EMAIL_ID, SOMETHING_WENT_WRONG } from '../../common/ErrorMessages'
 import { IUserFormItem } from '../../common/Interfaces'
 import { showAndroidToastMessage } from '../../common/Toast'
 import { emailIdValidator, validateFormFieldsEmpty } from '../../common/validators/validation-utils'
 import { apiDispatch } from '../../network/DispatchApiCall'
-import { capitalizeFirstChar } from '../../utils/app-utils'
+import { capitalizeFirstChar, tString } from '../../utils/app-utils'
 
 
 export const isSignUpFormValid = (signupForm: Record<FormKeys, IUserFormItem>) => {
   const emptyFieldName = validateFormFieldsEmpty(signupForm)
 
   if(emptyFieldName.length) {
-    showAndroidToastMessage(`${capitalizeFirstChar(emptyFieldName)} is empty`)
+    showAndroidToastMessage(`${capitalizeFirstChar(tString(emptyFieldName))} ${tString('MultiLanguageString.CANNOT_BE_EMPTY')}`)
     return false
   }
 
   if (!emailIdValidator(signupForm.email?.inputValue)) {
-    showAndroidToastMessage(INCORRECT_EMAIL_ID)
+    showAndroidToastMessage('INCORRECT_EMAIL_ID')
     return false
   }
   return true
@@ -47,7 +47,8 @@ export const onSignupUserReducer = (signupForm: Record<FormKeys, IUserFormItem>)
     try {
       resolve(apiResponse)
     } catch(err) {
-      showAndroidToastMessage(get(err, 'message', SOMETHING_WENT_WRONG))
+      showAndroidToastMessage(get(err, 'message', tString('SOMETHING_WENT_WRONG')), ToastAndroid.SHORT, false)
+
       reject(err)
     }
   })

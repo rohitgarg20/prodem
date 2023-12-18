@@ -4,6 +4,7 @@ import { forEach, get, isEmpty, map } from 'lodash'
 import { colors } from '../../common/Colors'
 import { ReducerName } from '../../common/Constant'
 import { ISubscriptionCard, ITopTabBarItem } from '../../common/Interfaces'
+import { currencyCoverter } from '../../utils/app-utils'
 
 
 interface ISubscriptionState {
@@ -44,7 +45,7 @@ const subscriptionApiSuccessResponse = (state: ISubscriptionState, { payload }) 
         return {
           subscriptionId: planItem?.subs_id,
           name: planItem?.subs_name,
-          price: planItem?.subs_price?.toString() || '',
+          price: currencyCoverter(planItem?.subs_price)?.toString() || '',
           quantity: planItem?.subs_quantity?.toString() || '',
           validity: planItem?.subs_validity?.toString() || '',
           btnBackgroundColor: getBackgroundColorByPlanType(planItemType),

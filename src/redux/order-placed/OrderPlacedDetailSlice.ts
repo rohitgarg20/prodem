@@ -4,7 +4,7 @@ import { get } from 'lodash'
 import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { IOrderPlacedDetail } from '../../common/Interfaces'
-import { getOrderStatusLabel } from '../../utils/app-utils'
+import { currencyCoverter, getOrderStatusLabel } from '../../utils/app-utils'
 
 interface IOrderPlacedDetailState {
   orderDetails?: IOrderPlacedDetail
@@ -28,10 +28,10 @@ const onFetchedOrderDetailSuccess = (state: IOrderPlacedDetailState, { payload }
     productName: orderDetail?.product_name,
     productId: orderDetail?.product_id,
     orderDate: orderDetail?.order_date,
-    orderPrice: orderDetail?.order_final_amount,
-    deliveryCost: orderDetail?.order_delivery_amount,
+    orderPrice: currencyCoverter(orderDetail?.order_final_amount),
+    deliveryCost: currencyCoverter(orderDetail?.order_delivery_amount),
     quantity: orderDetail?.order_qty,
-    itemPrice: orderDetail?.product_price,
+    itemPrice: currencyCoverter(orderDetail?.product_price),
     buyerName: orderDetail?.p_user_name + ' ' + (orderDetail?.p_user_company_name || ''),
     buyerEmail: orderDetail?.p_user_email,
     buyerMobile: orderDetail?.p_user_mobile,

@@ -9,6 +9,8 @@ import { IconWrapper } from '../../common/components'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant'
 import { icons } from '../../common/Icons'
 import { IDropDownItem } from '../../common/Interfaces'
+import { tString } from '../../utils/app-utils'
+import { log } from '../../common/config/log'
 
 
 export const VehiclesMultiSelectDropDown = ({
@@ -40,7 +42,7 @@ export const VehiclesMultiSelectDropDown = ({
 
   const renderVehiclesMultiSelectComponent = useCallback(() => {
     const vehiclesDropDown = dropdownData as IDropDownItem[]
-
+    log('vehiclesDropDownvehiclesDropDown', vehiclesDropDown)
     return <>
       <MultiSelect
         hideTags={false}
@@ -48,8 +50,8 @@ export const VehiclesMultiSelectDropDown = ({
         uniqueKey="id"
         onSelectedItemsChange={updateSelectedItems}
         selectedItems={selectedItems}
-        selectText="Click here to select the vehicle"
-        searchInputPlaceholderText="Search vehicle..."
+        selectText={tString('MultiLanguageString.VEHILCES')}
+        searchInputPlaceholderText={tString('MultiLanguageString.SEARCH_VEHICLES')}
         onChangeInput={ (text)=> console.log(text)}
         altFontFamily="ProximaNova-Light"
         tagRemoveIconColor="#CCC"
@@ -58,10 +60,10 @@ export const VehiclesMultiSelectDropDown = ({
         selectedItemTextColor={colors.primary}
         selectedItemIconColor={colors.transparent}
         itemTextColor="#000"
-        displayKey="name"
+        displayKey={'name'}
         searchInputStyle={{ color: '#CCC' }}
         submitButtonColor={colors.primary}
-        submitButtonText="Submit"
+        submitButtonText={tString('MultiLanguageString.SUBMIT')}
         styleItemsContainer = {{
           maxHeight: SCREEN_HEIGHT * 0.8
         }}

@@ -42,7 +42,6 @@ const onFetchedNotificatonListSuccess = (state: INotificationState, { payload })
     return acc
   }, {})
   state.notificationData = formattedList
-  log('formattedListformattedList', formattedList)
   if(state.isFetching) {
     state.isFetching = false
   }
@@ -100,7 +99,6 @@ export const notificationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(onHomeApiSuccessReducer, (state, action) => {
-      log('payloadpayloadpayloadpayload notificationSlice', action)
       state.totalNotificationCount = get(action, 'payload.responseData.data.notificationCounter', 0)
     })
   }
