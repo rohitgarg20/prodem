@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { filter, find, get, map } from 'lodash'
+import { filter, find, get, map, uniqBy } from 'lodash'
 
 import { BASE_URL } from '../../common/ApiConstant'
 import { log } from '../../common/config/log'
@@ -139,7 +139,8 @@ const partRequestDetailApiSuccess = (state: IPartRequestDetail, { payload }) => 
   //   companyFiscal: `CIF: ${productData?.company_fiscal}`,
   //   companyAddressStreet: `Address: ${productData?.company_address_street}`
   // }
-  const formattedBiddingList = map(biddingList, (bidItem) => {
+  const uniqueBiddingList: any[] = uniqBy(biddingList, 'partoffer_bid_id')
+  const formattedBiddingList = map(uniqueBiddingList, (bidItem) => {
     let bidImagesSlides = map(getImagesArray(bidItem?.partoffer_bid_slides), (item) => {
       if(item.length) {
         return `${BASE_URL}uploads/productbid/${item}`

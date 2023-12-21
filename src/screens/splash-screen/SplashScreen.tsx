@@ -44,7 +44,8 @@ export const SplashScreen = ({ navigation }) => {
       <IconWrapper
         iconSource={icons.PODEM_LOGO}
         iconWidth={'100%'}
-        iconHeight={verticalScale(50)}
+        iconHeight={verticalScale(80)}
+        resizeMode='cover'
       />
     </View>
   )

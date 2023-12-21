@@ -173,7 +173,7 @@ export const ADD_PART_FORM = {
     selectedItem: {},
     key: AddPartFieldKeys.VEHICLES,
     apiKey: 'product_vehicles',
-    isListMultiSelect: true
+    isListMultiSelect: false
   },
   [AddPartFieldKeys.STATUS]: {
     title: 'Status',

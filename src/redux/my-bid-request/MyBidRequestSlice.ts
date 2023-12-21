@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import {  ReducerName } from '../../common/Constant'
+import { uniq, uniqBy } from 'lodash'
 
 const initialState: IBidRequestStore = {}
 
@@ -25,7 +26,8 @@ const onBidRequestDataApiSuccessReducer = (state: IBidRequestStore, { payload })
   const { responseData : { data: responseData = {} } = {} } = payload
   const { requestData : { body = {} } = {} } = payload || {}
   const { type  = ''} = body
-  const listData = responseData?.bids?.map(item => {
+  const uniqueBids: any[] = uniqBy(responseData?.bids, 'partoffer_bid_id')
+  const listData = uniqueBids?.map(item => {
 
     return {
       bidId: item?.partoffer_bid_id,

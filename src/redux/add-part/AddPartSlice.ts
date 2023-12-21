@@ -126,7 +126,7 @@ const getProductType = (state: IAddPartForm, productStatus: number) => {
 
 const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
   log('payloadpayload', payload)
-  const { productId, productName, productDescription, displayPrice, quantity, categoryName,  subcategoryName, subCategoryId, productType, productSlides } = payload
+  const { productId, productName, productDescription, displayPrice, quantity, categoryName,  subcategoryName, subCategoryId, productType, productSlides, vehicles } = payload
   const addPartForm = state.formData
   Object.keys(addPartForm).forEach((formKey) => {
     switch(formKey) {
@@ -155,7 +155,8 @@ const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
         break
       case AddPartFieldKeys.VEHICLES:
         addPartForm.vehicles.selectedItem = {
-
+          id: vehicles?.vehicle_id || '',
+          name: vehicles?.vehicle_name || ''
         }
         break
       case AddPartFieldKeys.PRICE:

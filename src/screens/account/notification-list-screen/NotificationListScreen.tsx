@@ -19,6 +19,7 @@ import { onMarkReadNotificationActionReducer } from '../../../redux/notification
 import { RootState } from '../../../store/DataStore'
 import { navigateSimple } from '../../../utils/navigation-utils'
 import { scale, verticalScale } from '../../../utils/scaling'
+import { fetchBiddingOptions } from '../../../redux/my-part-request/MyPartRequestApi'
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +50,7 @@ export const NotificationScreen = ({ navigation }) => {
 
   useEffect(() => {
     getNotificationList()
+    fetchBiddingOptions()
   }, [])
 
   const onPressNotificationItem = useCallback((notificationDetail: INotificationDetail) => {

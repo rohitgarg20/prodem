@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { get, isEmpty, map, reduce, split } from 'lodash'
+import { get, isEmpty, reduce } from 'lodash'
 
 import { ReducerName } from '../../common/Constant'
 import { icons } from '../../common/Icons'
@@ -42,7 +42,8 @@ const onProductApiSuccessResponse = (state: ISellerAds, { payload }) => {
         subcategoryName: productItem?.subcategory_name,
         subCategoryId: productItem?.subcategory_id,
         productType: productItem?.product_type,
-        productSlides: imagesList
+        productSlides: imagesList,
+        vehicles: get(productItem, `vehicles[${0}]`, {})
       }
     }
     return formattedList

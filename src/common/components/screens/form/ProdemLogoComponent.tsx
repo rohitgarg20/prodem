@@ -9,6 +9,7 @@ export const ProdemLogoComponent = () => {
       iconHeight={40}
       iconWidth={'30%'}
       iconSource={icons.PODEM_LOGO}
+      resizeMode='stretch'
     />
   )
 }

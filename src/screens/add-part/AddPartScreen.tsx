@@ -137,22 +137,22 @@ export const AddPartScreen = ({ navigation, route }) => {
   }, [dispatch])
 
   const renderDropdownListComponent = useCallback((dropdownData, fieldKey) => {
-    if(fieldKey === AddPartFieldKeys.VEHICLES) {
-      const multiSelectedDropDownItemIds = addPartForm[fieldKey]?.multiSelectedDropDownItem || []
-      return VehiclesMultiSelectDropDown({
-        dropdownData,
-        updateSelectedVehicleData: submitBtnHandler,
-        initialSelectedData: multiSelectedDropDownItemIds
-      })
-    } else {
-      return (
-        <DropDownListComponent
-          dropdownList={dropdownData}
-          onPressDropDownItem={onPressDropDownItem}
-          fieldKey={fieldKey}
-        />
-      )
-    }
+    // if(fieldKey === AddPartFieldKeys.VEHICLES) {
+    //   const multiSelectedDropDownItemIds = addPartForm[fieldKey]?.multiSelectedDropDownItem || []
+    //   return VehiclesMultiSelectDropDown({
+    //     dropdownData,
+    //     updateSelectedVehicleData: submitBtnHandler,
+    //     initialSelectedData: multiSelectedDropDownItemIds
+    //   })
+    // } else {
+    return (
+      <DropDownListComponent
+        dropdownList={dropdownData}
+        onPressDropDownItem={onPressDropDownItem}
+        fieldKey={fieldKey}
+      />
+    )
+    // }
   }, [onPressDropDownItem, submitBtnHandler, addPartForm])
 
   const renderCenterDropDown = useCallback((dropdownData, fieldKey) => {
@@ -190,7 +190,7 @@ export const AddPartScreen = ({ navigation, route }) => {
           onPress={showDropDownMenu}
           dropdownData={dropdownData}
           dropDownKey={key}
-          showMultiSelectList={isListMultiSelect}
+          showMultiSelectList={false}
           multiSelectDropDownItem={multiSelectedDropDownItemNames}
         />
       </View>
