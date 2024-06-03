@@ -1,19 +1,23 @@
 import { onProductApiSuccessResponseReducer, updateFetchingStatusFailureReducer, onDeleteProductItemSuccessReducer,
-  onDeleteProductItemFailureReducer } from './SellerAds'
+  onDeleteProductItemFailureReducer, onProductDetailApiSuccessResponseReducer } from './SellerAds'
 import { API_END_POINT } from '../../common/ApiConstant'
 import { apiDispatch } from '../../network/DispatchApiCall'
 
 
 export const fetchSellerProductList = ({
-  signal = undefined, showLoaderOnScreen = true
+  signal = undefined, showLoaderOnScreen = true, page = 1
 }) => {
+  const formData = new FormData()
+  formData.append('page', page)
   apiDispatch({
     method: 'POST',
     endPoint: API_END_POINT.GET_SELLER_PRODUCT_LIST,
     showLoaderOnScreen,
-    onSuccess: onProductApiSuccessResponseReducer.type,
+    onSuccess:  onProductApiSuccessResponseReducer.type ,
     onFailure: updateFetchingStatusFailureReducer.type,
-    signal
+    signal,
+    body: formData
+
   })
 }
 
@@ -30,5 +34,19 @@ export const deleteProduct = (productId) => {
     extraParams: {
       productId: productId.toString()
     }
+  })
+}
+
+export const fetchProductDetail = ({
+  productId
+}) => {
+  const formData = new FormData()
+  formData.append('product_id', productId)
+  apiDispatch({
+    method: 'POST',
+    endPoint: API_END_POINT.GET_PRODUCT_DETAIL,
+    showLoaderOnScreen: true,
+    body: formData,
+    onSuccess: onProductDetailApiSuccessResponseReducer.type
   })
 }

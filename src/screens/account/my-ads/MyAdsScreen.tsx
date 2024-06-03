@@ -2,9 +2,10 @@ import React, { useCallback, useEffect,  useRef } from 'react'
 
 import { FlashList } from '@shopify/flash-list'
 import { isEmpty } from 'lodash'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { colors } from '../../../common/Colors'
 import { HeaderComponent } from '../../../common/components/screens'
 import { SellerProductItemCardComponent } from '../../../common/components/screens/my-ads/SellerProductCardComponent'
 import { SCREEN_HEIGHT } from '../../../common/Constant'
@@ -14,17 +15,17 @@ import { editFormReducer } from '../../../redux/add-part/AddPartSlice'
 import { resetProductListDataReducer } from '../../../redux/home/SellerAds'
 import { deleteProduct, fetchSellerProductList } from '../../../redux/home/SellerAdsApi'
 import { RootState } from '../../../store/DataStore'
+import { showAlert } from '../../../utils/app-utils'
 import { navigateSimple } from '../../../utils/navigation-utils'
 import { verticalScale } from '../../../utils/scaling'
 import { productListStyles as styles } from  '../../Home/styles'
-import { showAlert } from '../../../utils/app-utils'
 
 
 export const MyAdsListScreen = ({ navigation  }) => {
 
   const dispatch = useDispatch()
   const sellerAdsReducer = useSelector((state: RootState) => state.sellerProductListReducer)
-  const {  productList = {}, isFetching } = sellerAdsReducer
+  const {  productList = [], isFetching, totalProducts, currentPageNumber } = sellerAdsReducer
   let abortController: any = useRef(new AbortController()).current
   useEffect(() => {
     fetchSellerProductList({
@@ -73,10 +74,10 @@ export const MyAdsListScreen = ({ navigation  }) => {
     showAlert('Delete Product', 'Are you sure you want to delete this product ?', () => deleteProductApi(productId),  'Delete')
   }, [deleteProductApi])
 
-  const renderProductItem = ({ item }: { item: string }) => {
+  const renderProductItem = ({ item }: { item: IProductCardComponent }) => {
     return (
       <SellerProductItemCardComponent
-        sellerProductData={productList[item]}
+        sellerProductData={item}
         onDeleteBtnPress={onDeleteProduct}
         onPressProductCard={onPressProductCard}
         onEditBtnPress={onPressEditBtn}
@@ -84,46 +85,43 @@ export const MyAdsListScreen = ({ navigation  }) => {
     )
   }
 
-  const getKeyExtractor = (item: string, index) => `${item}_${index}`.toString()
+  const getKeyExtractor = (item: IProductCardComponent, index) => `${item.productId}_${index}`.toString()
 
   const renderItemSeperatorComponent = () => ( <View style={styles.productSeperator} />)
 
-  //   const fetchProductListonReachedEnd = () => {
-  //     if(productListPageNumber <= productListTotalPage) {
-  //       fetchProductListData({
-  //         categoryId,
-  //         page: productListPageNumber,
-  //         cancelToken: sourceRef,
-  //         search: searchText.current,
-  //         sortBy: selectedFilter?.id
-  //       })
-  //     }
-  //   }
+  const fetchProductListonReachedEnd = () => {
+    if(productList.length <= totalProducts) {
+      fetchSellerProductList({
+        signal: abortController.signal,
+        page: currentPageNumber + 1,
+        showLoaderOnScreen: false
+      })
+    }
+  }
 
-  //   const renderFooterComponent = () => {
-  //     log('renderFooterComponent',productListPageNumber,  productListTotalPage)
-  //     if(productListPageNumber > productListTotalPage || (productListTotalPage === 0)) return null
-  //     return (
-  //       <ActivityIndicator
-  //         size={'large'}
-  //         color={colors.primary}
-  //       />
-  //     )
-  //   }
+  const renderFooterComponent = () => {
+    if(productList.length >= totalProducts || (productList.length === 0)) return null
+    return (
+      <ActivityIndicator
+        size={'large'}
+        color={colors.primary}
+      />
+    )
+  }
 
   const renderProductList = () => {
     return (
       <FlashList
         estimatedItemSize={verticalScale(170)}
         style={styles.productList}
-        data={Object.keys(productList)}
+        data={productList}
         renderItem={renderProductItem}
         keyExtractor={getKeyExtractor}
         ItemSeparatorComponent={renderItemSeperatorComponent}
         contentContainerStyle={styles.flatListContentContainer}
-        // onEndReached={fetchProductListonReachedEnd}
+        onEndReached={fetchProductListonReachedEnd}
         onEndReachedThreshold={0.01}
-        // ListFooterComponent={renderFooterComponent}
+        ListFooterComponent={renderFooterComponent}
         drawDistance={SCREEN_HEIGHT}
       />
     )

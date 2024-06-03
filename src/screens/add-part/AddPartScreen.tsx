@@ -26,7 +26,7 @@ import { ADD_PART_SCREEN, BUTTONS } from '../../common/strings'
 import { addNewPart, editPart, getSellingDropDownList } from '../../redux/add-part/AddPartApi'
 import { getTotalImagesTakenCountSelector } from '../../redux/add-part/AddPartSelector'
 import { onChangeUserInputReducer, onMultiSelectDropDowItemReducer, onRemoveImageReducer, onSelectDropDowItemReducer, onSelectImagesReducer, resetAddPartSuccessReducer } from '../../redux/add-part/AddPartSlice'
-import { fetchSellerProductList } from '../../redux/home/SellerAdsApi'
+import { fetchProductDetail } from '../../redux/home/SellerAdsApi'
 import { RootState } from '../../store/DataStore'
 import { goBack } from '../../utils/navigation-utils'
 
@@ -358,7 +358,7 @@ export const AddPartScreen = ({ navigation, route }) => {
   const postAd = useCallback(() => {
     if(isEditFlow) {
       editPart(addPartForm, productId).then(() => {
-        fetchSellerProductList({ showLoaderOnScreen: true })
+        fetchProductDetail({ productId })
         goBack(navigation)
       }).catch(() => {
         //

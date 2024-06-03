@@ -2,7 +2,7 @@ import { textColor } from './Colors'
 import { icons } from './Icons'
 
 export const CHECK_USER_EXISTANCE_SCREEN = {
-  Heading: 'Welcome to prodem',
+  Heading: 'Welcome to Autozon',
   SubHeading: 'Enter your email to login or register',
   Email: 'Email',
   TermsAndCondition: 'Terms and Conditions',
@@ -11,13 +11,13 @@ export const CHECK_USER_EXISTANCE_SCREEN = {
 }
 
 export const SIGNUP_SCREEN = {
-  Heading: 'Welcome to prodem',
+  Heading: 'Welcome to Autozon',
   SubHeading: 'Enter your details to register',
   AlreadyAccount: 'Already have an account'
 }
 
 export const LOGIN_SCREEN = {
-  Heading: 'Welcome to prodem',
+  Heading: 'Welcome to Autozon',
   SubHeading: 'Enter your details to login',
   ForgetPassword: 'Forget Password?'
 }

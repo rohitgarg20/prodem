@@ -8,6 +8,7 @@ import { log } from '../common/config/log'
 import { OrderReceivedTypeList, PART_REQUEST_STATUS, PART_REQUEST_TYPE } from '../common/Constant'
 import { SOMETHING_WENT_WRONG } from '../common/ErrorMessages'
 import { showAndroidToastMessage } from '../common/Toast'
+import { isValidUrl } from '../common/validators/validation-utils'
 
 export const getImgSource = (uri: string | number) => {
   return isNumber(uri) ? uri : { uri,  priority: FastImage.priority.high }
@@ -16,6 +17,13 @@ export const getImgSource = (uri: string | number) => {
 export const capitalizeFirstChar = (str: string) => {
   if(!str) return str
   return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase()
+
+}
+
+
+export const getSellerProductImagesUrl = (id) => {
+  if(isValidUrl(id)) return id
+  return `${BASE_URL}imagecache/thumb/uploads__productslides/400x400/${id}`
 }
 
 export const getBlob = (fileUri: string) => {
@@ -180,9 +188,6 @@ export const handleApiFailure = (payload) => {
   showAndroidToastMessage(get(error, 'message', SOMETHING_WENT_WRONG))
 }
 
-export const getSellerProductImagesUrl = (id) => {
-  return `${BASE_URL}imagecache/thumb/uploads__productslides/400x400/${id}`
-}
 
 export const getBase64FromImageUrl = async (url: string) => {
   const data = await fetch(url)

@@ -44,6 +44,7 @@ const onFetchedSellDropDownList = (state: IAddPartForm, { payload }) => {
 const onSelectDropDowItem = (state: IAddPartForm, { payload }) => {
   const { fieldKey, selectedDropdownItem } = payload
   state.formData[fieldKey].selectedItem = selectedDropdownItem
+  log('onSelectDropDowItemonSelectDropDowItem', state.formData[fieldKey])
 }
 
 const onMultiSelectDropDowItem = (state: IAddPartForm, { payload }) => {
@@ -156,7 +157,8 @@ const prepoulateAddPartFormData = (state: IAddPartForm, { payload }) => {
       case AddPartFieldKeys.VEHICLES:
         addPartForm.vehicles.selectedItem = {
           id: vehicles?.vehicle_id || '',
-          name: vehicles?.vehicle_name || ''
+          name: vehicles?.vehicle_name || '',
+          value: vehicles?.vehicle_name || ''
         }
         break
       case AddPartFieldKeys.PRICE:

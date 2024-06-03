@@ -100,3 +100,8 @@ export const validateFormFieldsEmpty = (formData: Record<any, IUserFormItem>) =>
   })
   return fieldName
 }
+
+export const isValidUrl = (url: string) => {
+  if(url.includes('http')) return true
+  return false
+}

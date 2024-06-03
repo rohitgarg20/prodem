@@ -8,17 +8,17 @@ import { Camera, CameraPermissionStatus, CameraPermissionRequestResult, useCamer
 // import { blobToBase64, getBlob } from '../../../../utils/app-utils'
 import { useDispatch } from 'react-redux'
 
+import { updateTabBarStateReducer } from '../../../../redux/bottom-tab-bar/BottomTabBarSlice'
 import { hideLoader, showLoader } from '../../../../redux/LoaderDataStore/LoaderSlice'
 import { colors, textColor } from '../../../Colors'
 import { log } from '../../../config/log'
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../Constant'
+import { isIos, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../Constant'
 import { ButtonType } from '../../../Enumerators'
 import { NOT_HAVE_PERMISSION } from '../../../ErrorMessages'
 import { ICameraComponent } from '../../../Interfaces'
 import { showAndroidToastMessage } from '../../../Toast'
 import { ButtonComponent, IconWrapper } from '../../generic'
 import { genericDrawerController } from '../../ModalComponent/GenericModalController'
-import { updateTabBarStateReducer } from '../../../../redux/bottom-tab-bar/BottomTabBarSlice'
 
 const styles = StyleSheet.create({
   captureBtn: {
@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // columnGap: 20,
     position: 'absolute',
-    bottom: 50,
+    bottom: isIos ? 150 : 50,
     width: '100%',
-    left: 0,
+    left: isIos ? 30 : 0,
     right: 0
   },
   btnContainer: {

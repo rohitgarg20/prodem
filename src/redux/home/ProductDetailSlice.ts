@@ -7,7 +7,7 @@ import { icons } from '../../common/Icons'
 import { IProductDetailScreen } from '../../common/Interfaces'
 import { CART_MESSAGES, WISHLIT_MESSAGES } from '../../common/strings'
 import { showAndroidToastMessage } from '../../common/Toast'
-import { getFormattedDate, getProductIdFromPayload, getProductType } from '../../utils/app-utils'
+import { getFormattedDate, getProductIdFromPayload, getProductType, getSellerProductImagesUrl } from '../../utils/app-utils'
 import { onAddNewProductInCartReducer, onRemoveProductFromCartReducer } from '../cart/CartSlice'
 import { onAddNewProductInWishListReducer, onRemoveProductFromWishListReducer } from '../wishlist/WishlistSlice'
 
@@ -31,7 +31,7 @@ const onProductDetailApiSuccessResponse = (state: IProductDetail, { payload }) =
   const productDetails = get(responseData, 'data.product', {})
   const cartDetails: any = get(responseData, 'data.cartDetails.items', [])
   const loggedInUserId = get(payload, 'extraParams.loggedInUserId', '')
-  const imageGallery = productDetails?.product_slides?.split(',') || [icons.DEFAULT_IMAGE]
+  const imageGallery: any  = productDetails?.product_slides?.split(',').map((item) => getSellerProductImagesUrl(item)) || []
   const productId = productDetails?.product_id
   const formattedProductDetail = {
     productId,

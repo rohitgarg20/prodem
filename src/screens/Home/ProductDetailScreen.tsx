@@ -73,7 +73,6 @@ export const ProductDetailScreen = (props: IPDScreen) => {
 
   const openImageZoomViewerComponent = () => {
     const { imageGallery } = productDetail as IProductDetailScreen
-
     return (
       <ImageZoomViewerComponent
         imageUrls={imageGallery}
